@@ -10,6 +10,7 @@
     }
   },
   "launch_options": {
-    "args": ["--no-sandbox"]
+    "args": ["--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu"],
+    "executablePath": "/usr/bin/chromium-browser"
   }
 }
