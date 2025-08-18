@@ -1,0 +1,49 @@
+---
+layout: base.njk
+title: "Articles"
+description: "All articles with filtering by tags."
+pagination:
+  data: collections.articles
+  size: 1000
+  alias: items
+---
+
+
+
+<div class="tag-filter">
+  <h3>Filter by tag:</h3>
+  <div class="tag-list">
+    {% set allTags = [] %}
+    {% for post in collections.articles %}
+      {% if post.data.tags %}
+        {% for tag in post.data.tags %}
+          {% set allTags = (allTags.push(tag), allTags) %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+    {% set uniqueTags = allTags | unique | sort %}
+    
+    {% for tag in uniqueTags %}
+      <a href="/tags/{{ tag | slugify }}/" class="tag tag-filter-link">{{ tag }}</a>
+    {% endfor %}
+  </div>
+</div>
+
+<ul class="posts-list" role="list">
+{% for post in items %}
+  <li class="post-item">
+    <a href="{{ post.url }}" class="post-link">
+      <h3>{{ post.data.title }}</h3>
+      <p class="post-meta">
+        <time datetime="{{ post.date | dateISO }}">{{ post.date | dateISO }}</time>
+        {% if post.data.tags %}
+          <span class="post-tags">
+            {% for t in post.data.tags %}<span class="tag">{{ t }}</span>{% endfor %}
+          </span>
+        {% endif %}
+      </p>
+      {% if post.data.description %}<p class="post-description">{{ post.data.description }}</p>{% endif %}
+    </a>
+  </li>
+{% endfor %}
+</ul>

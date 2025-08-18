@@ -1,0 +1,33 @@
+{
+  "name": "osmarpetry.dev-min-en",
+  "private": true,
+  "version": "1.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "eleventy --serve",
+    "build:site": "ELEVENTY_ENV=production eleventy",
+    "build:resume": "md-to-pdf content/resume.md --config-file md-to-pdf.json --stylesheet src/styles/print-resume.css --body-class=resume --basedir . && mv content/resume.pdf _site/resume.pdf",
+    "build": "npm run build:site && npm run build:resume && node scripts/size-check.mjs",
+    "test": "node test-build.js",
+    "test:simple": "npm run build && node test/build.test.js",
+    "test:cypress": "npm run build && npm run test:serve",
+    "test:serve": "concurrently \"npm run dev\" \"npm run test:run\" --kill-others --success first",
+    "test:run": "wait-on http://localhost:8080 && cypress run",
+    "test:open": "concurrently \"npm run dev\" \"cypress open\" --kill-others",
+    "test:ci": "npm run build && start-server-and-test dev http://localhost:8080 'cypress run'"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.2",
+    "concurrently": "^9.2.0",
+    "cypress": "^14.5.4",
+    "markdown-it": "^14.1.0",
+    "md-to-pdf": "^5.2.4",
+    "start-server-and-test": "^2.0.13",
+    "wait-on": "^8.0.4"
+  },
+  "dependencies": {
+    "@shikijs/markdown-it": "^3.9.2",
+    "shiki": "^3.9.2",
+    "@sentry/browser": "^10.5.0"
+  }
+}

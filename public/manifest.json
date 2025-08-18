@@ -1,0 +1,33 @@
+{
+  "name": "Osmar Petry - Personal Blog",
+  "short_name": "Osmar Petry",
+  "description": "Senior Software Engineer — React, TypeScript, Node.js, AWS/GCP",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "/favicon-128x128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "/favicon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ],
+  "theme_color": "#0645ad",
+  "background_color": "#ffffff",
+  "display": "minimal-ui",
+  "start_url": "/",
+  "scope": "/"
+}
+

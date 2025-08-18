@@ -1,0 +1,38 @@
+---
+pagination:
+  data: collections
+  size: 1
+  alias: tag
+  filter:
+    - all
+    - articles
+permalink: /tags/{{ tag | slugify }}/
+layout: base.njk
+eleventyComputed:
+  title: "Articles tagged '{{ tag }}'"
+  description: "All articles tagged with {{ tag }}"
+---
+
+<div class="tag-header">
+  <h1>Articles tagged <span class="tag">{{ tag }}</span></h1>
+  <p><a href="/articles/">&larr; Back to all articles</a></p>
+</div>
+
+<ul class="posts-list">
+  {% for post in collections[tag] | reverse %}
+  <li class="post-item">
+    <a href="{{ post.url }}" class="post-link">
+      <h3>{{ post.data.title }}</h3>
+      <p class="post-meta">
+        <time datetime="{{ post.date | dateISO }}">{{ post.date | dateISO }}</time>
+        {% if post.data.tags %}
+          <span class="post-tags">
+            {% for t in post.data.tags %}<span class="tag">{{ t }}</span>{% endfor %}
+          </span>
+        {% endif %}
+      </p>
+      {% if post.data.description %}<p class="post-description">{{ post.data.description }}</p>{% endif %}
+    </a>
+  </li>
+  {% endfor %}
+</ul>

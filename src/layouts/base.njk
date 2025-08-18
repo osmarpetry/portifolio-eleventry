@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if title %}{{ title }} — {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ description or site.description }}">
+  <link rel="canonical" href="{{ site.url }}{{ page.url | url }}">
+  <meta name="color-scheme" content="light dark">
+  <meta name="robots" content="index,follow">
+
+  <!-- Open Graph minimal -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% if title %}{{ title }} — {% endif %}{{ site.title }}">
+  <meta property="og:description" content="{{ description or site.description }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url | url }}">
+  <meta property="og:image" content="{{ site.url }}/favicon.svg">
+
+  <style>
+    :root{
+      --mx:auto;--w:800px;--pad:20px;
+      --fg:#0a0a0a;--bg:#fff;--muted:#666;--link:#0645ad;--br:12px;
+      --primary:#0645ad;--primary-hover:#0534a0;--primary-text:#fff;
+      --secondary:#f8f9fa;--secondary-hover:#e9ecef;--secondary-text:#495057;
+      --border:#e1e5e9;--shadow:0 2px 8px rgba(0,0,0,0.1);
+      --hero-bg:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .dark, body.dark, html.dark{
+      --fg:#e6e6e6 !important;--bg:#0b0b0b !important;--muted:#999 !important;--link:#8ab4f8 !important;
+      --primary:#8ab4f8 !important;--primary-hover:#7aa3f0 !important;--primary-text:#000 !important;
+      --secondary:#1a1a1a !important;--secondary-hover:#2a2a2a !important;--secondary-text:#e6e6e6 !important;
+      --border:#333 !important;--shadow:0 2px 8px rgba(0,0,0,0.3) !important;
+      --hero-bg:linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    }
+    
+    .light, body.light, html.light{
+      --fg:#2c2c2c !important;--bg:#ffffff !important;--muted:#666 !important;--link:#0066cc !important;
+      --primary:#0066cc !important;--primary-hover:#0052a3 !important;--primary-text:#fff !important;
+      --secondary:#f8f9fa !important;--secondary-hover:#e9ecef !important;--secondary-text:#2c2c2c !important;
+      --border:#dee2e6 !important;--shadow:0 2px 8px rgba(0,0,0,0.1) !important;
+      --hero-bg:linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --fg:#e6e6e6;--bg:#0b0b0b;--muted:#999;--link:#8ab4f8;
+        --primary:#8ab4f8;--primary-hover:#7aa3f0;--primary-text:#000;
+        --secondary:#1a1a1a;--secondary-hover:#2a2a2a;--secondary-text:#e6e6e6;
+        --border:#333;--shadow:0 2px 8px rgba(0,0,0,0.3);
+        --hero-bg:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+    }
+    *{box-sizing:border-box}
+    html{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Ubuntu,Inter,Helvetica,Arial,sans-serif;line-height:1.6;background:var(--bg);color:var(--fg);scroll-behavior:smooth;height:100%}
+    body{margin:0;min-height:100vh;display:flex;flex-direction:column}
+    .wrap{max-width:var(--w);margin:0 var(--mx);padding:32px var(--pad);flex:1;display:flex;flex-direction:column;width:100%}
+    main{flex:1}
+    
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:48px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+    header a, footer a{color:var(--link);text-decoration:none;transition:color 0.2s}
+    header a:hover, footer a:hover{color:var(--primary-hover)}
+    nav{display:flex;gap:8px;flex-wrap:wrap}
+    
+    /* Typography - Improved for readability */
+    h1,h2,h3{line-height:1.3;margin-top:0;letter-spacing:-0.02em}
+    h1{font-size:2.8rem;margin-bottom:24px;font-weight:700}
+    h2{font-size:2rem;margin-bottom:32px;font-weight:600;margin-top:48px}
+    h3{font-size:1.5rem;margin-bottom:20px;font-weight:600;margin-top:32px}
+    p{margin:16px 0;line-height:1.7;font-size:1.05rem}
+    .muted{color:var(--muted);font-size:.95rem;line-height:1.6}
+    
+    /* Hero Section */
+    .hero{text-align:center;margin-bottom:64px;padding:48px 24px;background:var(--hero-bg);border-radius:var(--br);color:white;box-shadow:var(--shadow)}
+    .hero h1{color:white;font-size:3rem;margin-bottom:8px}
+    .hero-subtitle{font-size:1.3rem;margin-bottom:16px;opacity:0.9;font-weight:500}
+    .hero-description{font-size:1.1rem;margin-bottom:32px;opacity:0.95;max-width:600px;margin-left:auto;margin-right:auto}
+    .hero-buttons-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+      gap:16px;
+      justify-content:center;
+      max-width:800px;
+      margin:0 auto;
+    }
+    
+    /* Buttons */
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;padding:12px 20px;
+      border-radius:var(--br);text-decoration:none;font-weight:500;
+      transition:all 0.2s ease;cursor:pointer;border:2px solid transparent;
+      font-size:0.95rem;
+    }
+    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+    .btn-primary{background:var(--primary-text);color:var(--primary);border-color:var(--primary-text)}
+    .btn-primary:hover{background:var(--primary-hover);color:var(--primary-text);border-color:var(--primary-hover)}
+    .btn-secondary{background:var(--secondary);color:var(--secondary-text);border-color:var(--border)}
+    .btn-secondary:hover{background:var(--secondary-hover);border-color:var(--primary)}
+    .btn-outline{background:transparent;color:var(--primary);border-color:var(--primary)}
+    .btn-outline:hover{background:var(--primary);color:var(--primary-text)}
+    
+    /* Resume Content */
+    .resume-content{margin-bottom:64px}
+    .resume-content h2{font-size:1.8rem;margin-bottom:24px;color:var(--primary);border-bottom:2px solid var(--border);padding-bottom:8px;margin-top:48px}
+    .resume-content h2:first-child{margin-top:0}
+    .resume-content h3{color:var(--primary);margin-top:24px;margin-bottom:12px;font-size:1.3rem}
+    .resume-content p{margin-bottom:12px;line-height:1.6}
+    .resume-content ul{margin:16px 0;padding-left:20px}
+    .resume-content li{margin-bottom:8px;line-height:1.5}
+    .resume-content strong{color:var(--primary);font-weight:600}
+    .resume-content a{color:var(--link);text-decoration:none}
+    .resume-content a:hover{text-decoration:underline}
+    .resume-content blockquote{border-left:4px solid var(--primary);padding-left:16px;margin:16px 0;font-style:italic;color:var(--muted)}
+    
+    /* Special styling for different resume sections */
+    .resume-content h2:nth-of-type(1){} /* Work Experience */
+    .resume-content h2:nth-of-type(2){} /* Technologies */
+    .resume-content h2:nth-of-type(3){} /* Education */
+    .resume-content h2:nth-of-type(4){} /* Projects */
+    .resume-content h2:nth-of-type(5){} /* Other Sections */
+    
+    /* Posts */
+    .latest-posts{margin-bottom:48px}
+    .posts-list{list-style:none;margin:24px 0;padding:0;display:grid;gap:16px}
+    .post-item{border:1px solid var(--border);border-radius:var(--br);overflow:hidden;transition:all 0.2s}
+    .post-item:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+    .post-link{display:block;padding:20px;text-decoration:none;color:inherit}
+    .post-link h3{margin-bottom:8px;color:var(--primary)}
+    .post-meta{display:flex;align-items:center;gap:12px;margin-bottom:8px;font-size:0.9rem}
+    .post-tags{display:flex;gap:6px}
+    .post-description{color:var(--muted);margin:0}
+    .view-all{text-align:center;margin-top:32px}
+    
+    /* Tags */
+    .tag{
+      font-size:.8rem;padding:.2rem .6rem;
+      background:var(--primary);color:var(--primary-text);
+      border-radius:999px;font-weight:500;
+    }
+    .tag-filter{margin-bottom:32px;padding:20px;background:var(--secondary);border-radius:var(--br);border:1px solid var(--border)}
+    .tag-filter h3{margin-bottom:12px;color:var(--primary)}
+    .tag-list{display:flex;gap:8px;flex-wrap:wrap}
+    .tag-filter-link{text-decoration:none;transition:all 0.2s}
+    .tag-filter-link:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+    .tag-header{margin-bottom:32px}
+    .tag-header h1{margin-bottom:8px}
+    
+    /* Lists */
+    ul.clean{list-style:none;margin:0;padding:0}
+    ul.clean li{padding:12px 0;border-bottom:1px solid var(--border)}
+    ul.clean li:last-child{border-bottom:none}
+    
+    /* Utilities */
+    time{color:var(--muted);font-variant-numeric:tabular-nums}
+    .grid{display:grid;gap:16px}
+    .sr-only{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+    
+    /* Media & content responsiveness */
+    img, svg, video, canvas{max-width:100%;height:auto}
+    iframe{max-width:100%;width:100%;border:0}
+    
+    /* Article (post) typography */
+    .post{font-size:1.05rem}
+    .post p, .post li{line-height:1.75;overflow-wrap:anywhere;word-break:break-word;hyphens:auto}
+    .post h2{font-size:1.8rem;margin:32px 0 12px}
+    .post h3{font-size:1.3rem;margin:24px 0 8px}
+    .post blockquote{border-left:4px solid var(--primary);padding-left:16px;margin:16px 0;color:var(--muted)}
+    .post img, .post video, .post pre{width:100%}
+    .post a{color:var(--link);text-decoration:underline}
+    .post a:hover{color:var(--primary-hover);text-decoration:none}
+    
+    /* Tables in articles */
+    .post table{display:block;width:100%;overflow-x:auto;border:1px solid var(--border);border-radius:8px}
+    .post th, .post td{padding:8px 12px;border-bottom:1px solid var(--border)}
+    .post th{background:var(--secondary);text-align:left}
+    .post tr:last-child td{border-bottom:none}
+    
+    /* Touch target sizes */
+    .btn, .share-btn{min-height:44px}
+    .btn:focus-visible, .share-btn:focus-visible, #theme-toggle:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+    
+    /* Code */
+    code,kbd,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    code{background:var(--secondary);padding:2px 6px;border-radius:4px;font-size:0.9em}
+    pre{position:relative;background:#282a36;padding:20px;border-radius:var(--br);overflow-x:auto;border:1px solid #44475a;margin:16px 0}
+    pre code{background:transparent;padding:0;color:#f8f8f2}
+    .shiki{background:#282a36 !important}
+    
+    /* Copy button for code blocks */
+    .code-block{position:relative}
+    .copy-btn{
+      position:absolute;top:8px;right:8px;
+      background:#44475a;color:#f8f8f2;border:none;
+      padding:6px 10px;border-radius:4px;font-size:0.8rem;
+      cursor:pointer;opacity:0;transition:opacity 0.2s;
+    }
+    .code-block:hover .copy-btn{opacity:1}
+    .copy-btn:hover{background:#6272a4}
+    .copy-btn.copied{background:#50fa7b;color:#282a36}
+    
+    /* Share buttons */
+    .share-buttons{margin-top:48px;padding-top:32px;border-top:1px solid var(--border)}
+    .share-buttons h3{margin-bottom:16px;color:var(--primary)}
+    .share-links{display:flex;gap:12px;flex-wrap:wrap}
+    .share-btn{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 16px;border-radius:var(--br);
+      text-decoration:none;font-weight:500;
+      transition:all 0.2s ease;border:2px solid transparent;
+      font-size:0.9rem;cursor:pointer;
+    }
+    .share-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+    .share-btn.twitter{background:#1da1f2;color:white;border-color:#1da1f2}
+    .share-btn.twitter:hover{background:#0d8bd9}
+    .share-btn.x{background:#000;color:white;border-color:#000}
+    .share-btn.x:hover{background:#333}
+    .share-btn.linkedin{background:#0077b5;color:white;border-color:#0077b5}
+    .share-btn.linkedin:hover{background:#005885}
+    .share-btn.facebook{background:#1877f2;color:white;border-color:#1877f2}
+    .share-btn.facebook:hover{background:#166fe5}
+    .share-btn.email{background:var(--secondary);color:var(--secondary-text);border-color:var(--border)}
+    .share-btn.email:hover{background:var(--secondary-hover);border-color:var(--primary)}
+    .share-btn.native-share{background:#007aff;color:white;border-color:#007aff}
+    .share-btn.native-share:hover{background:#0056cc}
+    
+    /* Post Header Grid Layout */
+    .post-header-grid{
+      display:grid;
+      grid-template-areas:
+        "title title"
+        "meta meta"
+        "actions actions";
+      grid-template-columns:1fr 1fr;
+      gap:24px;
+      margin-bottom:48px;
+      padding-bottom:32px;
+      border-bottom:2px solid var(--border);
+    }
+    .post-title-section{grid-area:title}
+    .post-meta-section{
+      grid-area:meta;
+      display:flex;
+      align-items:center;
+      gap:24px;
+      flex-wrap:wrap;
+    }
+    .post-actions-section{grid-area:actions}
+    .post-date{font-size:1rem;color:var(--muted);font-weight:500}
+    .post-tags{display:flex;gap:8px;flex-wrap:wrap}
+    
+    /* Top share buttons (in posts) */
+    .top-share{margin-top:0;margin-bottom:0;padding-top:0;border-top:none}
+    .top-share .share-links{gap:8px;justify-content:flex-start}
+    .top-share .share-btn{padding:6px 12px;font-size:0.85rem}
+    
+    /* Section links for homepage and posts */
+    .section-link{position:absolute;left:-30px;top:50%;transform:translateY(-50%);background:transparent;border:none;cursor:pointer;opacity:0;transition:opacity 0.2s;font-size:1rem;padding:4px;color:var(--muted)}
+    .section-link:hover{color:var(--primary)}
+    h1:hover .section-link, h2:hover .section-link, h3:hover .section-link, p:hover .section-link{opacity:1}
+    
+    /* Clickable headings */
+    h1[title*="Click"], h2[title*="Click"], h3[title*="Click"], p[id][title*="Click"]{
+      transition:background-color 0.2s;
+      border-radius:4px;
+      padding:2px 4px;
+      margin:-2px -4px;
+    }
+    h1[title*="Click"]:hover, h2[title*="Click"]:hover, h3[title*="Click"]:hover, p[id][title*="Click"]:hover{
+      background-color:var(--secondary);
+    }
+    
+    /* Footer */
+    footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:64px;padding-top:24px;border-top:1px solid var(--border)}
+    
+    /* Theme switcher */
+    .theme-switcher{position:fixed;top:20px;right:20px;z-index:1000}
+    #theme-toggle{background:var(--secondary);border:2px solid var(--border);cursor:pointer;padding:8px;border-radius:50%;transition:all 0.2s;font-size:1.2rem;width:44px;height:44px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+    #theme-toggle:hover{background:var(--secondary-hover);transform:scale(1.1)}
+    .theme-icon{transition:transform 0.2s}
+    #theme-toggle:hover .theme-icon{transform:rotate(180deg)}
+    
+    /* Scroll to top button */
+    #scroll-to-top{
+      position:fixed;bottom:20px;right:20px;z-index:999;
+      background:var(--primary);color:var(--primary-text);
+      border:none;border-radius:50%;width:44px;height:44px;
+      cursor:pointer;opacity:0;visibility:hidden;
+      transition:all 0.3s ease;box-shadow:var(--shadow);
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.2rem;
+    }
+    #scroll-to-top.show{opacity:1;visibility:visible}
+    #scroll-to-top:hover{background:var(--primary-hover);transform:scale(1.1)}
+    
+    /* Responsive */
+    @media (max-width: 640px) {
+      .wrap{padding:24px 16px;max-width:100%}
+      .hero{padding:32px 16px;margin-bottom:48px}
+      .hero h1{font-size:2.2rem}
+      .hero-buttons-grid{grid-template-columns:1fr;max-width:280px}
+      .btn{width:100%;justify-content:center}
+      header{flex-direction:column;gap:16px;text-align:center}
+      nav{justify-content:center}
+      .experience-grid{gap:16px}
+      .theme-switcher{top:10px;right:10px}
+      #theme-toggle{width:44px;height:44px;font-size:1.1rem}
+      .section-link{position:static;transform:none;opacity:1;margin-left:8px;display:inline}
+      .top-share .share-links{gap:8px;flex-wrap:wrap;justify-content:flex-start}
+      .top-share .share-btn{padding:8px 12px;font-size:0.85rem;min-height:40px}
+      
+      /* Article header mobile layout */
+      article header{margin-bottom:24px}
+      article header h1{
+        font-size:1.8rem;
+        line-height:1.3;
+        margin-bottom:12px;
+        word-wrap:break-word;
+        hyphens:auto;
+      }
+      article header .muted{margin-bottom:16px}
+      article header .top-share{margin-top:12px}
+      
+      /* Mobile buttons: stack vertically, full-width for easy taps */
+      .hero-buttons-grid .btn{width:100%;max-width:100%}
+      
+      /* Mobile scroll to top positioning */
+      #scroll-to-top{bottom:15px;right:15px;width:40px;height:40px;font-size:1rem}
+    }
+  </style>
+
+  <!-- Favicon and Web App Manifest -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/favicon-192x192.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0645ad">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  
+  <link rel="alternate" type="application/atom+xml" href="/feed.xml" title="{{ site.title }} feed">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3STVN66PY5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-3STVN66PY5');
+  </script>
+
+  <!-- Sentry Error Tracking -->
+  <script src="https://browser.sentry-cdn.com/10.5.0/bundle.min.js" crossorigin="anonymous"></script>
+  <script>
+    if (typeof Sentry !== 'undefined') {
+      Sentry.init({
+        dsn: 'https://6fd370e37c8640968f1239d4cc47ce6c@o431471.ingest.sentry.io/4504650712285184',
+        environment: '{{ site.url }}' === 'https://osmarpetry.dev' ? 'production' : 'development',
+        tracesSampleRate: 1.0,
+        release: 'personal-blog@1.1.0'
+      });
+    }
+  </script>
+
+  <!-- JSON-LD Person -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Person",
+    "name":"Osmar Petry",
+    "url":"{{ site.url }}/",
+    "sameAs":["{{ site.github }}","{{ site.linkedin }}","mailto:{{ site.email | replace('mailto:','') }}"]
+  }
+  </script>
+</head>
+<body>
+  <!-- Theme switcher -->
+  <div class="theme-switcher">
+    <button id="theme-toggle" aria-label="Toggle theme">
+      <span class="theme-icon">🌙</span>
+    </button>
+  </div>
+  
+  <!-- Scroll to top button -->
+  <button id="scroll-to-top" aria-label="Scroll to top">↑</button>
+  
+  <div class="wrap">
+    {% if page.url != "/" %}
+    <header>
+      <div>
+        <a href="/"><strong>{{ site.title }}</strong></a>
+        <div class="muted">Senior Software Engineer — React · TS · Node · AWS/GCP</div>
+      </div>
+    </header>
+    {% endif %}
+
+    <main>
+      {{ content | safe }}
+    </main>
+
+    <footer>
+      <small class="muted">© {{ "now" | date | dateISO }} {{ site.title }}</small>
+      <a href="/articles/">Articles</a>
+    </footer>
+  </div>
+
+  <!-- Theme switcher script -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const bodyElement = document.body;
+      const htmlElement = document.documentElement;
+      const themeIcon = document.querySelector('.theme-icon');
+      
+      if (!themeToggle) {
+        console.error('Theme toggle button not found');
+        return;
+      }
+
+      function applyTheme(theme) {
+        console.log('Applying theme:', theme);
+        
+        // Remove both classes first
+        bodyElement.classList.remove('dark', 'light');
+        htmlElement.classList.remove('dark', 'light');
+        
+        // Add the appropriate class
+        if (theme === 'dark') {
+          bodyElement.classList.add('dark');
+          htmlElement.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+          if (themeIcon) themeIcon.textContent = '☀️';
+        } else {
+          bodyElement.classList.add('light');
+          htmlElement.classList.add('light');
+          localStorage.setItem('theme', 'light');
+          if (themeIcon) themeIcon.textContent = '🌙';
+        }
+        
+        console.log('Theme applied. Body classes:', bodyElement.className);
+      }
+
+      // Initialize theme on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        const storedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        let initialTheme;
+        if (storedTheme) {
+          initialTheme = storedTheme;
+        } else {
+          initialTheme = prefersDark ? 'dark' : 'light';
+        }
+        
+        console.log('Initial theme:', initialTheme, 'Stored:', storedTheme, 'System prefers dark:', prefersDark);
+        applyTheme(initialTheme);
+      });
+
+      // Toggle theme on click
+      themeToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const isDark = bodyElement.classList.contains('dark');
+        const newTheme = isDark ? 'light' : 'dark';
+        
+        console.log('Toggling from', (isDark ? 'dark' : 'light'), 'to', newTheme);
+        applyTheme(newTheme);
+      });
+
+      // Listen for system theme changes
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        if (!localStorage.getItem('theme')) {
+          applyTheme(e.matches ? 'dark' : 'light');
+        }
+      });
+    })();
+  </script>
+
+  <!-- Scroll to top functionality -->
+  <script>
+    (function() {
+      const scrollToTopBtn = document.getElementById('scroll-to-top');
+      let scrollTimeout;
+      let isVisible = false;
+      
+      if (!scrollToTopBtn) return;
+
+      function showButton() {
+        if (!isVisible) {
+          scrollToTopBtn.classList.add('show');
+          isVisible = true;
+        }
+        
+        // Clear existing timeout
+        clearTimeout(scrollTimeout);
+        
+        // Set timeout to hide after 5 seconds of no scrolling
+        scrollTimeout = setTimeout(() => {
+          hideButton();
+        }, 5000);
+      }
+
+      function hideButton() {
+        if (isVisible) {
+          scrollToTopBtn.classList.remove('show');
+          isVisible = false;
+        }
+        clearTimeout(scrollTimeout);
+      }
+
+      function scrollToTop() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+        hideButton();
+      }
+
+      // Show/hide button based on scroll position
+      window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+          showButton();
+        } else {
+          hideButton();
+        }
+      });
+
+      // Click handler
+      scrollToTopBtn.addEventListener('click', scrollToTop);
+    })();
+  </script>
+
+  <!-- Homepage section links script -->
+  {% if page.url == "/" %}
+  <script>
+    (function() {
+      // Add section link functionality to homepage headings
+      document.addEventListener('DOMContentLoaded', function() {
+        const headings = document.querySelectorAll('#about h1, #experience h2, #experience h3, #experience p[id]');
+        
+        headings.forEach(heading => {
+          if (heading.id || heading.parentElement.id) {
+            const targetId = heading.id || heading.parentElement.id;
+            
+            // Make entire heading clickable
+            heading.style.position = 'relative';
+            heading.style.cursor = 'pointer';
+            heading.title = 'Click to copy section link';
+            
+            // Create section link button (visual indicator)
+            const linkBtn = document.createElement('button');
+            linkBtn.className = 'section-link';
+            linkBtn.innerHTML = '🔗';
+            linkBtn.title = 'Copy section link';
+            linkBtn.setAttribute('aria-label', 'Copy section link');
+            heading.appendChild(linkBtn);
+            
+            // Function to copy link and scroll
+            async function copyLinkAndScroll(e) {
+              e.preventDefault();
+              e.stopPropagation();
+              
+              const url = `${window.location.origin}${window.location.pathname}#${targetId}`;
+              
+              // Smooth scroll to section
+              const targetElement = document.getElementById(targetId) || heading;
+              if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Update URL without page reload
+                window.history.pushState(null, null, `#${targetId}`);
+              }
+              
+              try {
+                await navigator.clipboard.writeText(url);
+                linkBtn.innerHTML = '✓';
+                linkBtn.style.color = 'var(--primary)';
+                setTimeout(() => {
+                  linkBtn.innerHTML = '🔗';
+                  linkBtn.style.color = '';
+                }, 2000);
+              } catch (err) {
+                console.error('Failed to copy link:', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = url;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                linkBtn.innerHTML = '✓';
+                linkBtn.style.color = 'var(--primary)';
+                setTimeout(() => {
+                  linkBtn.innerHTML = '🔗';
+                  linkBtn.style.color = '';
+                }, 2000);
+              }
+            }
+            
+            // Add click handler to entire heading
+            heading.addEventListener('click', copyLinkAndScroll);
+            
+            // Add click handler to button (prevent double execution)
+            linkBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              copyLinkAndScroll(e);
+            });
+          }
+        });
+      });
+    })();
+  </script>
+  {% endif %}
+</body>
+</html>

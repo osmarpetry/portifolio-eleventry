@@ -1,0 +1,10 @@
+
+@page { size: A4; margin: 18mm; }
+:root{font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Ubuntu,Inter,Helvetica,Arial,sans-serif; color:#111}
+h1{font-size:18pt;margin:0 0 6pt 0}
+h2{font-size:12pt;margin:10pt 0 6pt 0}
+p,li{font-size:10pt;line-height:1.4}
+a{color:#000;text-decoration:none}
+ul{margin:6pt 0 6pt 18pt}
+code{font-family:ui-monospace,Menlo,Consolas,monospace}
+.resume{max-width:700px;margin:0 auto}
