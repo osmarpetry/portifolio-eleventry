@@ -21,6 +21,24 @@ export default async function(eleventyConfig) {
   md.use(fromHighlighter(highlighter, {
     theme: 'dracula'
   }));
+  
+  // Configure external links to open in new tab
+  const defaultRender = md.renderer.rules.link_open || function(tokens, idx, options, env, renderer) {
+    return renderer.renderToken(tokens, idx, options);
+  };
+  
+  md.renderer.rules.link_open = function (tokens, idx, options, env, renderer) {
+    const token = tokens[idx];
+    const href = token.attrGet('href');
+    
+    if (href && (href.startsWith('http://') || href.startsWith('https://'))) {
+      token.attrSet('target', '_blank');
+      token.attrSet('rel', 'noopener');
+    }
+    
+    return defaultRender(tokens, idx, options, env, renderer);
+  };
+  
   eleventyConfig.setLibrary("md", md);
 
   eleventyConfig.addFilter("dateISO", (dateObj) => {
@@ -49,6 +67,23 @@ export default async function(eleventyConfig) {
     
     // Use markdown-it to process the content
     const md = markdownIt({html:true, linkify:true, typographer:true});
+    
+    // Configure external links to open in new tab for resume content
+    const defaultRender = md.renderer.rules.link_open || function(tokens, idx, options, env, renderer) {
+      return renderer.renderToken(tokens, idx, options);
+    };
+    
+    md.renderer.rules.link_open = function (tokens, idx, options, env, renderer) {
+      const token = tokens[idx];
+      const href = token.attrGet('href');
+      
+      if (href && (href.startsWith('http://') || href.startsWith('https://'))) {
+        token.attrSet('target', '_blank');
+        token.attrSet('rel', 'noopener');
+      }
+      
+      return defaultRender(tokens, idx, options, env, renderer);
+    };
     
     // Extract only the sections we want (skip the header)
     const lines = content.split('\n');

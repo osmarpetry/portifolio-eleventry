@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "eleventy --serve",
     "build:site": "ELEVENTY_ENV=production eleventy",
-    "build:resume": "md-to-pdf content/resume.md --config-file md-to-pdf.json --stylesheet src/styles/print-resume.css --body-class=resume --basedir . && mv content/resume.pdf _site/resume.pdf",
+    "build:resume": "md-to-pdf content/resume.md --config-file md-to-pdf.json --stylesheet src/styles/print-resume.css --body-class=resume --basedir . && mv content/resume.pdf _site/resume-osmarpetry.pdf",
     "build": "npm run build:site && npm run build:resume && node scripts/size-check.mjs",
     "test": "node test-build.js",
     "test:simple": "npm run build && node test/build.test.js",
