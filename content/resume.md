@@ -71,6 +71,6 @@ Technology  	  Texas | California, USA
 
 ## **INTERESTS**
 
-* Reading as a hobby, always with a few books in progress, gaming on Nintendo, Xbox, and especially Steam as my preferred platform.  
+* Reading as a hobby, always with a few books in progress.  
 * Running, often with my dog Mabel, and incorporating strength training while following a healthy diet and motivating friends to do the same.  
 * Spending time with my wife, enjoying our shared hobbies: Disney, Mabel, and traveling around the world.
