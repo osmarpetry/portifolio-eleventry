@@ -3,7 +3,6 @@ title: "Cubic Bezier Property"
 date: 2025-01-15
 tags:
   - '#css'
-  - '#animation'
 description: "It's a way to make different animations"
 layout: post.njk
 ---

@@ -2,7 +2,7 @@
 title: "Domain-Driven Design: Tackling Complexity in the Heart of Software"
 date: 2025-01-15
 tags:
-  - '#ddd'
+  - '#design-patterns'
   - '#software-architecture'
 description: "Domain-Driven Design (DDD) is a software design approach that focuses on modeling complex systems based on the real-world domains or concepts they represent."
 layout: post.njk

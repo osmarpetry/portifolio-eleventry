@@ -2,7 +2,6 @@
 title: "Docker Annotations"
 date: 2025-01-15
 tags:
-  - '#docker'
   - '#devops'
 description: "Docker annotations and notes"
 layout: post.njk

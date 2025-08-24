@@ -2,7 +2,6 @@
 title: "12 Principles of Animation"
 date: 2025-01-15
 tags:
-  - '#animation'
   - '#css'
   - '#frontend'
 description: "If you want to reproduce the same 12 principle of animation, if you're able to this you have a good animation"
