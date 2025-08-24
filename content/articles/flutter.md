@@ -5,7 +5,6 @@ tags:
   - '#flutter'
   - '#dart'
   - '#mobile-development'
-  - '#cross-platform'
 description: "Notes and examples while learning Flutter and Dart"
 layout: post.njk
 ---

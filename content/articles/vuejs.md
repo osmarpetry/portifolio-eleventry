@@ -3,7 +3,6 @@ title: "Vue.js"
 date: 2025-01-15
 tags:
   - '#vuejs'
-  - '#vue'
   - '#frontend'
   - '#javascript'
 description: "Vue.js framework"

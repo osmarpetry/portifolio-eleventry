@@ -3,9 +3,6 @@ title: "Execution Contexts, Hoisting, Scopes, and Closures"
 date: 2025-01-15
 tags:
   - '#javascript'
-  - '#closures'
-  - '#hoisting'
-  - '#scope'
 description: "Execution Contexts, Hoisting, Scopes, and Closures are fundamental concepts in JavaScript programming language."
 layout: post.njk
 ---

@@ -3,9 +3,7 @@ title: "Docker"
 date: 2025-01-15
 tags:
   - '#docker'
-  - '#containerization'
   - '#devops'
-  - '#deployment'
 description: "Docker introduction and commands"
 layout: post.njk
 ---

@@ -3,9 +3,6 @@ title: "How to Validate a Business Idea"
 date: 2025-01-15
 tags:
   - '#business'
-  - '#validation'
-  - '#entrepreneurship'
-  - '#market-analysis'
 description: "Key points to validate a business idea using product indicators and market analysis"
 layout: post.njk
 ---

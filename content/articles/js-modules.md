@@ -3,9 +3,7 @@ title: "JS Modules"
 date: 2025-01-15
 tags:
   - '#javascript'
-  - '#modules'
   - '#es6'
-  - '#programming'
 description: "JavaScript modules and module systems"
 layout: post.njk
 ---

@@ -3,9 +3,7 @@ title: "Singly & Doubly Linked Lists - Stacks and Queues"
 date: 2025-01-15
 tags:
   - '#data-structures'
-  - '#linked-lists'
-  - '#stacks'
-  - '#queues'
+  - '#algorithms'
 description: "Singly & Doubly Linked Lists - Stacks and Queues"
 layout: post.njk
 ---

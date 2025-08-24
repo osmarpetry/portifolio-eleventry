@@ -5,7 +5,6 @@ tags:
   - '#nodejs'
   - '#javascript'
   - '#backend'
-  - '#senior-developer'
 description: "List of architecture patterns for Node.JS applications and roadmap to become a senior developer"
 layout: post.njk
 ---

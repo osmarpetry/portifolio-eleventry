@@ -4,8 +4,6 @@ date: 2025-01-15
 tags:
   - '#bdd'
   - '#testing'
-  - '#gherkin'
-  - '#behavior-driven-development'
 description: "It's like TDD but without the bad things and even more good things"
 layout: post.njk
 ---

@@ -2,10 +2,7 @@
 title: "Next Goals"
 date: 2025-01-15
 tags:
-  - '#goals'
-  - '#planning'
   - '#career'
-  - '#development'
 description: "Next goals and objectives"
 layout: post.njk
 ---

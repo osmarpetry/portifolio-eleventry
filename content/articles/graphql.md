@@ -4,7 +4,6 @@ date: 2025-01-15
 tags:
   - '#graphql'
   - '#api'
-  - '#web-development'
   - '#backend'
 description: "GraphQL is a query language for APIs that was developed by Facebook"
 layout: post.njk

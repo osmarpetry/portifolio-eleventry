@@ -3,8 +3,6 @@ title: "useRef"
 date: 2025-01-15
 tags:
   - '#react'
-  - '#useref'
-  - '#hooks'
   - '#frontend'
 description: "useRef hook in React"
 layout: post.njk

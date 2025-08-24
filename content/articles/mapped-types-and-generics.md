@@ -3,9 +3,6 @@ title: "Mapped Types and Generics"
 date: 2025-01-15
 tags:
   - '#typescript'
-  - '#generics'
-  - '#mapped-types'
-  - '#programming'
 description: "Mapped types and generics in TypeScript"
 layout: post.njk
 ---

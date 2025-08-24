@@ -3,9 +3,6 @@ title: "Testing Concepts Notes"
 date: 2025-01-15
 tags:
   - '#testing'
-  - '#concepts'
-  - '#notes'
-  - '#quality-assurance'
 description: "Testing concepts notes"
 layout: post.njk
 ---

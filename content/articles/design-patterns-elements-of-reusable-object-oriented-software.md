@@ -3,8 +3,6 @@ title: "Design Patterns: Elements of Reusable Object-Oriented Software"
 date: 2025-01-15
 tags:
   - '#design-patterns'
-  - '#gang-of-four'
-  - '#object-oriented'
   - '#software-architecture'
 description: "In the place I work, I was developing new skills. One of these skills is about Design Patterns."
 layout: post.njk

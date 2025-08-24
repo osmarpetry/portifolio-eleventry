@@ -4,7 +4,6 @@ date: 2025-01-15
 tags:
   - '#react'
   - '#testing'
-  - '#enzyme'
   - '#javascript'
 description: "https://testing-playground.com/ it's a website I recommend you to check it out, like the name suggests it"
 layout: post.njk

@@ -3,8 +3,6 @@ title: "Golang"
 date: 2025-01-15
 tags:
   - '#golang'
-  - '#go'
-  - '#programming'
   - '#backend'
 description: "Go by Example and learning resources"
 layout: post.njk

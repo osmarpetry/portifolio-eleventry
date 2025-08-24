@@ -4,8 +4,6 @@ date: 2025-01-15
 tags:
   - '#design-patterns'
   - '#software-architecture'
-  - '#object-oriented'
-  - '#programming'
 description: "Design Pattern concepts and implementations"
 layout: post.njk
 ---

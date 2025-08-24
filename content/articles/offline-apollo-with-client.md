@@ -4,8 +4,6 @@ date: 2025-01-15
 tags:
   - '#apollo'
   - '#graphql'
-  - '#offline'
-  - '#client'
 description: "Offline Apollo with @client directive"
 layout: post.njk
 ---

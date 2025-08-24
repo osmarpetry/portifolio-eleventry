@@ -3,7 +3,6 @@ title: "Forwarding Ref"
 date: 2025-01-15
 tags:
   - '#react'
-  - '#refs'
   - '#javascript'
   - '#frontend'
 description: "Forwarding Refs is a technique in React where you pass a ref from a parent component to a child component"

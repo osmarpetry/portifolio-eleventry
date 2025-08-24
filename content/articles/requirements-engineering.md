@@ -2,10 +2,7 @@
 title: "Requirements Engineering"
 date: 2025-01-15
 tags:
-  - '#requirements-engineering'
-  - '#software-engineering'
   - '#agile'
-  - '#requirements'
 description: "Bibliography and practical notes on requirements engineering"
 layout: post.njk
 ---

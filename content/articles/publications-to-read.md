@@ -2,10 +2,7 @@
 title: "Publications to Read"
 date: 2025-01-15
 tags:
-  - '#publications'
-  - '#reading'
   - '#resources'
-  - '#learning'
 description: "Publications to read"
 layout: post.njk
 ---

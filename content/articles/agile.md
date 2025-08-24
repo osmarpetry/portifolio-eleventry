@@ -3,9 +3,6 @@ title: "Agile"
 date: 2025-01-15
 tags:
   - '#agile'
-  - '#scrum'
-  - '#xp'
-  - '#kanban'
   - '#project-management'
 description: "All the text and images were created from Casa do Código book"
 layout: post.njk

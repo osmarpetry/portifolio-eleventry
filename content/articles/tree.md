@@ -2,10 +2,8 @@
 title: "Tree"
 date: 2025-01-15
 tags:
-  - '#tree'
   - '#data-structures'
   - '#algorithms'
-  - '#computer-science'
 description: "Tree data structure"
 layout: post.njk
 ---

@@ -2,10 +2,9 @@
 title: "Good Publications to Read"
 date: 2025-01-15
 tags:
-  - '#publications'
-  - '#reading'
-  - '#web-development'
+  - '#resources'
   - '#accessibility'
+  - '#frontend'
 description: "I already follow specific newsletter but some publications I save to implement in the future"
 layout: post.njk
 ---

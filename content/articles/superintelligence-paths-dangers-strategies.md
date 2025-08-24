@@ -2,10 +2,7 @@
 title: "Superintelligence: Paths, Dangers, Strategies"
 date: 2025-01-15
 tags:
-  - '#superintelligence'
   - '#ai'
-  - '#artificial-intelligence'
-  - '#nick-bostrom'
 description: "Superintelligence: Paths, Dangers, Strategies by Nick Bostrom"
 layout: post.njk
 ---

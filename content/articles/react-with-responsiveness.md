@@ -3,9 +3,7 @@ title: "React with Responsiveness"
 date: 2025-01-15
 tags:
   - '#react'
-  - '#responsive'
   - '#frontend'
-  - '#web-design'
 description: "React with responsiveness"
 layout: post.njk
 ---

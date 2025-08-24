@@ -3,9 +3,7 @@ title: "Simple Custom Hook Called useFetch"
 date: 2025-01-15
 tags:
   - '#react'
-  - '#hooks'
-  - '#custom-hooks'
-  - '#fetch'
+  - '#javascript'
 description: "Simple custom hook called useFetch"
 layout: post.njk
 ---

@@ -2,10 +2,8 @@
 title: "GPT to Understand Books"
 date: 2025-01-15
 tags:
-  - '#gpt'
-  - '#books'
   - '#ai'
-  - '#learning'
+  - '#resources'
 description: "Create a detailed, structured podcast-style transcript for any book I provide"
 layout: post.njk
 ---

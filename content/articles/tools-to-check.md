@@ -2,10 +2,7 @@
 title: "Tools to Check!"
 date: 2025-01-15
 tags:
-  - '#tools'
   - '#resources'
-  - '#development'
-  - '#utilities'
 description: "Tools to check!"
 layout: post.njk
 ---

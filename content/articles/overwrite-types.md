@@ -3,9 +3,6 @@ title: "Overwrite Types"
 date: 2025-01-15
 tags:
   - '#typescript'
-  - '#types'
-  - '#programming'
-  - '#type-system'
 description: "Overwriting types in TypeScript"
 layout: post.njk
 ---

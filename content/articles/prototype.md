@@ -3,9 +3,6 @@ title: "Prototype"
 date: 2025-01-15
 tags:
   - '#javascript'
-  - '#prototype'
-  - '#object-oriented'
-  - '#programming'
 description: "JavaScript prototype chain and inheritance"
 layout: post.njk
 ---

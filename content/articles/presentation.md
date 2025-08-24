@@ -3,7 +3,6 @@ title: "Presentation"
 date: 2025-01-15
 tags:
   - '#design-patterns'
-  - '#presentation'
   - '#software-architecture'
 description: "Outline and notes for the design patterns presentation"
 layout: post.njk

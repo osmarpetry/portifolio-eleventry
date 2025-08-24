@@ -2,8 +2,6 @@
 title: "PR and Issue Pattern to Follow"
 date: 2025-01-15
 tags:
-  - '#pull-request'
-  - '#issue'
   - '#git'
   - '#workflow'
 description: "PR and Issue pattern to follow"

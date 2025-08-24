@@ -3,9 +3,7 @@ title: "Summary of Javascript Module Builders"
 date: 2025-01-15
 tags:
   - '#javascript'
-  - '#module-builders'
   - '#bundlers'
-  - '#webpack'
 description: "Summary of Javascript module builders"
 layout: post.njk
 ---

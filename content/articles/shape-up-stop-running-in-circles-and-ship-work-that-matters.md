@@ -2,10 +2,7 @@
 title: "Shape Up: Stop Running in Circles and Ship Work that Matters"
 date: 2025-01-15
 tags:
-  - '#shape-up'
   - '#project-management'
-  - '#productivity'
-  - '#workflow'
 description: "Shape Up methodology by Ryan Singer"
 layout: post.njk
 ---

@@ -3,8 +3,6 @@ title: "React.Suspense"
 date: 2025-01-15
 tags:
   - '#react'
-  - '#suspense'
-  - '#lazy-loading'
   - '#frontend'
 description: "React.Suspense for lazy loading"
 layout: post.njk

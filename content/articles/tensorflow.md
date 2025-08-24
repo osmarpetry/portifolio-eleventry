@@ -2,8 +2,6 @@
 title: "TensorFlow"
 date: 2025-01-15
 tags:
-  - '#tensorflow'
-  - '#machine-learning'
   - '#ai'
   - '#python'
 description: "TensorFlow notes and resources"

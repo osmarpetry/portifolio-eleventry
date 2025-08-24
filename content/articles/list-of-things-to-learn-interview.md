@@ -2,10 +2,8 @@
 title: "List of Things to Learn (Interview)"
 date: 2025-01-15
 tags:
-  - '#interview'
-  - '#learning'
-  - '#notes'
-  - '#frangelli'
+  - '#career'
+  - '#resources'
 description: "List of things to learn for interviews - notes from @frangelli"
 layout: post.njk
 ---

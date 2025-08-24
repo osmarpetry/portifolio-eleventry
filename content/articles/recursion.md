@@ -2,9 +2,7 @@
 title: "Recursion"
 date: 2025-01-15
 tags:
-  - '#recursion'
   - '#algorithms'
-  - '#programming'
   - '#computer-science'
 description: "Recursion concepts and examples"
 layout: post.njk

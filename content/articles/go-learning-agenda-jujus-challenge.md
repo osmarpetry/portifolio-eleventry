@@ -3,9 +3,7 @@ title: "Go Learning Agenda (Juju's Challenge)"
 date: 2025-01-15
 tags:
   - '#golang'
-  - '#go'
-  - '#challenge'
-  - '#agenda'
+  - '#backend'
 description: "A practical learning agenda to build a Go HTTP API while covering fundamentals, testing, observability, and containerization"
 layout: post.njk
 ---

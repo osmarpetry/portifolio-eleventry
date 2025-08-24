@@ -2,10 +2,7 @@
 title: "Position"
 date: 2025-01-15
 tags:
-  - '#position'
   - '#career'
-  - '#job'
-  - '#professional'
 description: "Position and career information"
 layout: post.njk
 ---

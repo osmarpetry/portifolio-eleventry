@@ -4,8 +4,6 @@ date: 2025-01-15
 tags:
   - '#css'
   - '#animation'
-  - '#transitions'
-  - '#web-design'
 description: "It's a way to make different animations"
 layout: post.njk
 ---

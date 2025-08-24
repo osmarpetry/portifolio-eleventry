@@ -3,8 +3,6 @@ title: "Webpack Optimization"
 date: 2025-01-15
 tags:
   - '#webpack'
-  - '#optimization'
-  - '#bundling'
   - '#performance'
 description: "Webpack optimization techniques"
 layout: post.njk

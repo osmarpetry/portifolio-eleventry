@@ -3,10 +3,6 @@ title: "This Object Inside Call, Apply and Bind"
 date: 2025-01-15
 tags:
   - '#javascript'
-  - '#this'
-  - '#call'
-  - '#apply'
-  - '#bind'
 description: "This object inside call, apply and bind"
 layout: post.njk
 ---

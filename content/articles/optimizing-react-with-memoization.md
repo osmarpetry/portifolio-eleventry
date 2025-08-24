@@ -3,9 +3,7 @@ title: "Optimizing React with Memoization"
 date: 2025-01-15
 tags:
   - '#react'
-  - '#memoization'
   - '#performance'
-  - '#optimization'
 description: "Optimizing React applications with memoization techniques"
 layout: post.njk
 ---

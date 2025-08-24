@@ -2,10 +2,8 @@
 title: "GPT on YouTube"
 date: 2025-01-15
 tags:
-  - '#gpt'
-  - '#youtube'
   - '#ai'
-  - '#automation'
+  - '#resources'
 description: "YouTube Summary with ChatGPT & Claude - Chrome Web Store extension"
 layout: post.njk
 ---
