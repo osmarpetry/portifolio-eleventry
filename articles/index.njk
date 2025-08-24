@@ -11,22 +11,27 @@ pagination:
 
 
 <div class="tag-filter">
-  <h3>Filter by tag:</h3>
-  <div class="tag-list">
-    {% set allTags = [] %}
-    {% for post in collections.articles %}
-      {% if post.data.tags %}
-        {% for tag in post.data.tags %}
-          {% set allTags = (allTags.push(tag), allTags) %}
-        {% endfor %}
-      {% endif %}
-    {% endfor %}
-    {% set uniqueTags = allTags | unique | sort %}
-    
-    {% for tag in uniqueTags %}
-      <a href="/tags/{{ tag | slugify }}/" class="tag tag-filter-link">{{ tag }}</a>
-    {% endfor %}
-  </div>
+  <details class="tag-filter-details">
+    <summary class="tag-filter-summary">
+      <h3>Filter by tag:</h3>
+      <span class="tag-count"></span>
+    </summary>
+    <div class="tag-list">
+      {% set allTags = [] %}
+      {% for post in collections.articles %}
+        {% if post.data.tags %}
+          {% for tag in post.data.tags %}
+            {% set allTags = (allTags.push(tag), allTags) %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% set uniqueTags = allTags | unique | sort %}
+      
+      {% for tag in uniqueTags %}
+        <a href="/tags/{{ tag | slugify }}/" class="tag tag-filter-link">{{ tag }}</a>
+      {% endfor %}
+    </div>
+  </details>
 </div>
 
 <ul class="posts-list" role="list">
@@ -47,3 +52,28 @@ pagination:
   </li>
 {% endfor %}
 </ul>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Update tag count in the collapsible filter
+  const tagCount = document.querySelector('.tag-count');
+  const tagLinks = document.querySelectorAll('.tag-filter-link');
+  
+  if (tagCount && tagLinks.length > 0) {
+    tagCount.textContent = `${tagLinks.length} tags`;
+  }
+  
+  // Add smooth animation to the collapsible filter
+  const details = document.querySelector('.tag-filter-details');
+  if (details) {
+    details.addEventListener('toggle', function() {
+      const summary = this.querySelector('.tag-filter-summary');
+      if (this.open) {
+        summary.style.borderBottom = '1px solid var(--border)';
+      } else {
+        summary.style.borderBottom = 'none';
+      }
+    });
+  }
+});
+</script>

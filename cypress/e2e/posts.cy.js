@@ -47,4 +47,30 @@ describe('Post Page Tests', () => {
     cy.get('#theme-toggle').click();
     cy.get('html').should('have.class', 'dark');
   });
+
+  it('should handle collapsible post tags when there are many tags', () => {
+    // This test will work if the post has more than 3 tags
+    cy.get('.post-tags').should('exist');
+    
+    // Check if collapsible tags exist (for posts with >3 tags)
+    cy.get('body').then(($body) => {
+      if ($body.find('.post-tags-details').length > 0) {
+        // Post has collapsible tags
+        cy.get('.post-tags-details').should('exist');
+        cy.get('.post-tags-summary').should('exist');
+        cy.get('.tag-more').should('exist');
+        
+        // Test expanding tags
+        cy.get('.post-tags-summary').click();
+        cy.get('.post-tags-expanded').should('be.visible');
+        
+        // Test collapsing tags
+        cy.get('.post-tags-summary').click();
+        cy.get('.post-tags-expanded').should('not.be.visible');
+      } else {
+        // Post has regular tags (≤3 tags)
+        cy.get('.post-tags .tag').should('have.length.at.least', 1);
+      }
+    });
+  });
 });

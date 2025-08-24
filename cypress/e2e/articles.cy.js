@@ -18,10 +18,20 @@ describe('Articles Page Tests', () => {
     });
   });
 
-  it('should display tag filter section', () => {
+  it('should display collapsible tag filter section', () => {
     cy.get('.tag-filter').should('exist');
-    cy.get('.tag-filter h3').should('contain', 'Filter by tag');
-    cy.get('.tag-list').should('exist');
+    cy.get('.tag-filter-details').should('exist');
+    cy.get('.tag-filter-summary h3').should('contain', 'Filter by tag');
+    cy.get('.tag-count').should('exist');
+  });
+
+  it('should expand and collapse tag filter when clicked', () => {
+    cy.get('.tag-filter-details').should('not.have.attr', 'open');
+    cy.get('.tag-filter-summary').click();
+    cy.get('.tag-filter-details').should('have.attr', 'open');
+    cy.get('.tag-list').should('be.visible');
+    cy.get('.tag-filter-summary').click();
+    cy.get('.tag-filter-details').should('not.have.attr', 'open');
   });
 
   it('should display articles list', () => {
@@ -30,6 +40,7 @@ describe('Articles Page Tests', () => {
   });
 
   it('should have clickable tag filters', () => {
+    cy.get('.tag-filter-summary').click();
     cy.get('.tag-filter-link').should('have.length.at.least', 1);
     cy.get('.tag-filter-link').first().should('have.attr', 'href');
   });

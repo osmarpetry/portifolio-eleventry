@@ -14,7 +14,21 @@ layout: base.njk
       
       {% if tags and tags.length %}
       <div class="post-tags">
-        {% for t in tags %}<span class="tag">{{ t }}</span>{% endfor %}
+        {% if tags.length > 3 %}
+        <details class="post-tags-details">
+          <summary class="post-tags-summary">
+            <span class="tag">{{ tags[0] }}</span>
+            <span class="tag">{{ tags[1] }}</span>
+            <span class="tag">{{ tags[2] }}</span>
+            <span class="tag-more">+{{ tags.length - 3 }} more</span>
+          </summary>
+          <div class="post-tags-expanded">
+            {% for t in tags %}<span class="tag">{{ t }}</span>{% endfor %}
+          </div>
+        </details>
+        {% else %}
+          {% for t in tags %}<span class="tag">{{ t }}</span>{% endfor %}
+        {% endif %}
       </div>
       {% endif %}
     </div>
