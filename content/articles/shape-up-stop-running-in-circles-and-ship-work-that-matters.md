@@ -1,13 +1,16 @@
 ---
-title: "Shape Up Ryan Singer"
-date: 2025-08-15
+title: "Shape Up: Stop Running in Circles and Ship Work that Matters"
+date: 2025-01-15
 tags:
-  - '#book'
-  - '#react'
-description: "December 2020 I did read some books and papers: The MM-M book, Design by Contract, PROGRAMMING WITH ABSTRACT DATA TYPES, Shape Up: Stop Running in Circles an..."
+  - '#shape-up'
+  - '#project-management'
+  - '#productivity'
+  - '#workflow'
+description: "Shape Up methodology by Ryan Singer"
 layout: post.njk
 ---
 
+# Shape Up: Stop Running in Circles and Ship Work that Matters
 ## Summary
 December 2020 I did read some books and papers: The MM-M book, Design by Contract, PROGRAMMING WITH ABSTRACT DATA TYPES, Shape Up: Stop Running in Circles and Ship Work that Matters, Domain-driven design, and others, but those in specific look like are directly connected; because that book had come with similar proposal and ideas I already had developed my application in the last years, problems and solutions that I found.  
   

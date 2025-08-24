@@ -1,12 +1,16 @@
 ---
-title: "Optimizing React With Memoization"
-date: 2025-08-15
+title: "Optimizing React with Memoization"
+date: 2025-01-15
 tags:
   - '#react'
-description: "It’s important to understand the component lifecycle and when to re-render. Some tips to optimize React include:"
+  - '#memoization'
+  - '#performance'
+  - '#optimization'
+description: "Optimizing React applications with memoization techniques"
 layout: post.njk
 ---
 
+# Optimizing React with Memoization
 ## Introduction
 It’s important to understand the component lifecycle and when to re-render. Some tips to optimize React include:
 - Use useMemo or memo to memoize expensive calculations or component render.

@@ -1,16 +1,21 @@
 ---
-title: "Testing Library Vs Enzyme"
-date: 2025-08-15
+title: "Testing Library vs Enzyme"
+date: 2025-01-15
 tags:
   - '#react'
-description: "https://testing-playground.com/https://testing-playground.com/ it’s a website I recommend you to check it out, like the name suggests it"
+  - '#testing'
+  - '#enzyme'
+  - '#javascript'
+description: "https://testing-playground.com/ it's a website I recommend you to check it out, like the name suggests it"
 layout: post.njk
 ---
 
-[https://testing-playground.com/](https://testing-playground.com/) it’s a website I recommend you to check it out, like the name suggests it
-[https://kentcdodds.com/blog/avoid-nesting-when-youre-testing?ck_subscriber_id=725001484](https://kentcdodds.com/blog/avoid-nesting-when-youre-testing?ck_subscriber_id=725001484) it’s article I suggest to read to write best tests, everything releted to unit testing please check Kent blog after the documentation of your unit testing tool.  
+# Testing Library vs Enzyme
+
+[https://testing-playground.com/](https://testing-playground.com/) it's a website I recommend you to check it out, like the name suggests it
+[https://kentcdodds.com/blog/avoid-nesting-when-youre-testing?ck_subscriber_id=725001484](https://kentcdodds.com/blog/avoid-nesting-when-youre-testing?ck_subscriber_id=725001484) it's article I suggest to read to write best tests, everything releted to unit testing please check Kent blog after the documentation of your unit testing tool.  
   
-**Introduction**
+## **Introduction**
 I will just replicate here what we found on @testing-library home page because it's already a very awesome summary where I share the same thoughts:
 Complete and straightforward testing utilities that encourage good testing practices. The more your tests resemble the way your software is used, the more confidence they can give you.
 What are the straightforward points of the library proposal:  

@@ -1,12 +1,16 @@
 ---
-title: "Superintelligence Nick Bostrom"
-date: 2025-08-15
+title: "Superintelligence: Paths, Dangers, Strategies"
+date: 2025-01-15
 tags:
-  - '#book'
-description: "It’s a quick casual chat talking about how I discover that superintelligence will always get our jobs, doesn't matter what you do or what position you have b..."
+  - '#superintelligence'
+  - '#ai'
+  - '#artificial-intelligence'
+  - '#nick-bostrom'
+description: "Superintelligence: Paths, Dangers, Strategies by Nick Bostrom"
 layout: post.njk
 ---
 
+# Superintelligence: Paths, Dangers, Strategies
 ## Summary
 It’s a quick casual chat talking about how I discover that superintelligence will always get our jobs, doesn't matter what you do or what position you have (backend, SRE, frontend). So, just enjoy your path and try to make your life before a superintelligence comes to get or job or advanced IA come to make less engineering people necessary in the process.
 ## Superintelligence and the future of itself
