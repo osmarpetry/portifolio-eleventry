@@ -4,7 +4,7 @@ date: 2025-01-15
 tags:
   - '#animation'
   - '#css'
-  - '#design'
+  - '#frontend'
 description: "If you want to reproduce the same 12 principle of animation, if you're able to this you have a good animation"
 layout: post.njk
 ---

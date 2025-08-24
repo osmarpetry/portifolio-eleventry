@@ -3,7 +3,6 @@ title: "Recursion"
 date: 2025-01-15
 tags:
   - '#algorithms'
-  - '#computer-science'
 description: "Recursion concepts and examples"
 layout: post.njk
 ---

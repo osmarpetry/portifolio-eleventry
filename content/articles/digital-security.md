@@ -2,7 +2,7 @@
 title: "Digital Security"
 date: 2025-01-15
 tags:
-  - '#security'
+  - '#backend'
 description: "Course-style outline for digital security: vulnerabilities, secure development, and incident response"
 layout: post.njk
 ---

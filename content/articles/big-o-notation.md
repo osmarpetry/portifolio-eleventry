@@ -3,7 +3,6 @@ title: "Big O Notation"
 date: 2025-01-15
 tags:
   - '#algorithms'
-  - '#computer-science'
   - '#performance'
 description: "Understanding algorithm complexity and performance analysis"
 layout: post.njk

@@ -2,7 +2,6 @@
 title: "SVG are the Best"
 date: 2025-01-15
 tags:
-  - '#svg'
   - '#frontend'
 description: "SVG are the best"
 layout: post.njk

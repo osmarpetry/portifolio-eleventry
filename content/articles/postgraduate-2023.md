@@ -2,7 +2,7 @@
 title: "Postgraduate 2023"
 date: 2025-01-15
 tags:
-  - '#education'
+  - '#career'
 description: "Notes from my postgraduate courses, translated and organized"
 layout: post.njk
 ---

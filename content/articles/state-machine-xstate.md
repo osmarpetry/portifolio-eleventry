@@ -2,7 +2,7 @@
 title: "State Machine XState"
 date: 2025-01-15
 tags:
-  - '#state-management'
+  - '#react'
   - '#javascript'
 description: "State Machine XState"
 layout: post.njk

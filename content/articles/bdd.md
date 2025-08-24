@@ -2,7 +2,6 @@
 title: "BDD"
 date: 2025-01-15
 tags:
-  - '#bdd'
   - '#testing'
 description: "It's like TDD but without the bad things and even more good things"
 layout: post.njk

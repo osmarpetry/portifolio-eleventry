@@ -3,7 +3,6 @@ title: "TensorFlow"
 date: 2025-01-15
 tags:
   - '#ai'
-  - '#python'
 description: "TensorFlow notes and resources"
 layout: post.njk
 ---

@@ -2,8 +2,6 @@
 title: "Flutter"
 date: 2025-01-15
 tags:
-  - '#flutter'
-  - '#dart'
   - '#mobile-development'
 description: "Notes and examples while learning Flutter and Dart"
 layout: post.njk

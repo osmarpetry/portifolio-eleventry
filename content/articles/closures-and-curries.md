@@ -3,7 +3,6 @@ title: "Closures and Curries"
 date: 2025-01-15
 tags:
   - '#javascript'
-  - '#functional-programming'
 description: "Closures and currying are both important concepts in JavaScript, especially for functional programming."
 layout: post.njk
 ---
