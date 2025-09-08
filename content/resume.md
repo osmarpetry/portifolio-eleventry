@@ -1,76 +1,42 @@
----
-title: "Resume — Osmar Petry"
----
+# Osmar Petry
+Senior Frontend/Full-Stack Engineer — Luxembourg, LU  
+Phone: +352 691 123 456 · Email: osmarpetry@gmail.com  
+Website: osmarpetry.dev · GitHub: github.com/osmarpetry · LinkedIn: linkedin.com/in/osmarpetry  
+## Summary
+Senior Frontend/Full-Stack Engineer (9+ years) leading teams with strong collaboration and leadership, building and scaling web/mobile applications with React, TypeScript, Node.js, and Golang. Focus on performance, maintainable architectures, testing culture, and developer experience; delivers value to stakeholders and investors across EU/US distributed teams. Currently working remotely from Brazil with dual Brazilian–Luxembourgish citizenship. Runs a free mentorship program for developers (EN/PT).
+## Skills
+React, Next.js, TypeScript, Node.js, React Native, GraphQL, Redux, Storybook, D3  
+AWS, GCP, Firebase, Terraform  
+Testing Library, Jest, Cypress, Playwright  
+TDD, DDD, CI/CD  
+Collaboration, Problem-solving, Adaptability, Mentorship, Leadership, Stakeholder management, Ownership, Communication, Proactivity  
+## Work History
+**Senior Software Engineer — Attend** · May 2023–Present  
+- Led an administration dashboard unifying 3 products (Pass, Flow, Flex) for inventory and assignments — React, Next.js, TypeScript, Redux, AWS.  
+- Contributed to Flow campaigns that report **[88% first-time buyers](https://www.attend.tech/products/flow)** and **[80% card capture](https://www.attend.tech/products/flow)**; implemented payment workflows and gift-card integration for Flex — Node.js, Stripe, Redux.  
+- Flex programs report **[US$2,000 average order value](https://www.attend.tech/products/flex)** and **[85% conversion](https://www.attend.tech/products/flex)**.  
+- Drove consistent data synchronization and UI improvements across Pass and Flow — React,  Next.js, Node.js.  
 
-Osmar Petry  
-[osmarpetry@gmail.com](mailto:osmarpetry@gmail.com) • USA | Luxembourg • [LinkedIn](https://www.linkedin.com/in/osmarpetry/) • [Github](https://github.com/osmarpetry)
+**Senior Software Engineer — Consulting** · Feb 2023–Aug 2023  
+- Designed and shipped a React Native health app with lab integrations and patient–doctor chat (iOS/Android).  
+- Built city/event white-label apps from one modular codebase, enabling reuse across brands — React Native, Firebase, CI.  
 
-## **WORK EXPERIENCE**
+**Senior Software Developer — X-Team** · Mar 2021–Feb 2023  
+- Beachbody (BODi): upgraded GraphQL filters and scheduling for a streaming platform with **[2.54M digital subscriptions (FY2021)](https://www.businesswire.com/news/home/20220301005954/en/)** and **[2.0M (FY2022)](https://www.businesswire.com/news/home/20230314005889/en/)** — React, GraphQL, Jest.  
+- Lemonlight: automated reporting tables and stabilized CI/CD while supporting a studio that delivered **[10,000+ videos in 2024](https://www.lemonlight.com/blog/celebrating-11-years-of-impact-lemonlights-leap-into-the-future/)** and achieved an **[Inc. 5000 streak (6 consecutive years)](https://www.lemonlight.com/blog/lemonlights-2024-year-in-review-celebrating-a-decade-of-excellence/)** — React, TypeScript, CI.  
+- KMF/XHQ: enhanced back-office invoicing with scalable APIs and an internal portal supporting bounties, swag orders, invoice submission, vacation scheduling, and more — Node.js, GCP Firebase.  
+- X-Games: shipped a browser-based game and CLI audio tools; added cloud backup routines — React, Phaser 3.  
 
-**Senior Software Engineer		[Attend](https://www.attend.tech/)** 	**May 2023 – Present**  
-Technology	Montana, USA
-
-* **Primary Impact:** Spearheaded the development of an **administration dashboard** for managing inventory and assignments, reducing operational workload and supporting ticket response times while eliminating the need for additional staff monitoring.  
-* Contributed to the [**Flex**](https://www.attend.tech/products/flex) client-sharing solution by implementing advanced payment workflows and seamless gift card integrations.  
-* Worked on [**Pass**](https://www.attend.tech/products/pass) and [**Flow**](https://www.attend.tech/products/flow), driving consistent data synchronization and user interface improvements across products.  
-* **Technologies**: React, NextJS, NodeJS, TypeScript, Redux, AWS.
-
-**Senior Software Engineer		Consulting** 	**Feb 2023 \- Aug 2023**  
-Technology | Customer Success team  	         USA
-
-* **Health Application:** Designed and implemented a React Native app to centralize patient health data, integrating third-party labs and enabling seamless patient-doctor communication.  
-* **Tourism Application:** Created city- and event-specific React Native apps with modular designs, optimizing branding and improving user engagement.  
-  * Delivered a scalable solution that allowed for cost-efficient maintenance by junior developers with occasional consulting.  
-  * Achieved high code reusability, reducing development timelines while maintaining quality.  
-* **Technologies**: React Native, iOS, Android, Node.js.
-
-**Senior Software Developer	             [X-Team](https://x-team.com/)** 	**Mar 2021 \- Feb 2023**  
-Technology  	  Texas | California, USA
-
-* **KMF/XHQ**  
-  * Enhanced back-office invoicing systems with scalable APIs, streamlining operations for internal teams.  
-  * Introduced an optimized backend architecture with Firebase and Node.js, improving data handling and system performance.  
-* [**Lemonlight**](https://www.lemonlight.com/)  
-  * Automated administrative processes by developing an auto-table generator, resolving critical bugs, and ensuring robust CI/CD workflows.  
-  * Mentored team members on TypeScript best practices, driving a culture of code quality and collaboration.  
-* **X-Games**  
-  * Delivered a browser-based game and CLI audio tools, increasing user retention and platform engagement.  
-  * Designed and implemented cloud-based backup systems to enhance data reliability and recovery.  
-* [**Beachbody**](https://www.beachbodyondemand.com/)  
-  * Upgraded fitness platforms with GraphQL-powered filters and advanced calendar scheduling.  
-  * Spearheaded testing infrastructure modernization and provided TypeScript mentoring to team members.  
-* **Technologies**: React, TypeScript, GraphQL, Firebase, GCP, Ruby on Rails, Phaser 3\.
-
-[To see before 2021 (+6y) experience, check my Linkedin **\[CLICK HERE\]**](https://www.linkedin.com/in/osmarpetry/details/experience/) 
-
-## **TECHNOLOGIES AND LANGUAGES**
-
-* **Languages:** TypeScript, JavaScript, Node.js, Golang  
-* **Front-End:**  React, Redux, Next.js, React Native, GraphQL, @testing-library, Vue.js, D3.js  
-* **Back-End:**   Node.js, Golang, AWS, GCP, Firebase, Ruby on Rails  
-* **Tools:**          Cypress, TDD, DDD, Micro Front-End, Terraform, UX/UI Design, Figma, Git, Storybook  
-* **Skills**:	      Data structures and algorithms,  Leading, Innovation, Mentoring, user research (UX)
-
-## **EDUCATION**
-
-* **Postgraduate Degree in Modern Education**, Pontifícia Universidade Católica do Rio Grande do Sul       **2022–2023**  
-* **Bachelor's Degree in Information Systems (CC)**,  Centro Universitário \- Católica de Santa Catarina        **2015–2018**  
-* **Network Technician,** SENAI/SC                                                                                                                               **2013–2014**
-
-## **PROJECTS**
-
-* **Technical Blogging**: I maintain a blog at [https://osmarpetry.dev/](https://osmarpetry.dev/), where I publish articles migrated from my Obsidian knowledge base. Popular pieces cover topics such as productivity, clean code, and personal growth. My profile is also available on [Slideshare](https://fr.slideshare.net/OsmarPetry), where I share additional content.  
-* **Mentorship Program**: I lead a mentorship initiative in both English and Portuguese, as showcased on [LinkedIn](https://www.linkedin.com/posts/osmarpetry_osmar-petry-activity-7032116269801779201-epZO?utm_source=share&utm_medium=member_desktop). Through this program, I have successfully mentored individuals who achieved their professional and personal goals for free.
-
-## **OTHER SECTIONS**
-
-* **Languages** \- **English (Fluent),** Portuguese (Brazil \- Native)**, French (Conversational)**  
-* **Volunteer work** \- I engage in volunteer work, primarily through donations, to support causes related to animals, both domestic and wild, as well as assisting people with disabilities (such as [APAE](https://www.googleadservices.com/pagead/aclk?sa=L&ai=DChcSEwi8nMTMgpmLAxUUJkQIHa0vCqQYABAAGgJkeg&ae=2&aspm=1&co=1&ase=5&gclid=CjwKCAiAneK8BhAVEiwAoy2HYbXzfNGgXNE_tgobmLAvlxU0nHl_qpBIfegsE6DjtZ1bVGhsj_1VkxoCslsQAvD_BwE&ohost=www.google.com&cid=CAESVuD2itUAJH0TZBmdu24wPXD25gAtdnh6ousUj4PI3pRbAUdqYcU3hdG36LnzYnwUQZFgjfKzlzpzqlnSIxj7YUSBjE-TA797zlPKmcv_36bQv3JquTNK&sig=AOD64_028BHzWxfkrhcg1GlzPer7c_kqnw&q&adurl&ved=2ahUKEwj0qLrMgpmLAxVoqJUCHU_4AHEQ0Qx6BAgUEAE) in Brazil) and children.  
-* **Mentor to events** \- such as [Tech Autism](https://www.linkedin.com/posts/osmarpetry_autismotech-hackaton-activity-6702618866805178368-XBvv?utm_source=share&utm_medium=member_desktop) for free.  
-* **Awards** \-  XII Winter Challenge , 7th Mobile Robotics Championship.
-
-## **INTERESTS**
-
-* Reading as a hobby, always with a few books in progress.  
-* Running, often with my dog Mabel, and incorporating strength training while following a healthy diet and motivating friends to do the same.  
-* Spending time with my wife, enjoying our shared hobbies: Disney, Mabel, and traveling around the world.
+**Earlier Experience (2015–2020)**  
+Frontend roles at Luizalabs, Zup Innovation, NG Informática, CoBlue, TOTVS, Envolve Labs, etc. See [LinkedIn](https://www.linkedin.com/in/osmarpetry) for full history.  
+- Luizalabs context: Magalu marketplace scale reached **[160,000 sellers and 60,000,000 items (2021)](https://ri.magazineluiza.com.br/ListResultados/Download.aspx?Arquivo=TgeqoHBxWBDn%2FKtQXgwMog%3D%3D)**.  
+- TOTVS context: presence in **[40+ countries](https://ri.totvs.com/en/the-company/history-and-profile/)** and **[70,000+ customers](https://produtos.totvs.com/)**.  
+- Zup context: Itaú acquisition path **[R$293M initial control](https://www.investing.com/analysis/itau-unibanco-itub-inks-deal-to-acquire-zup-it-servicos-200481883)** toward **[~R$575M total](https://www.reuters.com/article/technology/brazils-itau-agrees-to-pay-143-mln-for-software-company-zup-filing-idUSE6N25P012/)**.  
+## Education
+Postgraduate — Modern Education, PUCRS (2022–2023)  
+B.Sc. Information Systems — Católica SC (2015–2018)  
+Network Technician — SENAI/SC (2013–2014)  
+## Languages
+English (Fluent) · Portuguese (Native) · French (Conversational) 
+## Keywords (ATS)
+React; Next.js; TypeScript; Node.js; React Native; GraphQL; AWS; GCP; Firebase; Terraform; Testing Library; Jest; Cypress; Playwright; TDD; DDD; CI/CD; Micro Frontends; Performance; Developer Experience; Mentorship; Stakeholder management  

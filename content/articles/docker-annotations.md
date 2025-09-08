@@ -9,7 +9,7 @@ layout: post.njk
 
 # Docker Annotations
 
-[[Docker]]
+[[docker]]
 https://github.com/osmarpetry/docker-react
 # Docker
 To run Docker to development run the following command:

@@ -6,7 +6,6 @@ tags:
 description: "PR and Issue pattern to follow"
 layout: post.njk
 ---
-
 # PR and Issue Pattern to Follow
 
 > Issue Context
