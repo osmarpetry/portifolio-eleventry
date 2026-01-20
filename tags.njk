@@ -1,13 +1,11 @@
 ---
 pagination:
-  data: collections
+  data: collections.tagList
   size: 1
   alias: tag
-  filter:
-    - all
-    - articles
-permalink: /tags/{{ tag | slugify }}/
+permalink: /tags/{{ tag | slugify }}/index.html
 layout: base.njk
+eleventyExcludeFromCollections: true
 eleventyComputed:
   title: "Articles tagged '{{ tag }}'"
   description: "All articles tagged with {{ tag }}"

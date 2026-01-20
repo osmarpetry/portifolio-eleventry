@@ -11,10 +11,29 @@ export default async function(eleventyConfig) {
     return collection.getFilteredByGlob("content/articles/**/*.md").sort((a,b)=> b.date - a.date);
   });
 
+  // Create a collection of unique tags from articles, deduplicated by slug
+  eleventyConfig.addCollection("tagList", (collection) => {
+    const articles = collection.getFilteredByGlob("content/articles/**/*.md");
+    const tagMap = new Map(); // Use Map to deduplicate by slug
+    const slugify = (str) => str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    
+    articles.forEach((item) => {
+      if (item.data.tags) {
+        item.data.tags.forEach((tag) => {
+          const slug = slugify(tag);
+          if (!tagMap.has(slug)) {
+            tagMap.set(slug, tag); // Store first occurrence of each slug
+          }
+        });
+      }
+    });
+    return Array.from(tagMap.values()).sort();
+  });
+
   // Syntax highlighting with Shiki
   const highlighter = await createHighlighter({
     themes: ['dracula'],
-    langs: ['javascript', 'js', 'typescript', 'ts', 'jsx', 'tsx', 'json', 'css', 'html', 'bash', 'shell', 'python', 'go', 'rust', 'java', 'c', 'cpp', 'yaml', 'xml']
+    langs: ['javascript', 'js', 'typescript', 'ts', 'jsx', 'tsx', 'json', 'css', 'html', 'bash', 'shell', 'python', 'go', 'rust', 'java', 'c', 'cpp', 'yaml', 'xml', 'markdown', 'md']
   });
 
   const md = markdownIt({html:true, linkify:true, typographer:true});
@@ -93,8 +112,8 @@ export default async function(eleventyConfig) {
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
       
-      // Start capturing from WORK EXPERIENCE
-      if (line.includes('**WORK EXPERIENCE**')) {
+      // Start capturing from Work History section
+      if (line.includes('## Work History') || line.includes('**WORK EXPERIENCE**')) {
         inResumeSection = true;
       }
       
