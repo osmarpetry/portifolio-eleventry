@@ -42,7 +42,7 @@ Frontend roles at Luizalabs, Zup Innovation, NG Informática, CoBlue, TOTVS, Env
 - Zup context: Itaú acquisition path **[R$293M initial control](https://www.investing.com/analysis/itau-unibanco-itub-inks-deal-to-acquire-zup-it-servicos-200481883)** toward **[~R$575M total](https://www.reuters.com/article/technology/brazils-itau-agrees-to-pay-143-mln-for-software-company-zup-filing-idUSE6N25P012/)**.
 ## Education
 Postgraduate — Modern Education, PUCRS (2022–2023)  
-B.Sc. Information Systems — Católica SC (2015–2018)  
+Bachelor of Information Systems — Católica SC (2015–2018)
 Network Technician — SENAI/SC (2013–2014)  
 ## Languages
 English (Fluent) · Portuguese (Native) · French (Conversational)
