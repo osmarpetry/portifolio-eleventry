@@ -3,7 +3,7 @@ Senior Frontend/Full-Stack Engineer — Luxembourg, LU
 Phone: +352 691 375 313 · Email: osmarpetry@gmail.com  
 Website: osmarpetry.dev · GitHub: github.com/osmarpetry · LinkedIn: linkedin.com/in/osmarpetry  
 ## Summary
-Senior Frontend/Full-Stack Engineer with 9+ years of experience building and scaling web and mobile applications across EU and US distributed teams. Strong background in React/Next.js, TypeScript, Node.js, and cloud platforms, with a focus on performance, maintainable architectures, testing culture, and developer experience. Collaboration, Leadership, Stakeholder management, Ownership, Communication. I am Luxembourgian.
+Luxembourgish-Brazilian Senior Frontend/Full-Stack Engineer with 9+ years of experience building and scaling web and mobile applications across EU and US distributed teams. Strong background in React/Next.js, TypeScript, Node.js, and cloud platforms, with a focus on performance, maintainable architectures, testing culture, and developer experience. Collaboration, Leadership, Stakeholder management, Ownership, Communication.
 ## Skills
 React, Next.js, TypeScript, Node.js, React Native, GraphQL, Redux, Storybook, D3  
 AWS, GCP, Firebase, Terraform  
