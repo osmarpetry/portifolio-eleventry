@@ -1,19 +1,15 @@
-# osmarpetry.dev — minimal (≤14KB)
+# osmarpetry.dev
 
 ## Usage
 ```bash
 npm i
-npm run dev           # local server (http://localhost:8080)
-npm run build         # builds _site/ + resume.pdf + 14KB guard
+npm run dev    # local server (http://localhost:8080)
+npm run build  # production build → _site/
 ```
 
 - Content in `content/articles/*.md` and `content/resume.md`.
-- Resume PDF generated with `md-to-pdf` into `_site/resume.pdf`.
-- Zero JS on home and /articles.
-- Critical CSS inline.
-- SEO: sitemap, robots, Atom feed, minimal meta tags, JSON-LD.
-- English-only folder names.
-```
+- Critical CSS inline, zero JS on home and /articles.
+- SEO: sitemap, robots, Atom feed, JSON-LD.
 
 ## Deploy
 Cloudflare Pages, Netlify or GitHub Pages. Publish `_site/`.

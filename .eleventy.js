@@ -40,7 +40,24 @@ export default async function(eleventyConfig) {
   md.use(fromHighlighter(highlighter, {
     theme: 'dracula'
   }));
-  
+
+  // Resolve Obsidian-style wiki-links: [[slug|label]] → <a href="/content/articles/slug/">label</a>
+  // Also handles [[slug]] (no label) by generating a title from the slug
+  const wikiLinkRegex = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g;
+  const defaultInlineRule = md.renderer.rules.text || function(tokens, idx) {
+    return tokens[idx].content;
+  };
+  md.renderer.rules.text = function(tokens, idx, options, env, renderer) {
+    const content = tokens[idx].content;
+    if (!content.includes('[[')) return defaultInlineRule(tokens, idx, options, env, renderer);
+    return content.replace(wikiLinkRegex, (_, rawSlug, label) => {
+      const slug = rawSlug.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+      const displayText = label || rawSlug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      const href = `/content/articles/${slug}/`;
+      return `<a href="${href}" class="internal-link" title="${displayText}">${displayText}</a>`;
+    });
+  };
+
   // Configure external links to open in new tab
   const defaultRender = md.renderer.rules.link_open || function(tokens, idx, options, env, renderer) {
     return renderer.renderToken(tokens, idx, options);
@@ -78,84 +95,45 @@ export default async function(eleventyConfig) {
     return encodeURIComponent(str);
   });
   
-  // Extract and render resume sections (Work Experience, Technologies, Education, Projects, Other)
+  // Extract and render resume sections — reuses the global `md` instance above
   eleventyConfig.addFilter("extractResumeContent", (content) => {
-    if (!content || typeof content !== 'string') {
-      return '';
-    }
-    
-    // Use markdown-it to process the content
-    const md = markdownIt({html:true, linkify:true, typographer:true});
-    
-    // Configure external links to open in new tab for resume content
-    const defaultRender = md.renderer.rules.link_open || function(tokens, idx, options, env, renderer) {
-      return renderer.renderToken(tokens, idx, options);
-    };
-    
-    md.renderer.rules.link_open = function (tokens, idx, options, env, renderer) {
-      const token = tokens[idx];
-      const href = token.attrGet('href');
-      
-      if (href && (href.startsWith('http://') || href.startsWith('https://'))) {
-        token.attrSet('target', '_blank');
-        token.attrSet('rel', 'noopener');
-      }
-      
-      return defaultRender(tokens, idx, options, env, renderer);
-    };
-    
+    if (!content || typeof content !== 'string') return '';
+
     // Extract only the sections we want (skip the header)
     const lines = content.split('\n');
     let resumeLines = [];
     let inResumeSection = false;
-    
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      
-      // Start capturing from Work History section
+
+    for (const line of lines) {
       if (line.includes('## Work History') || line.includes('**WORK EXPERIENCE**')) {
         inResumeSection = true;
       }
-      
-      if (inResumeSection) {
-        resumeLines.push(line);
-      }
+      if (inResumeSection) resumeLines.push(line);
     }
-    
-    // Convert markdown to HTML
-    const resumeMarkdown = resumeLines.join('\n');
-    let htmlContent = md.render(resumeMarkdown);
-    
-    // Add IDs to H2 and H3 headings for anchor links
-    htmlContent = htmlContent.replace(/<h2>(.*?)<\/h2>/g, (match, content) => {
-      const id = content.toLowerCase()
-        .replace(/\*\*/g, '') // Remove markdown bold
-        .replace(/[^a-z0-9\s]/g, '') // Remove special chars
-        .replace(/\s+/g, '-') // Replace spaces with hyphens
-        .trim();
-      return `<h2 id="${id}">${content}</h2>`;
-    });
-    
-    // Add IDs to H3 headings (individual experiences)
-    htmlContent = htmlContent.replace(/<h3>(.*?)<\/h3>/g, (match, content) => {
-      const id = content.toLowerCase()
-        .replace(/\*\*/g, '') // Remove markdown bold
-        .replace(/[^a-z0-9\s]/g, '') // Remove special chars
-        .replace(/\s+/g, '-') // Replace spaces with hyphens
-        .trim();
-      return `<h3 id="${id}">${content}</h3>`;
-    });
-    
-    // Add IDs to strong elements that look like job titles (for individual experiences)
-    htmlContent = htmlContent.replace(/<p><strong>([^<]+?)\s+<a[^>]*>([^<]+?)<\/a><\/strong>\s+<strong>([^<]+?)<\/strong>/g, (match, title, company, date) => {
-      const id = `${title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-')}-${company.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-')}`;
-      return `<p id="${id}"><strong>${title} <a href="${match.match(/href="([^"]+)"/)?.[1] || '#'}">${company}</a></strong> <strong>${date}</strong>`;
-    });
-    
-    // Wrap in a resume container
-    htmlContent = `<div class="resume-content">${htmlContent}</div>`;
-    
-    return htmlContent;
+
+    // Convert markdown to HTML using the global renderer (already has Shiki + external link rules)
+    let htmlContent = md.render(resumeLines.join('\n'));
+
+    // Add IDs to H2 headings for anchor links
+    const slugifyHeading = (text) => text.toLowerCase()
+      .replace(/\*\*/g, '').replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-').trim();
+
+    htmlContent = htmlContent.replace(/<h2>(.*?)<\/h2>/g, (_, c) =>
+      `<h2 id="${slugifyHeading(c)}">${c}</h2>`);
+    htmlContent = htmlContent.replace(/<h3>(.*?)<\/h3>/g, (_, c) =>
+      `<h3 id="${slugifyHeading(c)}">${c}</h3>`);
+
+    // Add IDs to strong elements that look like job titles
+    htmlContent = htmlContent.replace(
+      /<p><strong>([^<]+?)\s+<a[^>]*>([^<]+?)<\/a><\/strong>\s+<strong>([^<]+?)<\/strong>/g,
+      (match, title, company, date) => {
+        const id = `${slugifyHeading(title)}-${slugifyHeading(company)}`;
+        const href = match.match(/href="([^"]+)"/)?.[1] || '#';
+        return `<p id="${id}"><strong>${title} <a href="${href}">${company}</a></strong> <strong>${date}</strong>`;
+      }
+    );
+
+    return `<div class="resume-content">${htmlContent}</div>`;
   });
 
   return {

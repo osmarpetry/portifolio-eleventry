@@ -29,4 +29,4 @@ You can check the presentation in Portuguese above this text. But remember, this
 [https://youtu.be/bvGGDey7KfY](https://youtu.be/bvGGDey7KfY)
 I tried to write a summary about every pattern but was superficial and boring or big and boring, so I decided to remove it, just let the video above. I suggest you visit the website: [https://refactoring.guru/design-patterns](https://refactoring.guru/design-patterns), which will be a lot more fun and complete.
   
-[[Design Patten]]
+[[design-pattern|Design Pattern]]

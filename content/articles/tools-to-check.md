@@ -39,5 +39,22 @@ https://marketingplatform.google.com/about/analytics/#?modal_active=none - Googl
 https://www.domcomp.com/ - Domain price comparisons and providers  
 https://www.hotjar.com/ - Quick visual overview of user interactions  
 
+### AI & Knowledge Management
+https://obsidian.md - Markdown-based personal knowledge vault (second brain)
+https://obsidian.md/sync - Obsidian's paid sync service (faster than iCloud)
+https://qmd.sh - Semantic search for Markdown files via vectorization (by Toby Lütke, CEO Shopify)
+https://claude.ai/code - Claude Code — AI agent for code tasks, vault migration, and automation
+
+### CSS & UI Libraries
+https://graffiti-ui.com - CSS utility library with custom property theming (by Scott Tolinski)
+https://effect.website - Effect.ts — TypeScript library for error handling, concurrency, and composition
+
+### Developer Tools
+https://sentry.io - Error monitoring, performance tracking, and root cause analysis
+https://modem.dev - Aggregates user feedback and suggests code fixes (by Ben Vinegar)
+
+### Hardware (Dev Setup)
+https://www.avermedia.com - AVerMedia Live Streamer CAP 4K — reliable capture card for streaming
+
 ### Documentation
 https://readme.com/
