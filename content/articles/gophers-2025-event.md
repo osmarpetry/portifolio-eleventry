@@ -144,11 +144,11 @@ Gophers 2025 brought the Go community together in Anita Garibaldi, Santa Catarin
 ## References
 
 - Bill Kennedy — “K8s CPU Limits Deconstructed for Go Software” (Gophers 2025)
-- Bianca Rosa — “Goroutines em Containers”
-- Juraci Paixão — “Instrumentação com OpenTelemetry”
+- Bianca Rosa — “Goroutines in Containers”
+- Juraci Paixão — “Instrumentation with OpenTelemetry”
 - Vinícius Bosoardin — “Gopherizing Everyday Life”
-- Carlos Gandarez — “Como criar um game em Go usando Ebiten”
-- Amim Knabben — “Explorando a suíte de Testes do Kubernetes”
+- Carlos Gandarez — “How to Build a Game in Go Using Ebiten”
+- Amim Knabben — “Exploring the Kubernetes Test Suite”
 - Ardan Labs — Domain-Driven, Data-Oriented Design workshop materials
 - Official Go docs: [https://go.dev/doc/](https://go.dev/doc/)
 - OpenTelemetry for Go: [https://opentelemetry.io/docs/instrumentation/go/](https://opentelemetry.io/docs/instrumentation/go/)

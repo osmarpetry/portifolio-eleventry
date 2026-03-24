@@ -2,58 +2,67 @@
 title: "Web Accessibility V3 — Topics cheat-sheet & decision guide"
 date: 2025-09-01
 tags:
-  - '#frontend'
-  - '#css'
-  - '#javascript'
+  - frontend
+  - css
+  - javascript
 description: "Compressed guide to the Web Accessibility (V3) course topics with quick heuristics, team workflow, and checklists."
 layout: post.njk
 ---
 
 ## Summary
-- Course map covers **Screen Readers**, **Accessible HTML**, **ARIA**, **Focus Management**, and **Visual Considerations** plus **Debugging & team process**. :contentReference[oaicite:0]{index=0}  
-- Aim: ship **perceivable, operable, understandable, robust** experiences (POUR) with practical exercises and team-ready debugging habits. :contentReference[oaicite:1]{index=1}
+- Course map covers **Screen Readers**, **Accessible HTML**, **ARIA**, **Focus Management**, and **Visual Considerations**, plus **Debugging & team process**.
+- Aim: ship **perceivable, operable, understandable, robust** experiences (POUR) with practical exercises and team-ready debugging habits.
 
 ---
 
 ## Topics → what to do (at a glance)
-- **Screen Readers:** learn how they work, enable them, write solid **alt text**, and test. :contentReference[oaicite:2]{index=2}  
-- **Accessible HTML:** prefer **semantic elements** and set **document language**; fix invalid markup. :contentReference[oaicite:3]{index=3}  
-- **ARIA:** add only when semantics aren’t enough; know **roles, states, properties**, **names/Descriptions**, **live regions**. :contentReference[oaicite:4]{index=4}  
-- **Focus Management:** full keyboard support, **skip links**, logical **Tab** order, avoid **focus traps**, review shortcuts. :contentReference[oaicite:5]{index=5}  
-- **Visual:** check **color contrast**, **reflow/zoom**, **reduced motion** and **prefers-color-scheme**, link perf with a11y. :contentReference[oaicite:6]{index=6}  
-- **Debugging:** linters/devtools, team workflows, go **beyond compliance**; hands-on exercises. :contentReference[oaicite:7]{index=7}
+- **Screen Readers:** learn how they work, enable them, write solid **alt text**, and test.
+- **Accessible HTML:** prefer **semantic elements** and set **document language**; fix invalid markup.
+- **ARIA:** add only when semantics aren’t enough; know **roles, states, properties**, **names/descriptions**, and **live regions**.
+- **Focus Management:** full keyboard support, **skip links**, logical **Tab** order, avoid **focus traps**, and review shortcuts.
+- **Visual:** check **color contrast**, **reflow/zoom**, **reduced motion**, and **prefers-color-scheme**; connect performance with accessibility.
+- **Debugging:** use linters/devtools, improve team workflows, go **beyond compliance**, and practice with hands-on exercises.
 
 ---
 
 ## Decision heuristics
-- **Semantics first → ARIA last.** If native element communicates role/state, **don’t add ARIA**. :contentReference[oaicite:8]{index=8}  
-- **Keyboard is the truth.** If it’s not operable with keyboard and visible focus, it’s not accessible. :contentReference[oaicite:9]{index=9}  
-- **Name, role, value:** can a screen reader expose them correctly? If not, fix semantics/labels/ARIA. :contentReference[oaicite:10]{index=10}  
-- **Respect user prefs:** `prefers-reduced-motion`, `prefers-color-scheme`, zoom/reflow without loss. :contentReference[oaicite:11]{index=11}
+- **Semantics first → ARIA last.** If a native element already communicates role/state, **don’t add ARIA**.
+- **Keyboard is the truth.** If it’s not operable with keyboard and visible focus, it’s not accessible.
+- **Name, role, value:** can a screen reader expose them correctly? If not, fix semantics, labels, or ARIA.
+- **Respect user prefs:** `prefers-reduced-motion`, `prefers-color-scheme`, and zoom/reflow without loss.
 
 ---
 
-## Team workflow (from course)
-1. **Set standards** (WCAG targets, browser/AT matrix).  
-2. **Lint & test early** (HTML validity, axe, devtools).  
-3. **Exercise mindset:** practice with SRs and keyboard on real UI (modals, forms, nav).  
-4. **Go beyond checklists:** usability for AT users, not just box-ticking. :contentReference[oaicite:12]{index=12}
+## Team workflow
+1. **Set standards** (WCAG targets, browser/AT matrix).
+2. **Lint & test early** (HTML validity, axe, devtools).
+3. **Exercise mindset:** practice with screen readers and keyboard on real UI (modals, forms, navigation).
+4. **Go beyond checklists:** optimize usability for assistive technology users, not just box-ticking.
 
 ---
 
-## Dev checklist (quick)
-- [ ] Landmark structure (`header/nav/main/aside/footer`).  
-- [ ] Page language (`<html lang>`).  
-- [ ] Forms: `<label>` + programmatic names; error text announced.  
-- [ ] Interactive controls are **native** or fully re-created (role, keyboard, focus, ARIA).  
-- [ ] Focus order & **visible** focus style.  
-- [ ] Contrast meets WCAG; no info by color alone.  
-- [ ] Motion: provide **reduced motion** path; avoid parallax autoplay by default.  
-- [ ] Respect zoom/reflow at 200–400% without horizontal scroll. :contentReference[oaicite:13]{index=13}
+## Dev checklist
+- [ ] Landmark structure (`header`, `nav`, `main`, `aside`, `footer`).
+- [ ] Page language (`<html lang>`).
+- [ ] Forms: `<label>` + programmatic names; error text announced.
+- [ ] Interactive controls are **native** or fully re-created (role, keyboard, focus, ARIA).
+- [ ] Focus order and **visible** focus style.
+- [ ] Contrast meets WCAG; no information by color alone.
+- [ ] Motion: provide a **reduced motion** path; avoid parallax autoplay by default.
+- [ ] Respect zoom/reflow at 200–400% without horizontal scroll.
 
 ---
 
 ## References
-- **Web Accessibility — All Topics (Frontend Masters companion site)**: https://web-accessibility-v3.vercel.app/topics . :contentReference[oaicite:14]{index=14}  
-- GitHub repo: https://github.com/marcysutton/frontend-masters-web-accessibility-v3 . :contentReference[oaicite:15]{index=15}
+- **Web Accessibility — All Topics (Frontend Masters companion site)**: https://web-accessibility-v3.vercel.app/topics
+- **GitHub repo**: https://github.com/marcysutton/frontend-masters-web-accessibility-v3
 
+## Related Notes
+- [[12-principles-of-animation|12 Principles of Animation]]
+- [[enterprise-ui-development|Enterprise UI Development — Testing, Standards, and Ego Control]]
+- [[react-forwardRef|Forwarding Ref]]
+- [[javascript-performance-course|JavaScript Performance — Steve Kinney (Frontend Masters)]]
+- [[javascript-ui-hard-parts|The Hard Parts of UI Development — Will Sentance (Frontend Masters)]]
+- [[react-with-responsiveness|React with Responsiveness]]
+- [[svg-are-the-best|SVG are the Best]]
+- [[vuejs|Vue.js]]

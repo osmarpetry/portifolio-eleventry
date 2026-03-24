@@ -2,13 +2,11 @@
 title: "React.Suspense"
 date: 2025-01-15
 tags:
-  - '#react'
-  - '#frontend'
+  - react
+  - frontend
 description: "React.Suspense for lazy loading"
 layout: post.njk
 ---
-
-# React.Suspense
 
 ## Why use Suspense
 Suspense lets you declaratively handle loading states for code-splitting and async data (with frameworks that support it). It improves first-load performance and keeps your UI logic focused on states that matter.
@@ -40,3 +38,14 @@ export default function Account() {
 ## References
 - React docs: https://react.dev/reference/react/Suspense
 - Lazy loading: https://react.dev/reference/react/lazy
+
+## Related Notes
+
+- [[form-validation-nextjs|Form Validation in Next.js]]
+- [[react-forwardRef|Forwarding Ref]]
+- [[react-optimizing-with-memoization|Optimizing React with Memoization]]
+- [[react-battle-of-monsters-challenge|React Coding Challenge — Battle of Monsters]]
+- [[react-with-responsiveness|React with Responsiveness]]
+- [[remix-is-react-router|Remix is React Router — what that means in practice]]
+- [[simple-custom-hook-called-usefetch|Simple Custom Hook Called useFetch]]
+- [[2025-03-20 what-react-senior-should-know|What React Senior Should Know]]

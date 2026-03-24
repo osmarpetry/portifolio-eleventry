@@ -2,9 +2,9 @@
 title: "Backend Architectures — history, case studies & dogfooding"
 date: 2025-09-01
 tags:
-  - '#backend'
-  - '#project-management'
-  - '#devops'
+  - backend
+  - project-management
+  - devops
 description: "From monolith → services → serverless; lessons from Amazon, Netflix, Google, Uber; how dogfooding turns platforms into products."
 layout: post.njk
 ---
@@ -73,3 +73,13 @@ layout: post.njk
 
 ## References
 - Course: **Introduction to Backend Architectures** — modules on Amazon/Netflix/Google/Uber.
+
+## Related Notes
+
+- [[agenda-gophers-workshop|Gophers Workshop — Deploy-First Go Architecture]]
+- [[backend-architectures|Backend architectures — monolith, services, serverless (maps + trade-offs)]]
+- [[complete-go-for-professional-developers|Complete Go for Professional Developers — Course Notes]]
+- [[conways-law-birth-1968|Conway’s Law — origins, literature, and team design]]
+- [[cqrs-critical-analysis|CQRS — Critical Analysis]]
+- [[monoliths-vs-microservices|Monoliths vs Microservices — Article Review]]
+- [[software-architecture-overview|Software Architecture Overview]]

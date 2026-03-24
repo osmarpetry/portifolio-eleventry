@@ -2,9 +2,9 @@
 title: "XState — model UI behavior correctly and make it testable"
 date: 2025-07-12
 tags:
-  - '#frontend'
-  - '#javascript'
-  - '#testing'
+  - frontend
+  - javascript
+  - testing
 description: "State modeling in React with XState: finite states, events, guards, effects. Clear behavior and cheap tests."
 layout: post.njk
 ---
@@ -186,4 +186,13 @@ createMachine<Ctx, Ev>({
 - Course: **State Modeling in React with XState** — David Khourshid.
     
 - Library: XState docs and @xstate/react examples.
-    
+
+## Related Notes
+
+- [[enterprise-ui-development|Enterprise UI Development — Testing, Standards, and Ego Control]]
+- [[form-validation-nextjs|Form Validation in Next.js]]
+- [[react-forwardRef|Forwarding Ref]]
+- [[javascript-performance-course|JavaScript Performance — Steve Kinney (Frontend Masters)]]
+- [[javascript-ui-hard-parts|The Hard Parts of UI Development — Will Sentance (Frontend Masters)]]
+- [[xteam-state-machine|State Machine XState]]
+- [[xstate-state-machines|State Machines in JavaScript with XState]]

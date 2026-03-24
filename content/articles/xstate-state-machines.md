@@ -72,10 +72,10 @@ const todoMachine = createMachine({
 
 ## Related Notes
 
-- [[forwarding-ref|Forwarding Ref]]
-- [[frontend-system-design|Front-End System Design — Course Notes]]
+- [[react-forwardRef|Forwarding Ref]]
+- [[2026-03-20 - frontend-system-design|Front-End System Design — Course Notes]]
 - [[javascript-performance-course|JavaScript Performance — Steve Kinney (Frontend Masters)]]
 - [[javascript-ui-hard-parts|The Hard Parts of UI Development — Will Sentance (Frontend Masters)]]
-- [[state-machine-xstate|State Machine XState]]
+- [[xteam-state-machine|State Machine XState]]
 - [[testing-enterprise-ui|Enterprise UI Testing & Quality Ramp-Up]]
 - [[xstate-model-ui-bahavior|XState — model UI behavior correctly and make it testable]]

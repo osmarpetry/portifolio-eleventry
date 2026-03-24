@@ -119,7 +119,7 @@
   /* Header */
   header {
     display: flex;
-    align-items: center;
+    // align-items: center;
     justify-content: space-between;
     gap: 16px;
     margin-bottom: 24px;
@@ -411,7 +411,7 @@
     border: 1px solid var(--border);
   }
   .tag-list {
-    padding: 20x;
+    padding: 20px;
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
@@ -990,8 +990,8 @@
   <!-- JSON-LD Person -->
   <script type="application/ld+json">
     { "@context":"https://schema.org", "@type":"Person", "name":"Osmar Petry", "url":"{{ site.url }}/",
-                                "sameAs":["{{ site.github }}","{{ site.linkedin }}","mailto:{{ site.email | replace('mailto:','') }}"]
-                              }
+                                            "sameAs":["{{ site.github }}","{{ site.linkedin }}","mailto:{{ site.email | replace('mailto:','') }}"]
+                                          }
   </script>
 </head>
 <body>

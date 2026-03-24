@@ -9,7 +9,6 @@ description: "Key takeaways from replay attack detection, deepfake speech, plant
 layout: post.njk
 ---
 
-# Master’s Article Summaries
 
 ## TL;DR
 - Replay attacks remain the easiest ASV spoofing vector; DL-RAD, autoencoders + Siamese networks, and CQCC features significantly improve detection.
@@ -22,7 +21,7 @@ layout: post.njk
 - NIST DSE — Plant identification with airborne remote sensing.
 - Adiban et al. — Autoencoder + Siamese countermeasures on ASVspoof 2019.
 
-## 🎯 Context
+## Context
 - Consolidated notes from 4 September 2024 research sprint.
 - Focus: voice authentication security (spoofing/deepfake) and ecological remote sensing.
 - Supporting docs: ZIP archive with slides/text; online share for extended summaries.
@@ -72,4 +71,4 @@ layout: post.njk
 - [[assembly-study-plan|Assembly Study Plan]]
 - [[gpt-on-youtube|GPT on YouTube]]
 - [[gpt-to-understand-books|GPT to Understand Books]]
-- [[postgraduate-2023|Postgraduate 2023]]
+- [[2026-03-20 - postgraduate-2023|Postgraduate 2023]]

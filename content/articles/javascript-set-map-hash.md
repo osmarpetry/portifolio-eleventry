@@ -8,7 +8,6 @@ description: "Understanding Set vs Map behaviour, hashing, caching patterns, and
 layout: post.njk
 ---
 
-# JavaScript Sets, Maps, and Hashing
 
 ## TL;DR
 - Notes captured on 2025-02-09 during Deveficiente algorithms study.
@@ -84,7 +83,7 @@ function getData(key) {
 
 - [[algorithms-course-intro|Design & Analysis of Algorithms — Course Overview]]
 - [[big-o-notation|Big O Notation]]
-- [[closures-and-curries|Closures and Curries]]
+- [[javascript-closures-and-curries|Closures and Curries]]
 - [[essential-algorithms|Essential Algorithms in Programming]]
 - [[execution-contexts-hoisting-scopes-and-closures|Execution Contexts, Hoisting, Scopes, and Closures]]
-- [[forwarding-ref|Forwarding Ref]]
+- [[react-forwardRef|Forwarding Ref]]

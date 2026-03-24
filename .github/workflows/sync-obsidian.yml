@@ -1,0 +1,98 @@
+name: Sync Obsidian Content and Deploy
+
+on:
+  repository_dispatch:
+    types: [obsidian-sync]
+  workflow_dispatch:
+
+jobs:
+  sync-and-deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout website repo
+        uses: actions/checkout@v4
+
+      - name: Checkout obsidian vault
+        uses: actions/checkout@v4
+        with:
+          repository: osmarpetry/obsidian-2025
+          token: ${{ secrets.CROSS_REPO_PAT }}
+          path: _obsidian
+
+      - name: Sync articles from 000 - PERMANENT
+        run: |
+          echo "=== Syncing articles from Obsidian vault ==="
+
+          SOURCE_DIR="_obsidian/000 - PERMANENT"
+          TARGET_DIR="content/articles"
+
+          # Copy all markdown files from 000 - PERMANENT to content/articles
+          # Each file goes into its own directory (Eleventy permalink style)
+          for file in "$SOURCE_DIR"/*.md; do
+            filename=$(basename "$file")
+            slug="${filename%.md}"
+
+            # Skip INDEX.md — it's a meta file, not an article
+            if [ "$slug" = "INDEX" ]; then
+              echo "  Skipping INDEX.md (meta file)"
+              continue
+            fi
+
+            # Create target directory if needed
+            mkdir -p "$TARGET_DIR"
+
+            # Copy file
+            cp "$file" "$TARGET_DIR/$filename"
+            echo "  Synced: $filename"
+          done
+
+          echo "=== Articles sync complete ==="
+
+      - name: Sync resume
+        run: |
+          echo "=== Syncing resume ==="
+
+          RESUME_SRC="_obsidian/300 - PROJECTS/resume-osmarpetry.md"
+          RESUME_DST="content/resume.md"
+
+          if [ -f "$RESUME_SRC" ]; then
+            cp "$RESUME_SRC" "$RESUME_DST"
+            echo "  Synced: resume-osmarpetry.md → resume.md"
+          else
+            echo "  WARNING: Resume source not found at $RESUME_SRC"
+          fi
+
+          echo "=== Resume sync complete ==="
+
+      - name: Cleanup obsidian checkout
+        run: rm -rf _obsidian
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        env:
+          ELEVENTY_ENV: production
+        run: npm run build
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v2.1
+        with:
+          publish-dir: '_site'
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from Obsidian sync (${{ github.event.client_payload.sha || 'manual' }})"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 5

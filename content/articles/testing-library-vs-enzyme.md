@@ -1,28 +1,32 @@
 ---
-title: "Testing Library vs Enzyme"
-date: 2025-01-15
+title: Testing Library vs Enzyme
+date: 2021-01-15
 tags:
-  - '#react'
-  - '#testing'
-  - '#javascript'
-description: "https://testing-playground.com/ it's a website I recommend you to check it out, like the name suggests it"
+  - react
+  - testing
+  - javascript
+  - frontend
+  - typescript
+description: Complete migration guide from Enzyme to Testing Library, covering the mindset shift, custom renders, wrapper patterns, form testing, and real-world Calendar component examples.
 layout: post.njk
 ---
 
-# Testing Library vs Enzyme
-
-[https://testing-playground.com/](https://testing-playground.com/) it's a website I recommend you to check it out, like the name suggests it
-[https://kentcdodds.com/blog/avoid-nesting-when-youre-testing?ck_subscriber_id=725001484](https://kentcdodds.com/blog/avoid-nesting-when-youre-testing?ck_subscriber_id=725001484) it's article I suggest to read to write best tests, everything releted to unit testing please check Kent blog after the documentation of your unit testing tool.  
-  
 ## **Introduction**
-I will just replicate here what we found on @testing-library home page because it's already a very awesome summary where I share the same thoughts:
-Complete and straightforward testing utilities that encourage good testing practices. The more your tests resemble the way your software is used, the more confidence they can give you.
-What are the straightforward points of the library proposal:  
-Write maintainable code: Tests only break when your app breaks, not implementation details.  
-Develop with Confidence: Interact with your app the same way as your users.  
-Accessible by Default: Built-in selectors find elements the way users do to help you write inclusive code.  
-  
-The problem (code from: [https://blog.logrocket.com/enzyme-vs-react-testing-library-a-mindset-shift/](https://blog.logrocket.com/enzyme-vs-react-testing-library-a-mindset-shift/)):
+
+Testing Library is built around a simple philosophy: the more your tests resemble the way your software is used, the more confidence they can give you. Its three core principles are: tests only break when your app breaks (not when implementation details change), you interact with your app the same way as your users, and built-in selectors find elements the way users do to help you write inclusive code.
+
+Imagine **AutoLot**, a car dealership chain with an online marketplace built in React/TypeScript with 400+ components. The team has been using Enzyme since 2018, but they're hitting problems: every time someone refactors a component's internal state structure, dozens of Enzyme tests break even though the user-facing behavior is unchanged. The tech lead decides to migrate to Testing Library — but gradually, not all at once.
+
+Useful tools: [Testing Playground](https://testing-playground.com/) helps you find the right Testing Library queries interactively. Kent C. Dodds' article [Avoid Nesting When You're Testing](https://kentcdodds.com/blog/avoid-nesting-when-youre-testing) is essential reading for writing clean, flat test structures.
+
+Reference: [Enzyme vs React Testing Library: A Mindset Shift](https://blog.logrocket.com/enzyme-vs-react-testing-library-a-mindset-shift/)
+
+## **The mindset shift**
+
+The core difference between Enzyme and Testing Library is what you test. Enzyme gives you access to component internals (state, instances, lifecycle methods), while Testing Library only lets you interact with the rendered output — the same way a user would.
+
+At AutoLot, a developer wrote this Enzyme test for a `RangeCounter` component used in the vehicle quantity selector:
+
 ```javascript
 describe("RangeCounterA", () => {
   let component;
@@ -38,7 +42,11 @@ describe("RangeCounterA", () => {
   });
 });
 ```
-With @testing-library:
+
+This test reaches into the component's internals — calling `instance().incrementCounter()` and inspecting `state()`. If a developer refactors the component to use hooks instead of a class, this test breaks completely even though the button still works.
+
+The same test with Testing Library focuses on what the user sees and does:
+
 ```javascript
 describe("RangeCounterB", () => {
   describe("when incrementing counter is allowed", () => {
@@ -51,10 +59,18 @@ describe("RangeCounterB", () => {
   });
 });
 ```
-But we can do something similar with Enzyme, testing the result not the implementation following testing-library philosophy of testing; in the following code first, you will see how to test with Enzyme following testing-library principles, then you will see the **same** test, but with testing-library:
+
+The developer clicks the "+" button and checks the displayed value — exactly how a user would verify the counter works. Now the team can refactor from classes to hooks without touching a single test.
+
+## **Real-world comparison: Calendar component**
+
+At AutoLot, the `Calendar` component is the most complex piece of UI — it shows test drive schedules, handles toolbar navigation, date cell interactions, and modal editing for appointment details. The team wrote the same integration tests in both Enzyme and Testing Library side-by-side to compare approaches.
+
+With Enzyme, the test relies heavily on DOM structure (finding buttons by index, traversing child nodes):
+
 ```javascript
 // components/Calendar/__tests__/Calendar.test.tsx
-describe('<Calendar />  with Enzyme', () => {
+describe('<Calendar /> with Enzyme', () => {
   const setup = makeSetupComponent({ component: Calendar });
   test('should have integration with the toolbar', () => {
     const { component } = setup();
@@ -84,6 +100,11 @@ describe('<Calendar />  with Enzyme', () => {
     expect(sideColumnAgenda).toContain('All Day Event very long title');
   });
 });
+```
+
+The Testing Library version uses accessible queries (by role, by text) and reads much closer to a user story:
+
+```javascript
 describe('<Calendar /> with @testing-library', () => {
   test('should have integration with the toolbar', () => {
     render(<Calendar />);
@@ -103,8 +124,6 @@ describe('<Calendar /> with @testing-library', () => {
     );
   });
   test('Renders modal when clicking calendar event', () => {
-    // solution to make typescript understand that this is a mock and avoid the error
-    // mockImplementationOnce does not exist on type useInteractiveClasses
     const useInteractiveClassesMock = useInteractiveClasses as jest.Mock<
       IInteractiveClassesProviderValue
     >;
@@ -130,14 +149,23 @@ describe('<Calendar /> with @testing-library', () => {
   });
 });
 ```
-## How to test forms with testing-library
-Independently of the form's library that you're using, this is the way of testing following testing-library principles:  
-  
+
+Notice the difference: Enzyme uses `find('button').at(2)` (fragile — breaks if button order changes), while Testing Library uses `getByRole('button', { name: 'Next' })` (resilient — only breaks if the button is removed).
+
+There's also a workaround worth noting for third-party components: when testing a `DatePicker` component, the `react-datepicker` library generates HTML that doesn't map well to Testing Library's accessible queries. In those cases, use the `container` from `render()` and query with `getElementsByClassName` or `querySelector` instead of `getByRole`/`getByText`.
+
+## **How to test forms**
+
+Regardless of which form library you use (Formik, React Hook Form, plain HTML), Testing Library encourages the same approach: find fields by their labels, type into them, click submit, and assert the callback was called with the right data.
+
+At AutoLot, the lead capture form collects customer info before scheduling a test drive. Here's how the team tests it:
+
 ```javascript
 import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MyForm } from './myForm.js'
+
 test('rendering and submitting a basic Formik form', async () => {
   const handleSubmit = jest.fn()
   render(<MyForm onSubmit={handleSubmit} />)
@@ -154,36 +182,83 @@ test('rendering and submitting a basic Formik form', async () => {
   )
 })
 ```
-## Custom renders
-On testing-library you supposed to create a custom render for every Wrapper you want to create; for that, you have two ways. The first way is:
+
+The key insight: `getByLabelText` finds fields the same way a screen reader does. If the label is missing or poorly associated, the query fails — which means the test also doubles as an accessibility check.
+
+## **Resilient tests for the future**
+
+At AutoLot, after the first round of migration, a product manager renamed the "sedan" filter button to "Sedan & Coupe" and 12 tests broke. A team member suggested two strategies to prevent this:
+
+Use `data-testid` for elements whose visible text is likely to change, or use regex with `{ exact: false }` to match partial text:
+
+```javascript
+fireEvent.click(screen.getByText('sedan', { exact: false }));
+```
+
+This way, renaming "sedan" to "Sedan & Coupe" won't break the test. The trade-off is readability — `getByRole` and `getByText` with exact matching are more explicit about what the user sees, so use the flexible approach only for elements with frequently changing copy.
+
+## **Custom renders**
+
+In Testing Library, you create a custom render for every provider/wrapper your components need. There are two approaches.
+
+At AutoLot, every component needs at least an `IntlProvider` for translations (the marketplace serves both English and Spanish-speaking customers). The first approach wraps the UI inside the wrapper component directly:
+
 ```javascript
 function Wrapper({ children }) {
     return <IntlProvider locale={locale}>{children}</IntlProvider>
 }
 function customRender(ui, options) {
-    return render(<Wrapper>{ui}</Wrapper>, options })
+    return render(<Wrapper>{ui}</Wrapper>, options)
 }
 ```
-The second way is:  
-  
+
+The second approach uses the `wrapper` option from Testing Library's render API:
+
 ```javascript
 function Wrapper({ children }) {
     return <IntlProvider locale={locale}>{children}</IntlProvider>
 }
 function customRender(ui, options) {
-    return render(ui, { wrapper: Wrapper, ...options } })
+    return render(ui, { wrapper: Wrapper, ...options })
 }
 ```
-  
-I do I prefer the first way? It's because if you use the  
-`wrapper` API in `options` on your test, you'll still be able to do it;
-## setupComponent on testing-library with a customRender
-I did check that on Beachbody we have the `setupComponent` function, that when we translate to testing-library, it's a `customRender` with multiple component wrappers inside. To understand what I did, check the following sections.
-### **MockDateWrapper -** test_utils/testing-library/**MockDateWrapper.tsx**
-This was the simplest one, I just need to mock the date-time; the default dat always will be 19 of December of 2021; I'm using `mockDate` because it already solve the problem and we don't need to create a unit test for this function;  
-  
+
+The first approach is preferred because if you later need to pass a different `wrapper` in `options` for a specific test, you still can — the second approach would override it.
+
+## **Migrating setupComponent to customRender**
+
+At AutoLot, the Enzyme test suite used a `setupComponent` function that wrapped every component with all the providers it needed (theme, intl, Redux, date mocking). The migration to Testing Library meant creating equivalent wrappers and composing them into a single `customRender`.
+
+### customRerender
+
+Similar to `setupComponent`, you don't need to re-render the same component every time you want to test it with different props. The `customRerender` function handles this:
+
+```javascript
+test('should update the props with rerender', () => {
+  type ICustomComponent = { name: string };
+  const CustoComponent = ({ name }: ICustomComponent): JSX.Element => <h1>{name}</h1>;
+  const firstProps: ICustomComponent = {
+    name: 'hello',
+  };
+  const { customRerender } = customRender<ICustomComponent>(<CustoComponent {...firstProps} />);
+  expect(screen.getByText('hello')).toBeTruthy();
+  const secondProps: ICustomComponent = {
+    name: 'abc',
+  };
+  customRerender(secondProps);
+  expect(screen.getByText('abc')).toBeTruthy();
+});
+```
+
+Always type the props — TypeScript will catch mismatches between the first render and the rerender.
+
+### MockDateWrapper
+
+The simplest wrapper. At AutoLot, the Calendar tests (test drive scheduling) need a fixed date so assertions on toolbar labels are deterministic. The default is always December 19, 2021:
+
 ```typescript
 import MockDate from 'mockdate';
+
 const MockDateWrapper = ({
   children,
   mockDate = '2021-12-19',
@@ -196,14 +271,16 @@ const MockDateWrapper = ({
 };
 export default MockDateWrapper;
 ```
-  
-### ThemeWrapper - test_utils/testing-library/ThemeWrapper.tsx  
-  
-We need to provide the `ThemeProvider` to the components; for that I did the `ThemeWrapper` it basically is a `render` with the default theme of the project; if some reason you need to use a custom theme, you just provide it to this wrapper:
+
+### ThemeWrapper
+
+Every styled-component at AutoLot needs a `ThemeProvider`. This wrapper provides the default project theme (the dealership's brand colors), with an option to override it for specific tests:
+
 ```typescript
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle from 'styles/GlobalStyle';
 import theme from 'styles/theme';
+
 const ThemeWrapper = ({
   children,
   customTheme,
@@ -218,11 +295,14 @@ const ThemeWrapper = ({
 );
 export default ThemeWrapper;
 ```
-### IntlProviderWrapper - test_utils/testing-library/IntlProviderWrapper.tsx
-The `react-intl` is be using on blue-label `setupComponent`, so I did a wrapper for the `react-intl` here too; the default behavior is to use the `en` locale as default:  
-  
+
+### IntlProviderWrapper
+
+AutoLot supports English and Spanish for its bilingual customer base. This wrapper provides `react-intl` with `en` as default locale. If no locale is passed, it returns children without wrapping — so components that don't use intl aren't affected:
+
 ```typescript
 import { IntlProvider, ResolvedIntlConfig } from 'react-intl';
+
 const IntlProviderWrapper = ({
   children,
   intl,
@@ -246,22 +326,24 @@ const IntlProviderWrapper = ({
 };
 export default IntlProviderWrapper;
 ```
-  
-In your computer it will probably never suffer fail with internationalization, but on Travis, it maybe can happen; to solve this problem you need to call  
-`setupTests()` of `test_utils/testing-library/intlMock.js` as I did here:  
-  
+
+One gotcha: internationalization tests may pass locally but fail in CI (Travis, GitHub Actions) because the server's default locale differs from your machine. Call `setupTests()` from `test_utils/testing-library/intlMock.js` to normalize the environment:
+
 ```typescript
 // test_utils/testing-library/tests/IntlProviderWrapper.test.tsx
-...
 setupTests();
 describe('IntlProviderWrapper', () => {
   MockDate.set('2021-12-24');
   test('using locale format and message parameter', () => {
-....
+    // ...
+  });
+});
 ```
-### ReduxWrapper - test_utils/testing-library/ReduxWrapper.tsx
-We have a component that requires Redux; for this reason, this component is used on `customRender`. To create the store with Redux, I did the same way we already are be doing on blue-label `setupComponent`; The wrapper itself is straightforward, as you can read here:  
-  
+
+### ReduxWrapper
+
+Some AutoLot components (like the inventory manager and the financing calculator) depend on Redux. This wrapper creates a mock store with the same middleware stack used in the Enzyme `setupComponent`:
+
 ```typescript
 import { Provider } from 'react-redux';
 import merge from 'lodash/merge';
@@ -270,6 +352,7 @@ import injectMiddleware from 'test_utils/injectMiddleware';
 import { createPromise } from 'redux-promise-middleware';
 import { baseComponentReduxState } from 'test_utils';
 import thunk from 'redux-thunk';
+
 const ReduxWrapper = ({
   children,
   initialState = {},
@@ -280,10 +363,7 @@ const ReduxWrapper = ({
   includeBaseComponentState?: boolean;
 }): JSX.Element => {
   const middlewares = [
-    injectMiddleware({
-      fetch,
-      thunk,
-    }),
+    injectMiddleware({ fetch, thunk }),
     createPromise({ promiseTypeSuffixes: ['START', 'SUCCESS', 'ERROR'] }),
   ];
   const mockStore = configureStore(middlewares);
@@ -294,26 +374,28 @@ const ReduxWrapper = ({
 };
 export default ReduxWrapper;
 ```
-  
-The problem comes when you need to understand how to test a component with Redux using this wrapper; on his unit test you can check that I did the full boilerplate of a redux component to test, here:  
-  
+
+To verify it works, the team created a full boilerplate test with a component that reads from the store:
+
 ```typescript
 import { createContext, useContext } from 'react';
 import { render, screen } from '@testing-library/react';
 import { ReactReduxContext } from 'react-redux';
 import { baseComponentReduxState } from 'test_utils/tests';
 import ReduxWrapper from '../ReduxWrapper';
+
 type Hello = { stringValue: string };
 export const TemplateStateContext = createContext<Hello>({} as Hello);
+
 function TemplateProvider({ children }: { children: React.ReactNode }): JSX.Element {
-  const value: Hello = {
-    stringValue: 'empty',
-  };
+  const value: Hello = { stringValue: 'empty' };
   return <TemplateStateContext.Provider value={value}>{children}</TemplateStateContext.Provider>;
 }
+
 function useTemplateSelector(): Hello {
   return useContext(TemplateStateContext);
 }
+
 export function TemplateSelectorProvider(): JSX.Element {
   return (
     <TemplateProvider>
@@ -321,12 +403,14 @@ export function TemplateSelectorProvider(): JSX.Element {
     </TemplateProvider>
   );
 }
+
 export function TemplateSelector(): JSX.Element {
   const { stringValue } = useTemplateSelector();
   return <h1>final: {stringValue}</h1>;
 }
+
 describe('<ReduxWrapper />', () => {
-  test('should render redux with the default paramanters', () => {
+  test('should render redux with the default parameters', () => {
     render(
       <ReduxWrapper>
         <TemplateSelectorProvider />
@@ -348,9 +432,11 @@ describe('<ReduxWrapper />', () => {
   });
 });
 ```
-## The customRender - test_utils/testing-library/customRender.tsx
-Here we glue everything together to create functionality like `setupComponent` with Enzyme, but on testing-library:  
-  
+
+## **The customRender — gluing everything together**
+
+This is the final piece. At AutoLot, `customRender` composes all the wrappers into a single function that replaces Enzyme's `setupComponent`. It's fully type-safe and accepts optional configuration for each wrapper:
+
 ```typescript
 import { queries, Queries, render, RenderOptions, RenderResult } from '@testing-library/react';
 import { ResolvedIntlConfig } from 'react-intl';
@@ -359,6 +445,7 @@ import ThemeWrapper from './ThemeWrapper';
 import MockDateWrapper from './MockDateWrapper';
 import IntlProviderWrapper from './IntlProviderWrapper';
 import ReduxWrapper from './ReduxWrapper';
+
 export function customRender<
   ContextType,
   Q extends Queries = typeof queries,
@@ -392,13 +479,11 @@ export function customRender<
 }
 export default customRender;
 ```
-  
-The same type-safe of the render from testing-library, but with multiple  
-`customOptions` like on `setupComponent`; I didn't the use of `options` to use all those wrappers in case that we want to use this same parameter for something more in our unit testing.  
-  
-To understand what custom options belongs to which wrapper, you can read this unit test, check the  
-`test` individually:  
-  
+
+The second parameter (`customOptions`) controls the wrappers, and the third parameter (`options`) is passed directly to Testing Library's `render` — keeping the full original API available.
+
+Here's the complete test suite that validates each wrapper works correctly through `customRender`:
+
 ```typescript
 import { screen } from '@testing-library/react';
 import defaultTheme from 'styles/theme';
@@ -407,6 +492,7 @@ import { CustomContext, ComponentUsignCustomContext, ICustomContext } from './Co
 import { MyComponentWithTheme } from './ThemeWrapper.test';
 import { ComponentWithNewDate } from './MockDateWrapper.test';
 import { TemplateSelectorProvider } from './ReduxWrapper.test';
+
 describe('customRender', () => {
   test('should render without options', () => {
     customRender(<h1>empty</h1>);
@@ -425,7 +511,7 @@ describe('customRender', () => {
       defaultTheme.whiteBG,
     );
   });
-  test('should render with specic date time', () => {
+  test('should render with specific date time', () => {
     customRender(<ComponentWithNewDate />);
     expect(screen.getByTestId('date')).toHaveTextContent('Sun Dec 19 2021 00:00:00 GMT+0000');
   });
@@ -435,9 +521,20 @@ describe('customRender', () => {
   });
 });
 ```
-  
-In case that you need to use  
-`customOptions` to multiple wrappers, you just pass it on the second parameter of the `customRender`; the third paramanter of `customRender` is reserved to the `options` of the testign-library's `render`  
-  
-P.S: Check the type safe on the unit testing with Context using the interface  
-`ICustomContext`:
+
+Note the type-safe Context usage: `customRender<ICustomContext>` ensures TypeScript validates the `providerProps` shape matches the Context type.
+
+## **Links**
+
+- [BOD1-2432](https://beachbody.atlassian.net/browse/BOD1-2432)
+
+## Related Notes
+
+- [[enterprise-ui-development|Enterprise UI Development — Testing, Standards, and Ego Control]]
+- [[form-validation-nextjs|Form Validation in Next.js]]
+- [[react-forwardRef|Forwarding Ref]]
+- [[simple-custom-hook-called-usefetch|Simple Custom Hook Called useFetch]]
+- [[xteam-state-machine|State Machine XState]]
+- [[testing-concepts-notes|Testing Concepts Notes]]
+- [[testing-enterprise-ui|Enterprise UI Testing & Quality Ramp-Up]]
+- [[testing-library-vs-enzyme|Testing Library vs Enzyme]]
