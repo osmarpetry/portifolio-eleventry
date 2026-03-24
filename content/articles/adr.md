@@ -13,7 +13,7 @@ ADRs (Architecture Decision Records) are essential documents in software enginee
 
 ## Why use ADRs?
 
-In long-running projects — such as framework migrations or service changes in Go or Java — decisions change constantly. Without recording *why* a tool was chosen over another, the team (or even yourself) may forget the reasoning months later, losing the context that justified the choice.
+In long-running projects — such as framework migrations or service changes in Go or Java — decisions change constantly. Without recording _why_ a tool was chosen over another, the team (or even yourself) may forget the reasoning months later, losing the context that justified the choice.
 
 ## Basic ADR structure
 
@@ -24,7 +24,7 @@ In long-running projects — such as framework migrations or service changes in 
 
 ## Where do ADRs live?
 
-While a project is active, its ADRs live inside the project folder. When the project ends, the ADRs follow the project into `ARCHIVE`, preserving the full history of the system. 
+While a project is active, its ADRs live inside the project folder. When the project ends, the ADRs follow the project into `ARCHIVE`, preserving the full history of the system.
 
 ## Related Notes
 

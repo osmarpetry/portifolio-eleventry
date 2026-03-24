@@ -70,7 +70,7 @@ class MetricsNotifier extends NotifierDecorator {
 
 const notifier = new MetricsNotifier(new LoggingNotifier(new EmailNotifier()));
 notifier.send("Hello");
-````
+```
 
 ## Chain of Responsibility
 
@@ -81,11 +81,10 @@ Chain of Responsibility is useful when multiple handlers may process a request, 
 With JWT validation:
 
 - one handler checks authentication
-    
+
 - another checks permissions
-    
+
 - another executes the business action
-    
 
 ```typescript
 type Request = {
@@ -161,11 +160,10 @@ Suppose the entire system serves XML, but now you need JSON.
 You create an adapter that:
 
 1. calls the original XML service
-    
+
 2. transforms the result
-    
+
 3. returns JSON to the caller
-    
 
 ```typescript
 class LegacyXmlService {
@@ -207,9 +205,8 @@ A remote control receives a `Device` in the constructor.
 The `Device` abstraction is implemented by classes such as:
 
 - `Radio`
-    
+
 - `TV`
-    
 
 Both implement commands expected by the remote.
 
@@ -287,11 +284,10 @@ You built an app without cache, and later you need caching.
 A proxy can:
 
 1. check whether a valid cached entry exists for an `id`
-    
+
 2. return the cached value if present
-    
+
 3. otherwise forward the request to the real service
-    
 
 ```typescript
 interface VideoService {
@@ -343,7 +339,10 @@ interface Graphic {
 }
 
 class Dot implements Graphic {
-  constructor(private x: number, private y: number) {}
+  constructor(
+    private x: number,
+    private y: number,
+  ) {}
 
   draw(): void {
     console.log(`Draw dot at (${this.x}, ${this.y})`);
@@ -387,11 +386,10 @@ Before using a facade, you might need to know exactly which video codec function
 With a facade:
 
 - you pass the file
-    
+
 - the facade handles the internal orchestration
-    
+
 - the client uses a simpler interface
-    
 
 ```typescript
 class VideoFile {
@@ -453,11 +451,13 @@ class TreeType {
   constructor(
     public name: string,
     public color: string,
-    public texture: string
+    public texture: string,
   ) {}
 
   draw(canvas: unknown, x: number, y: number): void {
-    console.log(`Draw ${this.name} at (${x}, ${y}) with ${this.color}/${this.texture}`);
+    console.log(
+      `Draw ${this.name} at (${x}, ${y}) with ${this.color}/${this.texture}`,
+    );
   }
 }
 
@@ -479,7 +479,7 @@ class Tree {
   constructor(
     public x: number,
     public y: number,
-    public type: TreeType
+    public type: TreeType,
   ) {}
 
   draw(canvas: unknown): void {
@@ -495,7 +495,7 @@ const forest = [
   new Tree(50, 60, oakType),
 ];
 
-forest.forEach(tree => tree.draw(null));
+forest.forEach((tree) => tree.draw(null));
 ```
 
 ## Singleton
@@ -660,7 +660,10 @@ class Circle implements Shape {
 }
 
 class Rectangle implements Shape {
-  constructor(public width: number, public height: number) {}
+  constructor(
+    public width: number,
+    public height: number,
+  ) {}
 
   accept(visitor: ShapeVisitor): void {
     visitor.visitRectangle(this);
@@ -673,7 +676,9 @@ class XmlExportVisitor implements ShapeVisitor {
   }
 
   visitRectangle(rectangle: Rectangle): void {
-    console.log(`<rectangle width="${rectangle.width}" height="${rectangle.height}" />`);
+    console.log(
+      `<rectangle width="${rectangle.width}" height="${rectangle.height}" />`,
+    );
   }
 }
 
@@ -704,7 +709,7 @@ class TerminalExpression implements Expression {
 class OrExpression implements Expression {
   constructor(
     private left: Expression,
-    private right: Expression
+    private right: Expression,
   ) {}
 
   interpret(context: string): boolean {
@@ -725,28 +730,27 @@ console.log(canAccess.interpret("user:viewer"));
 When studying design patterns:
 
 - do not read each pattern in isolation
-    
+
 - compare patterns with similar structure or overlapping use cases
-    
+
 - ask what changes in intent, trade-off, and flow control
-    
+
 - focus on why a pattern exists, not only how it is implemented
-    
 
 The important skill is recognizing when two patterns appear similar but solve different problems.
 
 ## Related Notes
 
 - Gophers Workshop — Deploy-First Go Architecture
-    
+
 - Books & Papers to Study
-    
+
 - Communicate to Influence — notes (Carnegie, storytelling, STAR, pitch)
-    
+
 - Design Pattern
-    
+
 - Design Patterns: Elements of Reusable Object-Oriented Software
-    
+
 - Domain-Driven Design: Tackling Complexity in the Heart of Software
-    
+
 - Public Speaking — Cicero + Story Spine (Ordered Playbook)

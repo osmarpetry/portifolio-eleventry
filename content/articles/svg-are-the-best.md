@@ -7,8 +7,6 @@ description: "Why SVG is often a better choice than icon fonts and bitmap images
 layout: post.njk
 ---
 
-# SVG Are the Best
-
 SVG and icon fonts can solve similar problems, especially for icons. However, icon fonts must be downloaded correctly and mapped to the expected glyphs. When that fails, users may see empty squares or broken characters. SVG does not have that problem because the graphic itself is rendered directly.
 
 ## SVG vs. Font Icons
@@ -87,7 +85,7 @@ There are several ways to use SVG on the web, and each has trade-offs.
 
 ```html
 <img src="/icons/check.svg" alt="Check icon" />
-````
+```
 
 This is simple and works well, but the internal SVG nodes cannot be styled directly with CSS from the page.
 
@@ -170,43 +168,39 @@ Values such as `xMidYMid meet`, `xMaxYMin meet`, or `xMidYMid slice` give you mo
 Use inline SVG when:
 
 - you need styling control
-    
+
 - you need animation
-    
+
 - you need accessibility hooks
-    
+
 - you want full control in a component system
-    
 
 Use `img` when:
 
 - the SVG is static
-    
+
 - you only need to display it
-    
+
 - you do not need to style its internals
-    
 
 Use bitmap when:
 
 - the asset is a photograph
-    
+
 - the image contains complex natural detail
-    
+
 - vector conversion would not make sense
-    
 
 ## Related Notes
 
 - [12 Principles of Animation](https://chatgpt.com/c/12-principles-of-animation)
-    
+
 - [Databases for Front-End Developers](https://chatgpt.com/c/database-for-frontend)
-    
+
 - [Enterprise UI Development — Testing, Standards, and Ego Control](https://chatgpt.com/c/enterprise-ui-development)
-    
+
 - [Form Validation in Next.js](https://chatgpt.com/c/form-validation-nextjs)
-    
+
 - [Forwarding Ref](https://chatgpt.com/c/forwarding-ref)
-    
+
 - [Web Accessibility V3 — Topics cheat-sheet & decision guide](https://chatgpt.com/c/web-accessibility)
-    

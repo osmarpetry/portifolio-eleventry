@@ -39,7 +39,7 @@ Think of each image as a small grid of 28 rows and 28 columns. The neural networ
 The input shape defines the image size. A `Flatten` layer converts each 2D image into a 1D vector so it can be passed into dense layers.
 
 ```python
-keras.layers.Flatten(input_shape=(28, 28))
+	keras.layers.Flatten(input_shape=(28, 28))
 ```
 
 This transforms the data from `28 × 28` into `784`.
@@ -168,9 +168,9 @@ Then train the model with `fit`. How much to train depends on the problem — yo
 
 ```python
 history = model.fit(
-  train_images, train_labels,
-  epochs=5,
-  validation_split=0.2
+ train_images, train_labels,
+ epochs=5,
+ validation_split=0.2
 )
 ```
 
@@ -204,23 +204,23 @@ fashion_mnist = keras.datasets.fashion_mnist
 (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
 
 model = keras.Sequential([
-    keras.layers.Flatten(input_shape=(28, 28)),
-    keras.layers.Dense(256, activation=tf.nn.relu),
-    keras.layers.Dropout(0.2),
-    keras.layers.Dense(10, activation=tf.nn.softmax)
+   keras.layers.Flatten(input_shape=(28, 28)),
+   keras.layers.Dense(256, activation=tf.nn.relu),
+   keras.layers.Dropout(0.2),
+   keras.layers.Dense(10, activation=tf.nn.softmax)
 ])
 
 model.compile(
-    optimizer='adam',
-    loss='sparse_categorical_crossentropy',
-    metrics=['accuracy']
+   optimizer='adam',
+   loss='sparse_categorical_crossentropy',
+   metrics=['accuracy']
 )
 
 history = model.fit(
-    train_images,
-    train_labels,
-    epochs=5,
-    validation_split=0.2
+ train_images,
+ train_labels,
+ epochs=5,
+ validation_split=0.2
 )
 
 test_loss, test_acc = model.evaluate(test_images, test_labels)

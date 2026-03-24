@@ -7,16 +7,14 @@ description: "Recursion concepts and examples"
 layout: post.njk
 ---
 
-# Recursion
-
 ```javascript
 let countDownFrom = (num) => {
   if (num === 0) return;
-  console.log(num)
-  countDownFrom(num - 1)
-}
+  console.log(num);
+  countDownFrom(num - 1);
+};
 
-countDownFrom(10)
+countDownFrom(10);
 
 // Should output
 // 10
@@ -29,27 +27,25 @@ function call themselves - Screenshot from [Fun Fun Function](https://www.youtub
 
 ```javascript
 let categories = [
-  { id: 'animals', 'parent': null },
-  { id: 'mammals', 'parent': 'animals' },
-  { id: 'cats', 'parent': 'mammals' },
-  { id: 'dogs', 'parent': 'mammals' },
-  { id: 'chihuahua', 'parent': 'dogs' },
-  { id: 'labrador', 'parent': 'dogs' },
-  { id: 'persian', 'parent': 'cats' },
-  { id: 'siamese', 'parent': 'cats' }
-]
+  { id: "animals", parent: null },
+  { id: "mammals", parent: "animals" },
+  { id: "cats", parent: "mammals" },
+  { id: "dogs", parent: "mammals" },
+  { id: "chihuahua", parent: "dogs" },
+  { id: "labrador", parent: "dogs" },
+  { id: "persian", parent: "cats" },
+  { id: "siamese", parent: "cats" },
+];
 
 let makeTree = (categories, parent) => {
-  let node = {}
+  let node = {};
   categories
-    .filter(c => c.parent === parent)
-    .forEach(c => node[c.id] = makeTree(categories, c.id))
-  return node
-}
+    .filter((c) => c.parent === parent)
+    .forEach((c) => (node[c.id] = makeTree(categories, c.id)));
+  return node;
+};
 
-console.log(
-  JSON.stringify(makeTree(categories, null), null, 2)
-)
+console.log(JSON.stringify(makeTree(categories, null), null, 2));
 ```
 
 makeTree(categories, null) - Screenshot from [Fun Fun Function](https://www.youtube.com/@funfunfunction)
@@ -73,23 +69,5 @@ In this example, the base case is `**if (n === 0)**`, which returns `**1**` and 
 
 Recursion can be used to solve many types of problems in JavaScript, including tree traversal, searching and sorting, and more. However, it's important to be careful with recursion, as it can easily lead to infinite loops and stack overflow errors if the base case is not properly defined.
 
-Video from the screenshots:  
+Video from the screenshots:
 [http://youtube.com/watch?v=k7-N8R0-KY4](http://youtube.com/watch?v=k7-N8R0-KY4)
-
-## Related Notes
-
-- [[algorithms-course-intro|Design & Analysis of Algorithms — Course Overview]]
-    
-- [[assembly-study-plan|Assembly Study Plan]]
-    
-- [[big-o-notation|Big O Notation]]
-    
-- [[dev-interview-exercises|Interview Practice Notes]]
-    
-- [[dev-interview-mindset|Developer Interview Mindset]]
-    
-- [[essential-algorithms|Essential Algorithms in Programming]]
-    
-- [[singly-doubly-linked-lists-stacks-and-queues|Singly & Doubly Linked Lists - Stacks and Queues]]
-    
-- [[tree|Tree]]

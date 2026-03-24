@@ -11,7 +11,7 @@ layout: post.njk
 
 A generator is a special type of function in JavaScript that can be paused and resumed multiple times. Unlike regular functions that run to completion, a generator yields values one at a time and waits until the caller asks for the next one.
 
-## The basics — function* and yield
+## The basics — function\* and yield
 
 A generator is declared with `function*` (note the asterisk). Inside it, `yield` pauses execution and hands a value back to the caller. The caller uses `.next()` to resume:
 
@@ -38,7 +38,7 @@ The real power of generators is that `.next(value)` can send data back into the 
 
 ```javascript
 function* conversation() {
-  const name = yield 'What is your name?';
+  const name = yield "What is your name?";
   const car = yield `Hello ${name}, what car are you looking for?`;
   yield `Great, let me find a ${car} for you, ${name}.`;
 }
@@ -48,10 +48,10 @@ const chat = conversation();
 console.log(chat.next().value);
 // 'What is your name?'
 
-console.log(chat.next('Carlos').value);
+console.log(chat.next("Carlos").value);
 // 'Hello Carlos, what car are you looking for?'
 
-console.log(chat.next('Honda CR-V').value);
+console.log(chat.next("Honda CR-V").value);
 // 'Great, let me find a Honda CR-V for you, Carlos.'
 ```
 
@@ -68,13 +68,13 @@ Initially the team used plain redux-thunk. The purchase flow looked like this:
 ```javascript
 // With redux-thunk — nested callbacks and try/catch everywhere
 const purchaseVehicle = (vehicleId, customerId) => async (dispatch) => {
-  dispatch({ type: 'PURCHASE_START' });
+  dispatch({ type: "PURCHASE_START" });
   try {
     const inventory = await fetch(`/api/inventory/${vehicleId}`);
     const stock = await inventory.json();
 
     if (!stock.available) {
-      dispatch({ type: 'PURCHASE_FAIL', error: 'Vehicle no longer available' });
+      dispatch({ type: "PURCHASE_FAIL", error: "Vehicle no longer available" });
       return;
     }
 
@@ -82,25 +82,29 @@ const purchaseVehicle = (vehicleId, customerId) => async (dispatch) => {
     const credit = await creditCheck.json();
 
     if (credit.score < 600) {
-      dispatch({ type: 'PURCHASE_FAIL', error: 'Credit score too low' });
+      dispatch({ type: "PURCHASE_FAIL", error: "Credit score too low" });
       return;
     }
 
-    const financing = await fetch('/api/financing', {
-      method: 'POST',
-      body: JSON.stringify({ vehicleId, customerId, creditScore: credit.score })
+    const financing = await fetch("/api/financing", {
+      method: "POST",
+      body: JSON.stringify({
+        vehicleId,
+        customerId,
+        creditScore: credit.score,
+      }),
     });
     const loan = await financing.json();
 
-    const order = await fetch('/api/orders', {
-      method: 'POST',
-      body: JSON.stringify({ vehicleId, customerId, loanId: loan.id })
+    const order = await fetch("/api/orders", {
+      method: "POST",
+      body: JSON.stringify({ vehicleId, customerId, loanId: loan.id }),
     });
     const result = await order.json();
 
-    dispatch({ type: 'PURCHASE_SUCCESS', payload: result });
+    dispatch({ type: "PURCHASE_SUCCESS", payload: result });
   } catch (error) {
-    dispatch({ type: 'PURCHASE_FAIL', error: error.message });
+    dispatch({ type: "PURCHASE_FAIL", error: error.message });
   }
 };
 ```
@@ -112,7 +116,7 @@ This works, but the AutoLot team ran into three problems: the entire flow is imp
 Redux-saga uses generators to describe async flows as a sequence of plain JavaScript objects (called "effects"). The saga yields instructions like "call this API" or "dispatch this action," and the saga middleware executes them. The generator itself never touches the real API — it just describes what should happen.
 
 ```javascript
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from "redux-saga/effects";
 
 // Each step is a yield — the saga pauses here and the middleware
 // executes the effect, then resumes with the result
@@ -122,46 +126,53 @@ function* purchaseVehicleSaga(action) {
   try {
     // Step 1: Check inventory
     const stock = yield call(fetch, `/api/inventory/${vehicleId}`);
-    const stockData = yield call([stock, 'json']);
+    const stockData = yield call([stock, "json"]);
 
     if (!stockData.available) {
-      yield put({ type: 'PURCHASE_FAIL', error: 'Vehicle no longer available' });
+      yield put({
+        type: "PURCHASE_FAIL",
+        error: "Vehicle no longer available",
+      });
       return;
     }
 
     // Step 2: Credit check
     const creditCheck = yield call(fetch, `/api/credit/${customerId}`);
-    const credit = yield call([creditCheck, 'json']);
+    const credit = yield call([creditCheck, "json"]);
 
     if (credit.score < 600) {
-      yield put({ type: 'PURCHASE_FAIL', error: 'Credit score too low' });
+      yield put({ type: "PURCHASE_FAIL", error: "Credit score too low" });
       return;
     }
 
     // Step 3: Get financing
-    const financing = yield call(fetch, '/api/financing', {
-      method: 'POST',
-      body: JSON.stringify({ vehicleId, customerId, creditScore: credit.score })
+    const financing = yield call(fetch, "/api/financing", {
+      method: "POST",
+      body: JSON.stringify({
+        vehicleId,
+        customerId,
+        creditScore: credit.score,
+      }),
     });
-    const loan = yield call([financing, 'json']);
+    const loan = yield call([financing, "json"]);
 
     // Step 4: Create order
-    const order = yield call(fetch, '/api/orders', {
-      method: 'POST',
-      body: JSON.stringify({ vehicleId, customerId, loanId: loan.id })
+    const order = yield call(fetch, "/api/orders", {
+      method: "POST",
+      body: JSON.stringify({ vehicleId, customerId, loanId: loan.id }),
     });
-    const result = yield call([order, 'json']);
+    const result = yield call([order, "json"]);
 
-    yield put({ type: 'PURCHASE_SUCCESS', payload: result });
+    yield put({ type: "PURCHASE_SUCCESS", payload: result });
   } catch (error) {
-    yield put({ type: 'PURCHASE_FAIL', error: error.message });
+    yield put({ type: "PURCHASE_FAIL", error: error.message });
   }
 }
 
 // Watcher: automatically cancels previous saga if a new PURCHASE_REQUEST
 // is dispatched before the old one finishes (takeLatest)
 function* watchPurchase() {
-  yield takeLatest('PURCHASE_REQUEST', purchaseVehicleSaga);
+  yield takeLatest("PURCHASE_REQUEST", purchaseVehicleSaga);
 }
 ```
 
@@ -172,28 +183,22 @@ The code reads almost identically to the thunk version, but the generator `yield
 Because the saga yields plain objects (effects) instead of executing real API calls, testing is trivial — no mocking needed:
 
 ```javascript
-import { call, put } from 'redux-saga/effects';
+import { call, put } from "redux-saga/effects";
 
-test('purchaseVehicleSaga - happy path', () => {
-  const action = { payload: { vehicleId: 'v-123', customerId: 'c-456' } };
+test("purchaseVehicleSaga - happy path", () => {
+  const action = { payload: { vehicleId: "v-123", customerId: "c-456" } };
   const gen = purchaseVehicleSaga(action);
 
   // Step 1: should call inventory API
-  expect(gen.next().value).toEqual(
-    call(fetch, '/api/inventory/v-123')
-  );
+  expect(gen.next().value).toEqual(call(fetch, "/api/inventory/v-123"));
 
   // Simulate API response
   const mockResponse = { json: () => {} };
-  expect(gen.next(mockResponse).value).toEqual(
-    call([mockResponse, 'json'])
-  );
+  expect(gen.next(mockResponse).value).toEqual(call([mockResponse, "json"]));
 
   // Simulate inventory available
   const stockData = { available: true };
-  expect(gen.next(stockData).value).toEqual(
-    call(fetch, '/api/credit/c-456')
-  );
+  expect(gen.next(stockData).value).toEqual(call(fetch, "/api/credit/c-456"));
 
   // ... and so on for each step
 });
@@ -207,13 +212,13 @@ With `takeLatest`, if a customer double-clicks "Purchase" or navigates away mid-
 
 ### When to use redux-saga vs simpler alternatives
 
-| Scenario | Use this |
-| --- | --- |
-| Simple API calls (fetch → dispatch) | redux-thunk or RTK Query |
-| Complex multi-step flows with dependencies | redux-saga |
-| Need cancellation, debounce, or throttle | redux-saga |
-| Race conditions (first response wins) | redux-saga (`race` effect) |
-| Polling or WebSocket channels | redux-saga (`channel` or `eventChannel`) |
+| Scenario                                   | Use this                                 |
+| ------------------------------------------ | ---------------------------------------- |
+| Simple API calls (fetch → dispatch)        | redux-thunk or RTK Query                 |
+| Complex multi-step flows with dependencies | redux-saga                               |
+| Need cancellation, debounce, or throttle   | redux-saga                               |
+| Race conditions (first response wins)      | redux-saga (`race` effect)               |
+| Polling or WebSocket channels              | redux-saga (`channel` or `eventChannel`) |
 
 At AutoLot, the team uses redux-saga only for the complex flows (purchase, trade-in evaluation, financing application) and RTK Query for simple data fetching (vehicle list, dealership locations). The rule of thumb: if a flow has more than two async steps that depend on each other, or needs cancellation, use a saga. Otherwise, keep it simple.
 
@@ -227,12 +232,12 @@ Generators are useful outside of Redux too. Here are two common patterns the Aut
 function* vehicleIdGenerator(prefix) {
   let id = 1;
   while (true) {
-    yield `${prefix}-${String(id).padStart(6, '0')}`;
+    yield `${prefix}-${String(id).padStart(6, "0")}`;
     id++;
   }
 }
 
-const newIds = vehicleIdGenerator('VH');
+const newIds = vehicleIdGenerator("VH");
 console.log(newIds.next().value); // 'VH-000001'
 console.log(newIds.next().value); // 'VH-000002'
 console.log(newIds.next().value); // 'VH-000003'
@@ -261,9 +266,6 @@ The `yield*` delegates to another iterable — in this case, the array of vehicl
 ## Related Notes
 
 - [[javascript-closures-and-curries|Closures and Curries]]
-- [[execution-contexts-hoisting-scopes-and-closures|Execution Contexts, Hoisting, Scopes, and Closures]]
 - [[react-forwardRef|Forwarding Ref]]
-- [[function-overload|Function Overload]]
-- [[hardcore-functional-programming-in-javascript|Hardcore Functional Programming in JavaScript — Notes + Personal Dictionary]]
 - [[javascript-this-object-inside-call-apply-and-bind|This Object Inside Call, Apply and Bind]]
 - [[javascript-prototype|Prototype]]

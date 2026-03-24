@@ -9,8 +9,6 @@ description: "JavaScript module systems (IIFE, CommonJS, ESModules), modern bund
 layout: post.njk
 ---
 
-# JavaScript Modules and Bundlers
-
 The goal here is to understand JavaScript module systems (IIFE, CommonJS, ESModules), how modern bundlers sit on top of them, and which build types to use for business apps and component libraries.
 
 Module systems describe **how code is organized and imported/exported** at the language level. Bundlers and build tools **consume those modules** and produce optimized outputs for different environments (browser, Node, CDN, etc.).
@@ -26,58 +24,60 @@ IIFEs are the classic pattern to create a private scope and avoid polluting `win
 First, I created the object where the modules will be placed into. Then I write the module functions for the parent:
 
 ```js
-var App = App || {}
+var App = App || {};
 
 App.Utils = (function () {
   function sanitize(str) {
-    return str.trim()
+    return str.trim();
   }
 
   function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1)
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
   return {
     sanitize: sanitize,
-    capitalize: capitalize
-  }
-})()
+    capitalize: capitalize,
+  };
+})();
 ```
 
 I write the parent module, then the other modules. Here the order matters:
 
 ```js
-var App = App || {}
+var App = App || {};
 
 App.Users = (function (Utils) {
-  var users = ["Tyler", "Sarah", "Dan"]
+  var users = ["Tyler", "Sarah", "Dan"];
 
   function getUsers() {
-    return users.map(Utils.capitalize)
+    return users.map(Utils.capitalize);
   }
 
   function firstUser() {
-    return Utils.sanitize(users[0])
+    return Utils.sanitize(users[0]);
   }
 
   return {
     getUsers: getUsers,
-    firstUser: firstUser
-  }
-})(App.Utils)
+    firstUser: firstUser,
+  };
+})(App.Utils);
 ```
 
 **Drawbacks:**
+
 - **Order matters:** you must load scripts in the correct sequence.
 - **Name collisions:** if another third-party module uses the name `App`, it conflicts with ours.
 
-Today IIFEs are mostly seen as a *target output format* from bundlers (for `<script src="...">` on a CDN) rather than something you hand-write.
+Today IIFEs are mostly seen as a _target output format_ from bundlers (for `<script src="...">` on a CDN) rather than something you hand-write.
 
 ### CommonJS
 
 CommonJS (`require`, `module.exports`) is the historical Node.js module system.
 
 **Different from IIFE:**
+
 - No need to pack modules in IIFEs
 - No need to care about import order
 - Nothing exported to the global scope (like the `App` object)
@@ -85,19 +85,19 @@ CommonJS (`require`, `module.exports`) is the historical Node.js module system.
 
 ```js
 // users.js
-var users = ["Tyler", "Sarah", "Dan"]
+var users = ["Tyler", "Sarah", "Dan"];
 
 module.exports = {
   getUsers: function () {
-    return users
+    return users;
   },
   sortUsers: function () {
-    return users.sort()
+    return users.sort();
   },
   firstUser: function () {
-    return users[0]
-  }
-}
+    return users[0];
+  },
+};
 ```
 
 **Pros:** Built into Node.js by default.
@@ -110,11 +110,13 @@ For new code, CommonJS is still relevant mainly for legacy Node ecosystems (olde
 ESModules (`import` / `export`) are the standardized modern module system, introduced in ES6. They work in both browsers and Node.
 
 **Key characteristics:**
+
 - Native in browsers via `<script type="module">` and in modern Node via `"type": "module"` or `.mjs`.
 - **Statically analyzable:** bundlers can see the full dependency graph at build time, enabling safe tree-shaking of unused exports.
 - In browsers, `<script type="module">` is "defer-like": it loads in parallel and executes after HTML parsing, with dependency-aware ordering.
 
 ESModules differ from the previous systems:
+
 - IIFEs don't provide a way to export/import functionality between files.
 - CommonJS doesn't work natively in the browser. Its exports are properties on `module.exports`, required at runtime.
 - ESModules use `import` and `export` keywords with syntax suited to both browser and server. Dependencies are determined at build time, not runtime.
@@ -126,29 +128,29 @@ ESModules differ from the previous systems:
 
 // Not exported — private to this module
 function once(fn, context) {
-  var result
-  return function() {
-    if(fn) {
-      result = fn.apply(context || this, arguments)
-      fn = null
+  var result;
+  return function () {
+    if (fn) {
+      result = fn.apply(context || this, arguments);
+      fn = null;
     }
-    return result
-  }
+    return result;
+  };
 }
 
 // named export
-export function first (arr) {
-  return arr[0]
+export function first(arr) {
+  return arr[0];
 }
 
 // named export
-export function last (arr) {
-  return arr[arr.length - 1]
+export function last(arr) {
+  return arr[arr.length - 1];
 }
 
 // default export
-export default function leftpad (str, len, ch) {
-  var pad = '';
+export default function leftpad(str, len, ch) {
+  var pad = "";
   while (true) {
     if (len & 1) pad += ch;
     len >>= 1;
@@ -162,7 +164,7 @@ export default function leftpad (str, len, ch) {
 #### ESModule imports
 
 ```js
-import leftpad, { first, last } from './utils'
+import leftpad, { first, last } from "./utils";
 ```
 
 Note that `leftpad` is the default export (a single function), not the entire module like in CommonJS.
@@ -172,8 +174,8 @@ Note that `leftpad` is the default export (a single function), not the entire mo
 Static `import` declarations are resolved at build/load time. For on-demand, asynchronous loading you use dynamic `import()`:
 
 ```js
-const { renderDashboard } = await import('./dashboard.js')
-renderDashboard()
+const { renderDashboard } = await import("./dashboard.js");
+renderDashboard();
 ```
 
 Dynamic `import()` is part of the ES module spec and widely supported in modern browsers. Bundlers use it as the hint for **code splitting** — automatically creating separate chunks that are loaded only when needed.
@@ -205,6 +207,7 @@ Zero-config, batteries-included bundler: point it at an entry and it auto-detect
 ### Vite
 
 Strictly speaking, Vite is a **dev server + build tool** that uses other bundlers under the hood:
+
 - **Dev:** uses esbuild and native ESM to transform modules on demand with extremely fast HMR.
 - **Production:** uses Rollup to perform final bundling and code splitting, with esbuild for transpilation/minification.
 
@@ -224,13 +227,13 @@ Rust-based successor to Webpack, created by Vercel, tightly integrated with **Ne
 
 ### Recommended bundler by use case
 
-| Scenario | Recommended tools | Why |
-|---|---|---|
-| SPA / dashboard app (React/Vue/Svelte) | Vite; or Webpack/Rspack for legacy/enterprise | Vite gives fast dev server, Rollup-based prod builds, big ecosystem. Webpack/Rspack when you need tight control or already have webpack configs |
-| Component library / design system | Rollup, esbuild-based tools (`tsup`) | Clean multi-format output (ESM + CJS + UMD/IIFE), strong tree-shaking, simple config |
-| Large Next.js app | Next.js with Turbopack | Deep framework integration and incremental Rust bundling for large monorepos |
-| Brownfield webpack app (slow builds) | Rspack as drop-in, or progressive migration to Vite | Rspack reuses most webpack config on Rust; Vite is more opinionated but nicer DX |
-| Quick prototype / small internal tool | Parcel, Vite | Minimal config, fast feedback; migrate to more custom setups later if needed |
+| Scenario                               | Recommended tools                                   | Why                                                                                                                                             |
+| -------------------------------------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| SPA / dashboard app (React/Vue/Svelte) | Vite; or Webpack/Rspack for legacy/enterprise       | Vite gives fast dev server, Rollup-based prod builds, big ecosystem. Webpack/Rspack when you need tight control or already have webpack configs |
+| Component library / design system      | Rollup, esbuild-based tools (`tsup`)                | Clean multi-format output (ESM + CJS + UMD/IIFE), strong tree-shaking, simple config                                                            |
+| Large Next.js app                      | Next.js with Turbopack                              | Deep framework integration and incremental Rust bundling for large monorepos                                                                    |
+| Brownfield webpack app (slow builds)   | Rspack as drop-in, or progressive migration to Vite | Rspack reuses most webpack config on Rust; Vite is more opinionated but nicer DX                                                                |
+| Quick prototype / small internal tool  | Parcel, Vite                                        | Minimal config, fast feedback; migrate to more custom setups later if needed                                                                    |
 
 ---
 
@@ -259,6 +262,7 @@ Frameworks like Next.js, Nuxt, SvelteKit, Vite SSR produce two main artifacts: a
 ### 4) Library builds
 
 For a component library published to npm, a typical output set is:
+
 - **`module` (ESM):** for modern bundlers and Node ESM consumers.
 - **`main` (CJS):** for older Node/tools.
 - **Optional UMD/IIFE:** for direct `<script>` usage from a CDN.
@@ -285,8 +289,5 @@ These choices align with ESModules, give solid performance, and keep build confi
 ## Related Notes
 
 - [[javascript-closures-and-curries|Closures and Curries]]
-- [[execution-contexts-hoisting-scopes-and-closures|Execution Contexts, Hoisting, Scopes, and Closures]]
 - [[react-forwardRef|Forwarding Ref]]
-- [[function-overload|Function Overload]]
 - [[javascript-generator|Generator]]
-- [[webpack-optimization|Webpack Optimization]]

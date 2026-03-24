@@ -7,6 +7,7 @@ tags:
 description: "Bill Kennedy’s approach to Go package design: purpose-driven packages, clear boundaries, and modular structure."
 layout: post.njk
 ---
+
 ## Summary
 
 Bill Kennedy’s Package Oriented Design (POD) emphasises starting and ending architectural decisions at the package level. Each package should provide a focused solution for a domain problem to keep code composable, testable, and maintainable.
@@ -57,7 +58,7 @@ Entrypoints such as `cmd/...` that compose everything and wire external systems.
 
 ## References
 
-- Bill Kennedy, *Package-Oriented Design* — Ardan Labs blog and talks.
+- Bill Kennedy, _Package-Oriented Design_ — Ardan Labs blog and talks.
 - Ardan Labs Service repository as a POD example.
 
 ## Related Notes

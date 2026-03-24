@@ -7,8 +7,6 @@ description: "How Go types expose custom wire formats with MarshalText, MarshalJ
 layout: post.njk
 ---
 
-# Go Serialization Options
-
 ## Summary
 
 Go types can expose custom wire formats through `encoding/json` and related packages. The main choices are `MarshalText` / `UnmarshalText`, `MarshalJSON` / `UnmarshalJSON`, or explicit helper functions. Each option trades off convenience, control, and complexity.
@@ -66,11 +64,11 @@ func MarshalName(n Name) ([]byte, error) {
 
 ## Comparison
 
-| Method | Interface | `encoding/json` ready? | Control over JSON | Complexity |
-|---|---|---:|---:|---:|
-| `MarshalText` | `encoding.TextMarshaler` | Yes | Partial | Low |
-| `MarshalJSON` | `json.Marshaler` | Yes | Full | High |
-| Helper function | None | No | Manual | Low |
+| Method          | Interface                | `encoding/json` ready? | Control over JSON | Complexity |
+| --------------- | ------------------------ | ---------------------: | ----------------: | ---------: |
+| `MarshalText`   | `encoding.TextMarshaler` |                    Yes |           Partial |        Low |
+| `MarshalJSON`   | `json.Marshaler`         |                    Yes |              Full |       High |
+| Helper function | None                     |                     No |            Manual |        Low |
 
 ## Choosing between them
 
@@ -81,8 +79,3 @@ func MarshalName(n Name) ([]byte, error) {
 ## Key detail
 
 `encoding/json` uses `MarshalText` automatically if `MarshalJSON` is not present, so in many cases implementing `MarshalText` is enough.
-
-## Related Notes
-
-- [[Golang]]
-- [[Go Marshaling Strategies]]

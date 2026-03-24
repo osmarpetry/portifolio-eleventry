@@ -8,10 +8,27 @@ tags:
 description: Forwarding Refs is a technique in React where you pass a ref from a parent component to a child component
 layout: post.njk
 ---
-Forwarding Refs is a technique in React where you pass a ref from a parent component to a child component, allowing the child component to access the DOM node or instance of the parent component.
-Here's an example to demonstrate Forwarding Refs:
+
+By default, React does not let a parent component access the DOM node of a child component. `forwardRef` breaks that boundary explicitly — the child opts in to exposing its DOM node (or instance) to whoever holds the ref.
+
+The typical need is imperative control from a parent: focusing an input inside a design-system `<Input>` wrapper, scrolling a `<List>` to a specific row, or triggering animations on a child element. Without `forwardRef`, the parent would need to own the DOM directly, which defeats the purpose of encapsulation.
+
+## The problem it solves
+
+When you wrap a native element in a component, `ref` stops working from the parent:
+
+```jsx
+// This does NOT work — ref lands on the component, not the <input>
+const Input = (props) => <input {...props} />;
+const ref = useRef();
+<Input ref={ref} />; // ref.current is null
+```
+
+`forwardRef` fixes this by threading the ref through:
+
 ```javascript
 import React, { useRef, forwardRef } from "react";
+
 const Input = forwardRef((props, ref) => {
   return (
     <div>
@@ -19,6 +36,7 @@ const Input = forwardRef((props, ref) => {
     </div>
   );
 });
+
 const App = () => {
   const inputRef = useRef();
   const handleClick = () => {
@@ -34,13 +52,20 @@ const App = () => {
 export default App;
 ```
 
+## When to use
+
+- Design system primitives (`Input`, `Button`, `Modal`) that need to expose their inner DOM.
+- Animation libraries that need direct DOM access on wrapped components.
+- Any component that wraps a focusable or scrollable element.
+
+## Anti-patterns
+
+- **Don't use it by default.** Exposing DOM nodes breaks encapsulation. Only add `forwardRef` when there's a concrete, documented reason.
+- **Avoid exposing too much.** If callers need complex imperative control, prefer `useImperativeHandle` to expose a limited API instead of the raw DOM node.
+- **Don't use it as a workaround for missing state.** If the parent needs to _react_ to changes in the child, use callbacks or lifted state — not refs.
+
 ## Related Notes
 
-- [[form-validation-nextjs|Form Validation in Next.js]]
-- [[javascript-performance-course|JavaScript Performance — Steve Kinney (Frontend Masters)]]
-- [[javascript-ui-hard-parts|The Hard Parts of UI Development — Will Sentance (Frontend Masters)]]
 - [[react-optimizing-with-memoization|Optimizing React with Memoization]]
-- [[react-battle-of-monsters-challenge|React Coding Challenge — Battle of Monsters]]
 - [[react-suspense|React.Suspense]]
 - [[react-useref|useRef]]
-- [[2025-03-20 what-react-senior-should-know|What React Senior Should Know]]

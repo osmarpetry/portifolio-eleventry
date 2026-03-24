@@ -6,6 +6,7 @@ tags:
 description: "How the this keyword works in JavaScript across four binding rules — implicit, explicit (.call, .apply, .bind), new, and window binding — with practical examples."
 layout: post.njk
 ---
+
 JavaScript has four rules that determine what `this` refers to inside a function: implicit binding, explicit binding (`.call`, `.apply`, `.bind`), `new` binding, and window binding. Understanding these rules is essential because `this` behaves differently depending on how and where a function is called — not where it is defined.
 
 At **AutoLot**, the car dealership platform, the team kept running into bugs where `this` was `undefined` or pointed to `window` instead of the expected object. Once they mapped each scenario to one of the four binding rules, those bugs disappeared.
@@ -18,34 +19,34 @@ At AutoLot, the `Person` factory function creates salesperson objects. Each sale
 
 ```javascript
 /*
-  - Implicit Binding
-  - Explicit Binding
-  - new Binding
-  - window Binding
+ - Implicit Binding
+ - Explicit Binding
+ - new Binding
+ - window Binding
 */
 
 // Implicit Binding
 // Left of the Dot at Call Time
 
-var Person = function(name, age){
+var Person = function (name, age) {
   return {
     name: name,
     age: age,
-    sayName: function(){
+    sayName: function () {
       console.log(this.name);
     },
     mother: {
-      name: 'Stacey',
-      sayName: function(){
+      name: "Stacey",
+      sayName: function () {
         console.log(this.name);
-      }
-    }
+      },
+    },
   };
 };
 
-var jim = Person('Jim', 42);
-jim.sayName();          // 'Jim'       — this = jim (left of the dot)
-jim.mother.sayName();   // 'Stacey'    — this = jim.mother (left of the dot)
+var jim = Person("Jim", 42);
+jim.sayName(); // 'Jim' — this = jim (left of the dot)
+jim.mother.sayName(); // 'Stacey' — this = jim.mother (left of the dot)
 ```
 
 When `jim.sayName()` is called, the object to the left of `.sayName()` is `jim`, so `this.name` is `'Jim'`. When `jim.mother.sayName()` is called, the object to the left of `.sayName()` is `jim.mother`, so `this.name` is `'Stacey'`. The function is the same shape, but `this` changes based on how it's called.
@@ -62,16 +63,25 @@ At AutoLot, the `sayName` function isn't attached to any object — it's standal
 // Explicit Binding
 // call, apply, bind
 
-var sayName = function(lang1, lang2, lang3){
-  console.log('My name is ' + this.name + ' and I know ' + lang1 + ', ' + lang2 + ', and ' + lang3);
+var sayName = function (lang1, lang2, lang3) {
+  console.log(
+    "My name is " +
+      this.name +
+      " and I know " +
+      lang1 +
+      ", " +
+      lang2 +
+      ", and " +
+      lang3,
+  );
 };
 
 var stacey = {
-  name: 'Stacey',
-  age: 34
+  name: "Stacey",
+  age: 34,
 };
 
-var languages = ['JavaScript', 'Ruby', 'Python'];
+var languages = ["JavaScript", "Ruby", "Python"];
 
 sayName.call(stacey, languages[0], languages[1], languages[2]);
 // 'My name is Stacey and I know JavaScript, Ruby, and Python'
@@ -84,16 +94,25 @@ The first argument to `.call` (`stacey`) becomes `this` inside `sayName`. The re
 `.apply` is identical to `.call`, but instead of passing arguments individually, you pass them as a single array:
 
 ```javascript
-var sayName = function(lang1, lang2, lang3){
-  console.log('My name is ' + this.name + ' and I know ' + lang1 + ', ' + lang2 + ', and ' + lang3);
+var sayName = function (lang1, lang2, lang3) {
+  console.log(
+    "My name is " +
+      this.name +
+      " and I know " +
+      lang1 +
+      ", " +
+      lang2 +
+      ", and " +
+      lang3,
+  );
 };
 
 var stacey = {
-  name: 'Stacey',
-  age: 34
+  name: "Stacey",
+  age: 34,
 };
 
-var languages = ['JavaScript', 'Ruby', 'Python'];
+var languages = ["JavaScript", "Ruby", "Python"];
 
 sayName.apply(stacey, languages);
 // 'My name is Stacey and I know JavaScript, Ruby, and Python'
@@ -108,19 +127,28 @@ At AutoLot, when the vehicle filter component collects user selections into an a
 `.bind` does not invoke the function immediately — it returns a new function with the `this` context permanently set. This is the critical difference from `.call` and `.apply`.
 
 ```javascript
-var sayName = function(lang1, lang2, lang3){
-  console.log('My name is ' + this.name + ' and I know ' + lang1 + ', ' + lang2 + ', and ' + lang3);
+var sayName = function (lang1, lang2, lang3) {
+  console.log(
+    "My name is " +
+      this.name +
+      " and I know " +
+      lang1 +
+      ", " +
+      lang2 +
+      ", and " +
+      lang3,
+  );
 };
 
 var stacey = {
-  name: 'Stacey',
-  age: 34
+  name: "Stacey",
+  age: 34,
 };
 
-var languages = ['JavaScript', 'Ruby', 'Python'];
+var languages = ["JavaScript", "Ruby", "Python"];
 
 var newFn = sayName.bind(stacey, languages[0], languages[1], languages[2]);
-console.log('HERE');
+console.log("HERE");
 newFn();
 // 'HERE'
 // 'My name is Stacey and I know JavaScript, Ruby, and Python'
@@ -134,13 +162,13 @@ When a function is called without any object context (no dot, no `.call`, no `.b
 
 ```javascript
 // window Binding
-var sayAge = function(){
-  'use strict';
+var sayAge = function () {
+  "use strict";
   console.log(this.age);
 };
 
 var me = {
-  age: 25
+  age: 25,
 };
 
 sayAge();
@@ -157,17 +185,17 @@ Without strict mode, `this` inside a standalone function call defaults to the gl
 
 ```javascript
 // window Binding
-var sayAge = function(){
+var sayAge = function () {
   console.log(this.age);
 };
 
 var me = {
-  age: 25
+  age: 25,
 };
 
-sayAge();           // undefined  — this is window, window.age doesn't exist yet
+sayAge(); // undefined — this is window, window.age doesn't exist yet
 window.age = 35;
-sayAge();           // 35         — this is window, and now window.age is 35
+sayAge(); // 35 — this is window, and now window.age is 35
 ```
 
 The first `sayAge()` call logs `undefined` because `this` is `window` and `window.age` hasn't been set. After `window.age = 35`, the second `sayAge()` logs `35` — not because `me` changed, but because `this` is still `window` and now it has an `age` property.
@@ -176,17 +204,15 @@ At AutoLot, this is exactly the kind of phantom data bug the team saw in their e
 
 ## Quick reference
 
-| Method | Invokes immediately? | Arguments format | Use case |
-| --- | --- | --- | --- |
-| `.call()` | Yes | Individual args | One-off invocation with specific context |
-| `.apply()` | Yes | Array of args | When args are already in an array |
-| `.bind()` | No (returns new fn) | Individual args | Callbacks, event handlers, deferred execution |
+| Method     | Invokes immediately? | Arguments format | Use case                                      |
+| ---------- | -------------------- | ---------------- | --------------------------------------------- |
+| `.call()`  | Yes                  | Individual args  | One-off invocation with specific context      |
+| `.apply()` | Yes                  | Array of args    | When args are already in an array             |
+| `.bind()`  | No (returns new fn)  | Individual args  | Callbacks, event handlers, deferred execution |
 
 ## Related Notes
 
 - [[javascript-closures-and-curries|Closures and Curries]]
-- [[execution-contexts-hoisting-scopes-and-closures|Execution Contexts, Hoisting, Scopes, and Closures]]
 - [[react-forwardRef|Forwarding Ref]]
-- [[function-overload|Function Overload]]
 - [[javascript-generator|Generator]]
 - [[javascript-prototype|Prototype]]

@@ -1,7 +1,17 @@
 ---
 title: "PixieShop Authentication Playbook — OIDC SSO Across Four Identity Providers"
 date: 2026-03-21
-tags: [sso, oidc, fusionauth, auth-js, okta, microsoft-entra, authentication, security]
+tags:
+  [
+    sso,
+    oidc,
+    fusionauth,
+    auth-js,
+    okta,
+    microsoft-entra,
+    authentication,
+    security,
+  ]
 layout: post.njk
 ---
 
@@ -23,10 +33,10 @@ The authentication chain has four actors:
 The flow goes like this: Browser → Auth.js → FusionAuth → External IdP → FusionAuth → Auth.js → Browser. Every hop is a standard OIDC Authorization Code exchange. FusionAuth never stores passwords — it only stores the mapping between the external `sub` and our internal PixieShop user ID.
 
 ```
-┌──────────┐     ┌──────────┐     ┌────────────┐     ┌──────────────┐
-│  Browser  │────▶│ Auth.js  │────▶│ FusionAuth │────▶│ Okta / Entra │
-│ (Partner) │◀────│  (Next)  │◀────│  (Broker)  │◀────│  (Ext. IdP)  │
-└──────────┘     └──────────┘     └────────────┘     └──────────────┘
+
+ Browser Auth.js FusionAuth Okta / Entra
+ (Partner) (Next) (Broker) (Ext. IdP)
+
 ```
 
 **Why a broker?** Without FusionAuth, Auth.js would need a separate provider config for every partner's IdP. With the broker, Auth.js talks to exactly one OIDC issuer. Adding a new partner IdP is a FusionAuth admin task — zero code changes.
@@ -74,18 +84,21 @@ Name it `PixieShop Partner Dashboard`. Select the PixieShop tenant.
 Open the **OAuth Tab** and configure:
 
 **Authorized redirect URLs:**
+
 ```
 http://localhost:3000/api/auth/callback/fusionauth
 https://app.pixieshop.com/api/auth/callback/fusionauth
 ```
 
 **Authorized origins (CORS):**
+
 ```
 http://localhost:3000
 https://app.pixieshop.com
 ```
 
 **Logout URLs:**
+
 ```
 http://localhost:3000/auth/logout
 https://app.pixieshop.com/auth/logout
@@ -117,21 +130,21 @@ Navigate to **Settings → Identity Providers → Add → OpenID Connect**.
 
 Fill in:
 
-| Field | Value |
-|---|---|
-| Name | `Okta — ToyWorld` |
-| Client ID | *(from Okta app registration)* |
-| Client Secret | *(from Okta app registration)* |
-| Issuer | `https://toyworld.okta.com/oauth2/default` |
-| Scope | `openid email profile` |
+| Field         | Value                                      |
+| ------------- | ------------------------------------------ |
+| Name          | `Okta — ToyWorld`                          |
+| Client ID     | _(from Okta app registration)_             |
+| Client Secret | _(from Okta app registration)_             |
+| Issuer        | `https://toyworld.okta.com/oauth2/default` |
+| Scope         | `openid email profile`                     |
 
 ### 4.2 Claims Mapping
 
-| FusionAuth Field | Claim Value |
-|---|---|
-| Unique Id claim | `sub` |
-| Email claim | `email` |
-| Username claim | `preferred_username` |
+| FusionAuth Field | Claim Value          |
+| ---------------- | -------------------- |
+| Unique Id claim  | `sub`                |
+| Email claim      | `email`              |
+| Username claim   | `preferred_username` |
 
 > **Gotcha:** Do not use `email` as the username claim for Okta. The `preferred_username` claim is more reliable because Okta always populates it for OIDC apps, while `email` may be absent if the user profile is incomplete.
 
@@ -149,14 +162,14 @@ Save and note the **Identity Provider ID** (UUID). Auth.js will pass this as `id
 
 Same process, different values:
 
-| Field | Value |
-|---|---|
-| Name | `Microsoft — EnchantedRetail` |
-| Client ID | *(from Entra ID app registration)* |
-| Client Secret | *(from Entra ID — copy the secret **Value**, not the ID)* |
-| Issuer | `https://login.microsoftonline.com/{tenantId}/v2.0` |
-| Scope | `openid email profile` |
-| Managed domains | `enchantedretail.onmicrosoft.com` |
+| Field           | Value                                                     |
+| --------------- | --------------------------------------------------------- |
+| Name            | `Microsoft — EnchantedRetail`                             |
+| Client ID       | _(from Entra ID app registration)_                        |
+| Client Secret   | _(from Entra ID — copy the secret **Value**, not the ID)_ |
+| Issuer          | `https://login.microsoftonline.com/{tenantId}/v2.0`       |
+| Scope           | `openid email profile`                                    |
+| Managed domains | `enchantedretail.onmicrosoft.com`                         |
 
 For Entra ID claims mapping, use `sub` or `oid` as the Unique Id claim, `email` as the Email claim, and `preferred_username` as the Username claim.
 
@@ -189,10 +202,11 @@ Navigate to **Security → API → Authorization Servers → default**.
 > **Custom vs Org Authorization Server.** Okta has two types. The Org Authorization Server lives at `/oauth2/v1/*` and is meant for Okta's own APIs. The Custom Authorization Server (named `default`) lives at `/oauth2/default/v1/*` and is what you use for your own apps. **Always use the Custom (default) server for third-party OIDC integrations.** If you see endpoints like `https://toyworld.okta.com/oauth2/v1/authorize` without the `/default/` segment, you are hitting the Org server and things will break.
 
 The correct endpoints are:
+
 ```
 Authorization: https://toyworld.okta.com/oauth2/default/v1/authorize
-Token:         https://toyworld.okta.com/oauth2/default/v1/token
-UserInfo:      https://toyworld.okta.com/oauth2/default/v1/userinfo
+Token: https://toyworld.okta.com/oauth2/default/v1/token
+UserInfo: https://toyworld.okta.com/oauth2/default/v1/userinfo
 ```
 
 **Create the access policy:**
@@ -253,10 +267,11 @@ Navigate to **Token configuration → Add optional claim → ID token** and sele
 - Issuer: `https://login.microsoftonline.com/{tenantId}/v2.0`
 
 Entra ID endpoints:
+
 ```
 Authorization: https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/authorize
-Token:         https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/token
-UserInfo:      https://graph.microsoft.com/oidc/userinfo
+Token: https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/token
+UserInfo: https://graph.microsoft.com/oidc/userinfo
 ```
 
 ---
@@ -307,6 +322,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 ```
 
 > **Key v5 changes from v4:**
+>
 > - Environment variables use the `AUTH_` prefix: `AUTH_SECRET` (not `NEXTAUTH_SECRET`), `AUTH_URL` (not `NEXTAUTH_URL`). Auth.js v5 also infers `AUTH_URL` from request headers in many deployments, so you may not need to set it explicitly.
 > - The provider field `clientId` maps to `AUTH_FUSIONAUTH_ID` (not `FUSIONAUTH_CLIENT_ID`). Auth.js v5 auto-reads `AUTH_{PROVIDER}_{FIELD}` env vars.
 > - The `signIn()` function takes `redirectTo` (not `callbackUrl`).
@@ -327,9 +343,9 @@ export const { GET, POST } = handlers;
 import { auth } from "@/auth";
 
 export default async function DashboardPage() {
-  const session = await auth();
-  if (!session) redirect("/auth");
-  return <h1>Welcome, {session.user?.name}</h1>;
+ const session = await auth();
+ if (!session) redirect("/auth");
+ return <h1>Welcome, {session.user?.name}</h1>;
 }
 ```
 
@@ -374,10 +390,14 @@ export function EmailSSOForm() {
     const domain = email.split("@")[1]?.toLowerCase();
     const idpId = domain ? IDP_MAP[domain] : undefined;
 
-    await signIn("fusionauth", { redirectTo: "/dashboard" }, {
-      login_hint: email,
-      ...(idpId && { idp_hint: idpId }),
-    });
+    await signIn(
+      "fusionauth",
+      { redirectTo: "/dashboard" },
+      {
+        login_hint: email,
+        ...(idpId && { idp_hint: idpId }),
+      },
+    );
   }
 
   return (
@@ -412,12 +432,12 @@ FusionAuth uses **FreeMarker** as its template engine. The key templates are:
 
 The correct FreeMarker variables (some older docs get these wrong):
 
-| Variable | What it contains |
-|---|---|
-| `${tenant.name!''}` | Tenant display name |
-| `${client_id!''}` | OAuth client ID of the requesting app |
-| `${loginId!''}` | Pre-filled login identifier |
-| `${redirect_uri!''}` | Where to go after auth |
+| Variable             | What it contains                      |
+| -------------------- | ------------------------------------- |
+| `${tenant.name!''}`  | Tenant display name                   |
+| `${client_id!''}`    | OAuth client ID of the requesting app |
+| `${loginId!''}`      | Pre-filled login identifier           |
+| `${redirect_uri!''}` | Where to go after auth                |
 
 > **Common mistake:** Using `${applicationName}` or `${action}` — these do not exist in FusionAuth's OAuth authorize template context. The application name is not directly available; use `${tenant.name}` or hard-code your app name. The form action URL is the current page URL, so use a regular `<form method="post">` without an explicit action attribute, or use FreeMarker's request helpers.
 
@@ -427,7 +447,7 @@ Add this before `</body>` in the OAuth authorize template to pre-fill and lock t
 
 ```html
 <script>
-  (function() {
+  (function () {
     var params = new URLSearchParams(window.location.search);
     var hint = params.get("login_hint");
     if (!hint) return;
@@ -501,12 +521,12 @@ export async function federatedSignOut() {
   }
 
   const logoutUrl = new URL(
-    `${process.env.AUTH_FUSIONAUTH_ISSUER}/oauth2/logout`
+    `${process.env.AUTH_FUSIONAUTH_ISSUER}/oauth2/logout`,
   );
   logoutUrl.searchParams.set("id_token_hint", idToken);
   logoutUrl.searchParams.set(
     "post_logout_redirect_uri",
-    `${process.env.AUTH_URL}/auth/logout`
+    `${process.env.AUTH_URL}/auth/logout`,
   );
 
   // Clear Auth.js session first, then redirect to FusionAuth logout
@@ -561,10 +581,7 @@ import { db } from "@/db";
 import { user } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-export async function linkOrCreateUser(
-  email: string,
-  fusionAuthId: string,
-) {
+export async function linkOrCreateUser(email: string, fusionAuthId: string) {
   // Try to find by fusionAuthId first (returning user)
   let existing = await db.query.user.findFirst({
     where: eq(user.fusionAuthId, fusionAuthId),
@@ -578,10 +595,7 @@ export async function linkOrCreateUser(
   });
 
   if (existing) {
-    await db
-      .update(user)
-      .set({ fusionAuthId })
-      .where(eq(user.id, existing.id));
+    await db.update(user).set({ fusionAuthId }).where(eq(user.id, existing.id));
     return { ...existing, fusionAuthId };
   }
 
@@ -627,21 +641,21 @@ FusionAuth includes roles in the ID token under the `roles` claim (if you config
 ```ts
 // auth.ts — extend the jwt callback
 callbacks: {
-  jwt({ token, account, profile }) {
-    if (account) {
-      token.idToken = account.id_token;
-      token.fusionAuthId = account.providerAccountId;
-      token.roles = (profile as any)?.roles ?? [];
-    }
-    return token;
-  },
-  session({ session, token }) {
-    if (session.user) {
-      session.user.id = token.fusionAuthId as string;
-      (session as any).roles = token.roles;
-    }
-    return session;
-  },
+ jwt({ token, account, profile }) {
+ if (account) {
+ token.idToken = account.id_token;
+ token.fusionAuthId = account.providerAccountId;
+ token.roles = (profile as any)?.roles ?? [];
+ }
+ return token;
+ },
+ session({ session, token }) {
+ if (session.user) {
+ session.user.id = token.fusionAuthId as string;
+ (session as any).roles = token.roles;
+ }
+ return session;
+ },
 },
 ```
 
@@ -652,20 +666,20 @@ callbacks: {
 ## 12. Environment Variables — Complete Reference
 
 ```bash
-# ─── Auth.js v5 ───────────────────────────────────────
-AUTH_SECRET="openssl rand -base64 33"   # generate with this command
-AUTH_URL=https://app.pixieshop.com      # optional in Vercel/auto-detected
+# Auth.js v5
+AUTH_SECRET="openssl rand -base64 33" # generate with this command
+AUTH_URL=https://app.pixieshop.com # optional in Vercel/auto-detected
 
-# ─── FusionAuth (Auth.js provider) ────────────────────
+# FusionAuth (Auth.js provider)
 AUTH_FUSIONAUTH_ISSUER=https://auth.pixieshop.com
 AUTH_FUSIONAUTH_ID=<fusionauth-client-id>
 AUTH_FUSIONAUTH_SECRET=<fusionauth-client-secret>
 
-# ─── IdP Routing (public, safe for browser) ───────────
+# IdP Routing (public, safe for browser)
 NEXT_PUBLIC_OKTA_IDP_ID=<fusionauth-okta-identity-provider-uuid>
 NEXT_PUBLIC_ENTRA_IDP_ID=<fusionauth-entra-identity-provider-uuid>
 
-# ─── Domain Mapping (server-side only) ────────────────
+# Domain Mapping (server-side only)
 OKTA_MANAGED_DOMAINS=toyworld.com
 ENTRA_MANAGED_DOMAINS=enchantedretail.onmicrosoft.com
 ```
@@ -781,44 +795,37 @@ ENTRA_MANAGED_DOMAINS=enchantedretail.onmicrosoft.com
 
 This section lists every correction applied when consolidating the four source documents into this playbook. If you are reviewing this note, check each item to confirm the fix is present.
 
-| #   | Source File          | Original Error                                                         | Fix Applied                                                                                                                                                          |
-| --- | -------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | fusionauth-sso-setup | Used `NEXTAUTH_SECRET` / `NEXTAUTH_URL`                                | Changed to `AUTH_SECRET` / `AUTH_URL` (Auth.js v5)                                                                                                                   |
-| 2   | fusionauth-sso-setup | Used `callbackUrl` in `signIn()`                                       | Changed to `redirectTo` (Auth.js v5)                                                                                                                                 |
-| 3   | fusionauth-sso-setup | Provider type set to `"oauth"`                                         | Changed to `"oidc"` (FusionAuth supports OIDC discovery)                                                                                                             |
-| 4   | fusionauth-sso-setup | Used `FUSIONAUTH_CLIENT_ID` / `FUSIONAUTH_CLIENT_SECRET` env vars      | Changed to `AUTH_FUSIONAUTH_ID` / `AUTH_FUSIONAUTH_SECRET` (v5 convention)                                                                                           |
-| 5   | fusionauth-sso-setup | Company domain `attend.tech` in IdP routing                            | Changed to `toyworld.com` (PixieShop scenario)                                                                                                                       |
-| 6   | fusionauth-theme     | FreeMarker variable `${applicationName}`                               | Corrected: this variable does not exist in OAuth authorize context. Use `${tenant.name}` or hard-code                                                                |
-| 7   | fusionauth-theme     | FreeMarker variable `${action}` in form action                         | Corrected: use default form POST behavior or FreeMarker request helpers                                                                                              |
-| 8   | fusionauth-theme     | Pricing table listed "Essentials" as first paid tier                   | Corrected: current tiers are Community (free), Starter, Essentials, Enterprise                                                                                       |
-| 9   | okta-oidc            | Endpoints used `/oauth2/v1/*` (Org server)                             | Corrected to `/oauth2/default/v1/*` (Custom Authorization Server)                                                                                                    |
-| 10  | okta-oidc            | Navigated to "Azure Portal → Entra ID"                                 | Corrected to `entra.microsoft.com` (modern admin center)                                                                                                             |
-| 11  | okta-oidc            | `import type { } = from "next"` syntax error                           | Corrected: removed erroneous `=`                                                                                                                                     |
-| 12  | okta-oidc            | Username claim set to `email` for Okta                                 | Corrected to `preferred_username` (more reliable)                                                                                                                    |
-| 13  | okta-oidc            | Company name `Attend` throughout                                       | Changed to PixieShop / ToyWorld / EnchantedRetail                                                                                                                    |
-| 14  | sso-nextauth         | Used `getServerSession(req, res, authOptions)` (v4)                    | Changed to `auth()` (Auth.js v5 universal function)                                                                                                                  |
-| 15  | sso-nextauth         | Used `getToken({ req })` in middleware                                 | Removed: in v5, use `req.auth` directly in the auth middleware wrapper                                                                                               |
-| 16  | sso-nextauth         | Used `callbackUrl` parameter                                           | Changed to `redirectTo`                                                                                                                                              |
-| 17  | sso-nextauth         | Used `NEXTAUTH_SECRET` / `NEXTAUTH_URL` env vars                       | Changed to `AUTH_SECRET` / `AUTH_URL`                                                                                                                                |
-| 18  | sso-nextauth         | Used `jwt_decode` default import                                       | Corrected: `jwt-decode` v4 uses named export `{ jwtDecode }`. But we removed client-side token decoding entirely — roles come from the `profile` in the jwt callback |
-| 19  | sso-nextauth         | Used `fetch() + res.redirect()` for federated logout                   | Replaced with Next.js `redirect()` in server actions (App Router pattern)                                                                                            |
-| 20  | sso-nextauth         | Cookie name `next-auth.session-token`                                  | Corrected to `authjs.session-token` (Auth.js v5)                                                                                                                     |
-| 21  | sso-nextauth         | Pages Router API route pattern (`pages/api/auth/...`)                  | Updated to App Router pattern (`app/api/auth/[...nextauth]/route.ts`)                                                                                                |
-| 22  | okta-oidc            | No mention of Okta Integrator Free Plan                                | Added: Developer Edition retired July 2025, replaced by Integrator Free Plan                                                                                         |
-| 23  | okta-oidc            | No mention of Entra email claim June 2023 change                       | Added: email claim breaking change, use `oid` + `tid` for authorization                                                                                              |
-| 24  | fusionauth-sso-setup | Provider import `from "next-auth/providers/fusionauth"`                | Changed to inline object definition with `type: "oidc"` and `issuer` (Auth.js v5 generic OIDC)                                                                       |
-| 25  | sso-nextauth         | `export { handler as GET, handler as POST }` from Pages Router file    | Updated to App Router `export const { GET, POST } = handlers` pattern                                                                                                |
-| 26  | all files            | Company name "Attend" / domain "attend.tech" throughout                | Replaced with PixieShop / ToyWorld / EnchantedRetail fictional scenario                                                                                              |
-| 27  | all files            | `type: rampup` / `company: Attend` in frontmatter                      | Removed company-specific metadata                                                                                                                                    |
-| 28  | fusionauth-theme     | Described `${error_code}` in error template                            | Corrected: the actual FreeMarker variable is `${errorCode!''}` (camelCase)                                                                                           |
-| 29  | sso-nextauth         | `idp_hint` described without noting it is FusionAuth-proprietary       | Added explicit note that `idp_hint` is not a standard OIDC parameter                                                                                                 |
-| 30  | okta-oidc            | Entra secret instructions say "copy Value (not the ID)" but no explanation | Added: the Value is only shown once at creation time; if you miss it, create a new secret                                                                        |
+| #   | Source File          | Original Error                                                             | Fix Applied                                                                                                                                                          |
+| --- | -------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | fusionauth-sso-setup | Used `NEXTAUTH_SECRET` / `NEXTAUTH_URL`                                    | Changed to `AUTH_SECRET` / `AUTH_URL` (Auth.js v5)                                                                                                                   |
+| 2   | fusionauth-sso-setup | Used `callbackUrl` in `signIn()`                                           | Changed to `redirectTo` (Auth.js v5)                                                                                                                                 |
+| 3   | fusionauth-sso-setup | Provider type set to `"oauth"`                                             | Changed to `"oidc"` (FusionAuth supports OIDC discovery)                                                                                                             |
+| 4   | fusionauth-sso-setup | Used `FUSIONAUTH_CLIENT_ID` / `FUSIONAUTH_CLIENT_SECRET` env vars          | Changed to `AUTH_FUSIONAUTH_ID` / `AUTH_FUSIONAUTH_SECRET` (v5 convention)                                                                                           |
+| 5   | fusionauth-sso-setup | Company domain `attend.tech` in IdP routing                                | Changed to `toyworld.com` (PixieShop scenario)                                                                                                                       |
+| 6   | fusionauth-theme     | FreeMarker variable `${applicationName}`                                   | Corrected: this variable does not exist in OAuth authorize context. Use `${tenant.name}` or hard-code                                                                |
+| 7   | fusionauth-theme     | FreeMarker variable `${action}` in form action                             | Corrected: use default form POST behavior or FreeMarker request helpers                                                                                              |
+| 8   | fusionauth-theme     | Pricing table listed "Essentials" as first paid tier                       | Corrected: current tiers are Community (free), Starter, Essentials, Enterprise                                                                                       |
+| 9   | okta-oidc            | Endpoints used `/oauth2/v1/*` (Org server)                                 | Corrected to `/oauth2/default/v1/*` (Custom Authorization Server)                                                                                                    |
+| 10  | okta-oidc            | Navigated to "Azure Portal → Entra ID"                                     | Corrected to `entra.microsoft.com` (modern admin center)                                                                                                             |
+| 11  | okta-oidc            | `import type { } = from "next"` syntax error                               | Corrected: removed erroneous `=`                                                                                                                                     |
+| 12  | okta-oidc            | Username claim set to `email` for Okta                                     | Corrected to `preferred_username` (more reliable)                                                                                                                    |
+| 13  | okta-oidc            | Company name `Attend` throughout                                           | Changed to PixieShop / ToyWorld / EnchantedRetail                                                                                                                    |
+| 14  | sso-nextauth         | Used `getServerSession(req, res, authOptions)` (v4)                        | Changed to `auth()` (Auth.js v5 universal function)                                                                                                                  |
+| 15  | sso-nextauth         | Used `getToken({ req })` in middleware                                     | Removed: in v5, use `req.auth` directly in the auth middleware wrapper                                                                                               |
+| 16  | sso-nextauth         | Used `callbackUrl` parameter                                               | Changed to `redirectTo`                                                                                                                                              |
+| 17  | sso-nextauth         | Used `NEXTAUTH_SECRET` / `NEXTAUTH_URL` env vars                           | Changed to `AUTH_SECRET` / `AUTH_URL`                                                                                                                                |
+| 18  | sso-nextauth         | Used `jwt_decode` default import                                           | Corrected: `jwt-decode` v4 uses named export `{ jwtDecode }`. But we removed client-side token decoding entirely — roles come from the `profile` in the jwt callback |
+| 19  | sso-nextauth         | Used `fetch() + res.redirect()` for federated logout                       | Replaced with Next.js `redirect()` in server actions (App Router pattern)                                                                                            |
+| 20  | sso-nextauth         | Cookie name `next-auth.session-token`                                      | Corrected to `authjs.session-token` (Auth.js v5)                                                                                                                     |
+| 21  | sso-nextauth         | Pages Router API route pattern (`pages/api/auth/...`)                      | Updated to App Router pattern (`app/api/auth/[...nextauth]/route.ts`)                                                                                                |
+| 22  | okta-oidc            | No mention of Okta Integrator Free Plan                                    | Added: Developer Edition retired July 2025, replaced by Integrator Free Plan                                                                                         |
+| 23  | okta-oidc            | No mention of Entra email claim June 2023 change                           | Added: email claim breaking change, use `oid` + `tid` for authorization                                                                                              |
+| 24  | fusionauth-sso-setup | Provider import `from "next-auth/providers/fusionauth"`                    | Changed to inline object definition with `type: "oidc"` and `issuer` (Auth.js v5 generic OIDC)                                                                       |
+| 25  | sso-nextauth         | `export { handler as GET, handler as POST }` from Pages Router file        | Updated to App Router `export const { GET, POST } = handlers` pattern                                                                                                |
+| 26  | all files            | Company name "Attend" / domain "attend.tech" throughout                    | Replaced with PixieShop / ToyWorld / EnchantedRetail fictional scenario                                                                                              |
+| 27  | all files            | `type: rampup` / `company: Attend` in frontmatter                          | Removed company-specific metadata                                                                                                                                    |
+| 28  | fusionauth-theme     | Described `${error_code}` in error template                                | Corrected: the actual FreeMarker variable is `${errorCode!''}` (camelCase)                                                                                           |
+| 29  | sso-nextauth         | `idp_hint` described without noting it is FusionAuth-proprietary           | Added explicit note that `idp_hint` is not a standard OIDC parameter                                                                                                 |
+| 30  | okta-oidc            | Entra secret instructions say "copy Value (not the ID)" but no explanation | Added: the Value is only shown once at creation time; if you miss it, create a new secret                                                                            |
 
 ---
-
-## Related Notes
-
-- [[backend-architectures|Backend Architectures]]
-- [[digital-security|Digital Security]]
-- [[system-design-notes|System Design Notes]]
-- [[docker-UPDATE-CONTEXT-COMPANY|Docker & CI/CD]]

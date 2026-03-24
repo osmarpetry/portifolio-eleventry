@@ -9,8 +9,6 @@ description: "BDD with Cucumber and Gherkin — principles, syntax reference, st
 layout: post.njk
 ---
 
-# Behavior-Driven Development (BDD)
-
 ## What Is BDD
 
 BDD bridges the gap between business stakeholders and developers by expressing requirements as executable specifications. Instead of writing tests after the fact, you describe the **expected behavior** of the system in plain language, then automate those descriptions.
@@ -44,9 +42,9 @@ In `cucumber.js` config:
 ```javascript
 module.exports = {
   default: {
-    requireModule: ['tsx'],
-    require: ['features/step_definitions/**/*.ts'],
-    format: ['progress', 'html:reports/cucumber.html'],
+    requireModule: ["tsx"],
+    require: ["features/step_definitions/**/*.ts"],
+    format: ["progress", "html:reports/cucumber.html"],
   },
 };
 ```
@@ -57,18 +55,18 @@ Gherkin uses keywords to structure specifications. Each `.feature` file describe
 
 ### Keywords
 
-| Keyword | Purpose |
-|---|---|
-| `Feature` | Top-level description of a feature |
-| `Rule` | Groups scenarios under a business rule (Gherkin 6+) |
-| `Scenario` | A single concrete example of behavior |
-| `Given` | Precondition — set the context |
-| `When` | Action — the event being tested |
-| `Then` | Outcome — the expected result |
-| `And` / `But` | Continue the previous step type |
-| `Background` | Steps shared by all scenarios in a feature |
-| `Scenario Outline` | Template with variable examples |
-| `Examples` | Data table for Scenario Outline |
+| Keyword            | Purpose                                             |
+| ------------------ | --------------------------------------------------- |
+| `Feature`          | Top-level description of a feature                  |
+| `Rule`             | Groups scenarios under a business rule (Gherkin 6+) |
+| `Scenario`         | A single concrete example of behavior               |
+| `Given`            | Precondition — set the context                      |
+| `When`             | Action — the event being tested                     |
+| `Then`             | Outcome — the expected result                       |
+| `And` / `But`      | Continue the previous step type                     |
+| `Background`       | Steps shared by all scenarios in a feature          |
+| `Scenario Outline` | Template with variable examples                     |
+| `Examples`         | Data table for Scenario Outline                     |
 
 ### Feature File Example
 
@@ -153,32 +151,32 @@ npx cucumber-js --tags "@smoke and @automated"
 ## Step Definitions (TypeScript)
 
 ```typescript
-import { Given, When, Then } from '@cucumber/cucumber';
-import { expect } from 'chai';
+import { Given, When, Then } from "@cucumber/cucumber";
+import { expect } from "chai";
 
-Given('the user is on the login page', async function () {
-  await this.page.goto('/login');
+Given("the user is on the login page", async function () {
+  await this.page.goto("/login");
 });
 
-When('the user enters valid credentials', async function () {
-  await this.page.fill('#email', 'user@test.com');
-  await this.page.fill('#password', 'secret');
+When("the user enters valid credentials", async function () {
+  await this.page.fill("#email", "user@test.com");
+  await this.page.fill("#password", "secret");
   await this.page.click('button[type="submit"]');
 });
 
-Then('the user is redirected to the dashboard', async function () {
-  expect(this.page.url()).to.include('/dashboard');
+Then("the user is redirected to the dashboard", async function () {
+  expect(this.page.url()).to.include("/dashboard");
 });
 
-Then('an error message {string} is shown', async function (message: string) {
-  const alert = await this.page.textContent('.alert-error');
+Then("an error message {string} is shown", async function (message: string) {
+  const alert = await this.page.textContent(".alert-error");
   expect(alert).to.equal(message);
 });
 ```
 
 ## Best Practices
 
-**Write declarative, not imperative.** Describe *what* the user does, not *how* they interact with the UI. Bad: "When the user clicks the #login-btn element." Good: "When the user logs in."
+**Write declarative, not imperative.** Describe _what_ the user does, not _how_ they interact with the UI. Bad: "When the user clicks the #login-btn element." Good: "When the user logs in."
 
 **One When-Then pair per scenario.** Multiple When-Then blocks signal that the scenario covers too many behaviors. Split it.
 
@@ -200,8 +198,6 @@ Then('an error message {string} is shown', async function (message: string) {
 
 ## Related Notes
 
-- [[code-smells-impact-maintainability|Code Smells and Maintainability]]
-- [[enterprise-ui-development|Enterprise UI Development — Testing, Standards, and Ego Control]]
 - [[tdd-systematic-review-2016|TDD Effects on Quality and Productivity]]
 - [[testing-concepts-notes|Testing Concepts Notes]]
 - [[testing-library-vs-enzyme|Testing Library vs Enzyme]]

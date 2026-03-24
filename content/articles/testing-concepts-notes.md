@@ -9,6 +9,7 @@ tags:
 description: Core testing concepts covering BDD, Sinon, accessibility, Lighthouse, CSS snapshots, unit testing best practices, and Storybook integration with Cypress.
 layout: post.njk
 ---
+
 ## **BDD**
 
 BDD (Behavior Driven Development) is a method of testing where you use "Given" for the scenario, "When" for the environment of the action, and "Then" for the action.
@@ -36,6 +37,7 @@ Consider **AutoLot** migrating their internal tools from Mocha to Jest. Their le
 At AutoLot, the team uses a Sinon stub to simulate the financing API returning a "credit declined" response, so they can test the UI error state on the loan calculator without hitting the real credit bureau API. As they migrate to Jest, they gradually replace Sinon stubs with `jest.fn()` and `jest.mock()`, but understanding Sinon's vocabulary (spy, stub, mock) helps them map the concepts 1:1.
 
 Resources:
+
 - [Mocking with Sinon.JS](https://youtu.be/fgqh-OZjpYY)
 - [Testing with Stubs in SinonJS](https://youtu.be/TWBDa5dqrl8)
 
@@ -46,12 +48,12 @@ For accessibility testing, you can use the `axe` library in Cypress, in unit tes
 AutoLot's marketplace needs to be WCAG AA compliant because dealerships serve customers of all abilities, and failing accessibility requirements can also mean legal liability. The team adds `jest-axe` to every component test as a first line of defense:
 
 ```javascript
-import React from 'react';
-import { axe } from 'jest-axe';
-import { render } from '@testing-library/react';
-import VehicleCard from './VehicleCard';
+import React from "react";
+import { axe } from "jest-axe";
+import { render } from "@testing-library/react";
+import VehicleCard from "./VehicleCard";
 
-it('should not have basic accessibility issues', async () => {
+it("should not have basic accessibility issues", async () => {
   const { container } = render(<VehicleCard />);
   const results = await axe(container);
   expect(results).toHaveNoViolations();
@@ -63,6 +65,7 @@ This catches issues like missing `alt` attributes on vehicle images, low contras
 When writing any component test, try querying elements the way a screen reader would (by role, label, or text) rather than by CSS class — this naturally improves both your test quality and your accessibility.
 
 Resources:
+
 - [The Importance of Accessibility Testing](https://youtu.be/dTth-OUkSHk)
 - [Accessibility Testing in Practice](https://youtu.be/IADSsClWVtA)
 
@@ -141,9 +144,5 @@ Reference: [Testing with Storybook and Cypress](https://www.youtube.com/watch?v=
 ## Related Notes
 
 - [[bdd|BDD]]
-- [[code-smells-impact-maintainability|Code Smells and Maintainability]]
-- [[enterprise-ui-development|Enterprise UI Development — Testing, Standards, and Ego Control]]
-- [[form-validation-nextjs|Form Validation in Next.js]]
 - [[tdd-systematic-review-2016|TDD Effects on Quality and Productivity]]
-- [[testing-enterprise-ui|Enterprise UI Testing & Quality Ramp-Up]]
 - [[testing-library-vs-enzyme|Testing Library vs Enzyme]]

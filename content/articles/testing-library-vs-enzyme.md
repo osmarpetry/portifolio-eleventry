@@ -70,34 +70,44 @@ With Enzyme, the test relies heavily on DOM structure (finding buttons by index,
 
 ```javascript
 // components/Calendar/__tests__/Calendar.test.tsx
-describe('<Calendar /> with Enzyme', () => {
+describe("<Calendar /> with Enzyme", () => {
   const setup = makeSetupComponent({ component: Calendar });
-  test('should have integration with the toolbar', () => {
+  test("should have integration with the toolbar", () => {
     const { component } = setup();
     const toolbar = component.find('[data-testid="toolbar"]');
     expect(toolbar.children()).toHaveLength(9);
     const toolbarText = toolbar.text();
-    expect(toolbarText).toContain(moment(Date.now()).format(DATE_FORMATS.TOOLBAR_LABEL));
-    expect(component.find('p').at(0).text()).toContain('Current view: week');
-    const toolbarNextButton = toolbar.find('button').at(2);
-    expect(toolbarNextButton.text()).toContain('Next');
-    toolbarNextButton.simulate('click');
-    const toolbarMonthButton = toolbar.find('button').at(5);
-    expect(toolbarMonthButton.text()).toContain('month');
-    toolbarMonthButton.simulate('click');
+    expect(toolbarText).toContain(
+      moment(Date.now()).format(DATE_FORMATS.TOOLBAR_LABEL),
+    );
+    expect(component.find("p").at(0).text()).toContain("Current view: week");
+    const toolbarNextButton = toolbar.find("button").at(2);
+    expect(toolbarNextButton.text()).toContain("Next");
+    toolbarNextButton.simulate("click");
+    const toolbarMonthButton = toolbar.find("button").at(5);
+    expect(toolbarMonthButton.text()).toContain("month");
+    toolbarMonthButton.simulate("click");
     const updatedToolbarText = toolbar.at(0).text();
-    const expectedToolbarDate = moment(new Date(2021, 3, 19)).format(DATE_FORMATS.TOOLBAR_LABEL);
+    const expectedToolbarDate = moment(new Date(2021, 3, 19)).format(
+      DATE_FORMATS.TOOLBAR_LABEL,
+    );
     expect(updatedToolbarText).toContain(expectedToolbarDate);
-    expect(component.find('p').at(0).text()).toContain('Current view: month');
+    expect(component.find("p").at(0).text()).toContain("Current view: month");
   });
-  test('should have integration with DateCellWrapper', () => {
+  test("should have integration with DateCellWrapper", () => {
     const { component } = setup();
-    const toolbarMonthButton = component.find('[data-testid="toolbar"]').find('button').at(5);
-    expect(toolbarMonthButton.text()).toContain('month');
-    toolbarMonthButton.simulate('click');
-    component.find('[data-testid="dataCellWrapper-button"]').at(4).simulate('click');
-    const sideColumnAgenda = component.find('.rbc-agenda-table').at(1).text();
-    expect(sideColumnAgenda).toContain('All Day Event very long title');
+    const toolbarMonthButton = component
+      .find('[data-testid="toolbar"]')
+      .find("button")
+      .at(5);
+    expect(toolbarMonthButton.text()).toContain("month");
+    toolbarMonthButton.simulate("click");
+    component
+      .find('[data-testid="dataCellWrapper-button"]')
+      .at(4)
+      .simulate("click");
+    const sideColumnAgenda = component.find(".rbc-agenda-table").at(1).text();
+    expect(sideColumnAgenda).toContain("All Day Event very long title");
   });
 });
 ```
@@ -106,47 +116,47 @@ The Testing Library version uses accessible queries (by role, by text) and reads
 
 ```javascript
 describe('<Calendar /> with @testing-library', () => {
-  test('should have integration with the toolbar', () => {
-    render(<Calendar />);
-    expect(screen.queryByText(moment(Date.now()).format(DATE_FORMATS.TOOLBAR_LABEL))).toBeTruthy();
-    expect(screen.queryByText('Current view: week')).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
-    fireEvent.click(screen.getByRole('button', { name: 'month' }));
-    expect(screen.queryByText('Current view: month')).toBeTruthy();
-    expect(screen.getAllByTestId('toolbar')).toHaveLength(2);
-  });
-  test('should have integration with DateCellWrapper', () => {
-    const { container } = render(<Calendar />);
-    fireEvent.click(screen.getByRole('button', { name: 'month' }));
-    fireEvent.click(screen.getAllByTestId('dataCellWrapper-button')[4]);
-    expect(container.getElementsByClassName('rbc-agenda-event-cell')[0].textContent).toContain(
-      'All Day Event very long title',
-    );
-  });
-  test('Renders modal when clicking calendar event', () => {
-    const useInteractiveClassesMock = useInteractiveClasses as jest.Mock<
-      IInteractiveClassesProviderValue
-    >;
-    useInteractiveClassesMock.mockImplementationOnce(() => ({
-      classInstances: [
-        {
-          ...mockClassInstances(new Date())[0],
-          start: new Date('2021-04-19'),
-          end: new Date('2021-04-19'),
-          title: 'All Day Event very long title',
-          subCategory: '',
-          trainerName: '',
-        },
-      ],
-    }));
-    render(<Calendar />);
-    expect(screen.queryByText('All Day Event very long title')).toBeTruthy();
-    fireEvent.click(screen.getByText('All Day Event very long title'));
-    expect(screen.queryByText('Edit')).toBeTruthy();
-    fireEvent.click(screen.getByText('Edit'));
-    expect(screen.queryByText('Cancel')).toBeTruthy();
-    fireEvent.click(screen.getByText('Cancel'));
-  });
+ test('should have integration with the toolbar', () => {
+ render(<Calendar />);
+ expect(screen.queryByText(moment(Date.now()).format(DATE_FORMATS.TOOLBAR_LABEL))).toBeTruthy();
+ expect(screen.queryByText('Current view: week')).toBeTruthy();
+ fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+ fireEvent.click(screen.getByRole('button', { name: 'month' }));
+ expect(screen.queryByText('Current view: month')).toBeTruthy();
+ expect(screen.getAllByTestId('toolbar')).toHaveLength(2);
+ });
+ test('should have integration with DateCellWrapper', () => {
+ const { container } = render(<Calendar />);
+ fireEvent.click(screen.getByRole('button', { name: 'month' }));
+ fireEvent.click(screen.getAllByTestId('dataCellWrapper-button')[4]);
+ expect(container.getElementsByClassName('rbc-agenda-event-cell')[0].textContent).toContain(
+ 'All Day Event very long title',
+ );
+ });
+ test('Renders modal when clicking calendar event', () => {
+ const useInteractiveClassesMock = useInteractiveClasses as jest.Mock<
+ IInteractiveClassesProviderValue
+ >;
+ useInteractiveClassesMock.mockImplementationOnce(() => ({
+ classInstances: [
+ {
+ ...mockClassInstances(new Date())[0],
+ start: new Date('2021-04-19'),
+ end: new Date('2021-04-19'),
+ title: 'All Day Event very long title',
+ subCategory: '',
+ trainerName: '',
+ },
+ ],
+ }));
+ render(<Calendar />);
+ expect(screen.queryByText('All Day Event very long title')).toBeTruthy();
+ fireEvent.click(screen.getByText('All Day Event very long title'));
+ expect(screen.queryByText('Edit')).toBeTruthy();
+ fireEvent.click(screen.getByText('Edit'));
+ expect(screen.queryByText('Cancel')).toBeTruthy();
+ fireEvent.click(screen.getByText('Cancel'));
+ });
 });
 ```
 
@@ -161,26 +171,29 @@ Regardless of which form library you use (Formik, React Hook Form, plain HTML), 
 At AutoLot, the lead capture form collects customer info before scheduling a test drive. Here's how the team tests it:
 
 ```javascript
-import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { MyForm } from './myForm.js'
+import React from "react";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { MyForm } from "./myForm.js";
 
-test('rendering and submitting a basic Formik form', async () => {
-  const handleSubmit = jest.fn()
-  render(<MyForm onSubmit={handleSubmit} />)
-  userEvent.type(screen.getByLabelText(/first name/i), 'John')
-  userEvent.type(screen.getByLabelText(/last name/i), 'Dee')
-  userEvent.type(screen.getByLabelText(/email/i), 'john.dee@someemail.com')
-  userEvent.click(screen.getByRole('button', { name: /submit/i }))
+test("rendering and submitting a basic Formik form", async () => {
+  const handleSubmit = jest.fn();
+  render(<MyForm onSubmit={handleSubmit} />);
+  userEvent.type(screen.getByLabelText(/first name/i), "John");
+  userEvent.type(screen.getByLabelText(/last name/i), "Dee");
+  userEvent.type(screen.getByLabelText(/email/i), "john.dee@someemail.com");
+  userEvent.click(screen.getByRole("button", { name: /submit/i }));
   await waitFor(() =>
-    expect(handleSubmit).toHaveBeenCalledWith({
-      email: 'john.dee@someemail.com',
-      firstName: 'John',
-      lastName: 'Dee',
-    }, expect.anything())
-  )
-})
+    expect(handleSubmit).toHaveBeenCalledWith(
+      {
+        email: "john.dee@someemail.com",
+        firstName: "John",
+        lastName: "Dee",
+      },
+      expect.anything(),
+    ),
+  );
+});
 ```
 
 The key insight: `getByLabelText` finds fields the same way a screen reader does. If the label is missing or poorly associated, the query fails — which means the test also doubles as an accessibility check.
@@ -192,7 +205,7 @@ At AutoLot, after the first round of migration, a product manager renamed the "s
 Use `data-testid` for elements whose visible text is likely to change, or use regex with `{ exact: false }` to match partial text:
 
 ```javascript
-fireEvent.click(screen.getByText('sedan', { exact: false }));
+fireEvent.click(screen.getByText("sedan", { exact: false }));
 ```
 
 This way, renaming "sedan" to "Sedan & Coupe" won't break the test. The trade-off is readability — `getByRole` and `getByText` with exact matching are more explicit about what the user sees, so use the flexible approach only for elements with frequently changing copy.
@@ -205,10 +218,10 @@ At AutoLot, every component needs at least an `IntlProvider` for translations (t
 
 ```javascript
 function Wrapper({ children }) {
-    return <IntlProvider locale={locale}>{children}</IntlProvider>
+  return <IntlProvider locale={locale}>{children}</IntlProvider>;
 }
 function customRender(ui, options) {
-    return render(<Wrapper>{ui}</Wrapper>, options)
+  return render(<Wrapper>{ui}</Wrapper>, options);
 }
 ```
 
@@ -216,10 +229,10 @@ The second approach uses the `wrapper` option from Testing Library's render API:
 
 ```javascript
 function Wrapper({ children }) {
-    return <IntlProvider locale={locale}>{children}</IntlProvider>
+  return <IntlProvider locale={locale}>{children}</IntlProvider>;
 }
 function customRender(ui, options) {
-    return render(ui, { wrapper: Wrapper, ...options })
+  return render(ui, { wrapper: Wrapper, ...options });
 }
 ```
 
@@ -235,18 +248,18 @@ Similar to `setupComponent`, you don't need to re-render the same component ever
 
 ```javascript
 test('should update the props with rerender', () => {
-  type ICustomComponent = { name: string };
-  const CustoComponent = ({ name }: ICustomComponent): JSX.Element => <h1>{name}</h1>;
-  const firstProps: ICustomComponent = {
-    name: 'hello',
-  };
-  const { customRerender } = customRender<ICustomComponent>(<CustoComponent {...firstProps} />);
-  expect(screen.getByText('hello')).toBeTruthy();
-  const secondProps: ICustomComponent = {
-    name: 'abc',
-  };
-  customRerender(secondProps);
-  expect(screen.getByText('abc')).toBeTruthy();
+ type ICustomComponent = { name: string };
+ const CustoComponent = ({ name }: ICustomComponent): JSX.Element => <h1>{name}</h1>;
+ const firstProps: ICustomComponent = {
+ name: 'hello',
+ };
+ const { customRerender } = customRender<ICustomComponent>(<CustoComponent {...firstProps} />);
+ expect(screen.getByText('hello')).toBeTruthy();
+ const secondProps: ICustomComponent = {
+ name: 'abc',
+ };
+ customRerender(secondProps);
+ expect(screen.getByText('abc')).toBeTruthy();
 });
 ```
 
@@ -257,11 +270,11 @@ Always type the props — TypeScript will catch mismatches between the first ren
 The simplest wrapper. At AutoLot, the Calendar tests (test drive scheduling) need a fixed date so assertions on toolbar labels are deterministic. The default is always December 19, 2021:
 
 ```typescript
-import MockDate from 'mockdate';
+import MockDate from "mockdate";
 
 const MockDateWrapper = ({
   children,
-  mockDate = '2021-12-19',
+  mockDate = "2021-12-19",
 }: {
   children: JSX.Element;
   mockDate?: string;
@@ -282,16 +295,16 @@ import GlobalStyle from 'styles/GlobalStyle';
 import theme from 'styles/theme';
 
 const ThemeWrapper = ({
-  children,
-  customTheme,
+ children,
+ customTheme,
 }: {
-  children: JSX.Element;
-  customTheme?: Record<string, unknown>;
+ children: JSX.Element;
+ customTheme?: Record<string, unknown>;
 }): JSX.Element => (
-  <>
-    <GlobalStyle theme={customTheme ?? theme} />
-    <ThemeProvider theme={customTheme ?? theme}>{children}</ThemeProvider>
-  </>
+ <>
+ <GlobalStyle theme={customTheme ?? theme} />
+ <ThemeProvider theme={customTheme ?? theme}>{children}</ThemeProvider>
+ </>
 );
 export default ThemeWrapper;
 ```
@@ -304,25 +317,25 @@ AutoLot supports English and Spanish for its bilingual customer base. This wrapp
 import { IntlProvider, ResolvedIntlConfig } from 'react-intl';
 
 const IntlProviderWrapper = ({
-  children,
-  intl,
+ children,
+ intl,
 }: {
-  children: JSX.Element;
-  intl?: {
-    defaultLocale?: ResolvedIntlConfig['defaultLocale'];
-    locale: ResolvedIntlConfig['locale'];
-    messages?: ResolvedIntlConfig['messages'];
-  };
+ children: JSX.Element;
+ intl?: {
+ defaultLocale?: ResolvedIntlConfig['defaultLocale'];
+ locale: ResolvedIntlConfig['locale'];
+ messages?: ResolvedIntlConfig['messages'];
+ };
 }): JSX.Element => {
-  if (!intl?.locale) {
-    return children;
-  }
-  const { defaultLocale, locale, messages } = intl;
-  return (
-    <IntlProvider messages={messages} defaultLocale={defaultLocale} locale={locale}>
-      {children}
-    </IntlProvider>
-  );
+ if (!intl?.locale) {
+ return children;
+ }
+ const { defaultLocale, locale, messages } = intl;
+ return (
+ <IntlProvider messages={messages} defaultLocale={defaultLocale} locale={locale}>
+ {children}
+ </IntlProvider>
+ );
 };
 export default IntlProviderWrapper;
 ```
@@ -332,9 +345,9 @@ One gotcha: internationalization tests may pass locally but fail in CI (Travis, 
 ```typescript
 // test_utils/testing-library/tests/IntlProviderWrapper.test.tsx
 setupTests();
-describe('IntlProviderWrapper', () => {
-  MockDate.set('2021-12-24');
-  test('using locale format and message parameter', () => {
+describe("IntlProviderWrapper", () => {
+  MockDate.set("2021-12-24");
+  test("using locale format and message parameter", () => {
     // ...
   });
 });
@@ -354,23 +367,23 @@ import { baseComponentReduxState } from 'test_utils';
 import thunk from 'redux-thunk';
 
 const ReduxWrapper = ({
-  children,
-  initialState = {},
-  includeBaseComponentState = false,
+ children,
+ initialState = {},
+ includeBaseComponentState = false,
 }: {
-  children: JSX.Element;
-  initialState?: Record<string, unknown>;
-  includeBaseComponentState?: boolean;
+ children: JSX.Element;
+ initialState?: Record<string, unknown>;
+ includeBaseComponentState?: boolean;
 }): JSX.Element => {
-  const middlewares = [
-    injectMiddleware({ fetch, thunk }),
-    createPromise({ promiseTypeSuffixes: ['START', 'SUCCESS', 'ERROR'] }),
-  ];
-  const mockStore = configureStore(middlewares);
-  const store = mockStore(
-    merge({}, includeBaseComponentState ? baseComponentReduxState : {}, initialState),
-  );
-  return <Provider store={store}>{children}</Provider>;
+ const middlewares = [
+ injectMiddleware({ fetch, thunk }),
+ createPromise({ promiseTypeSuffixes: ['START', 'SUCCESS', 'ERROR'] }),
+ ];
+ const mockStore = configureStore(middlewares);
+ const store = mockStore(
+ merge({}, includeBaseComponentState ? baseComponentReduxState : {}, initialState),
+ );
+ return <Provider store={store}>{children}</Provider>;
 };
 export default ReduxWrapper;
 ```
@@ -388,48 +401,48 @@ type Hello = { stringValue: string };
 export const TemplateStateContext = createContext<Hello>({} as Hello);
 
 function TemplateProvider({ children }: { children: React.ReactNode }): JSX.Element {
-  const value: Hello = { stringValue: 'empty' };
-  return <TemplateStateContext.Provider value={value}>{children}</TemplateStateContext.Provider>;
+ const value: Hello = { stringValue: 'empty' };
+ return <TemplateStateContext.Provider value={value}>{children}</TemplateStateContext.Provider>;
 }
 
 function useTemplateSelector(): Hello {
-  return useContext(TemplateStateContext);
+ return useContext(TemplateStateContext);
 }
 
 export function TemplateSelectorProvider(): JSX.Element {
-  return (
-    <TemplateProvider>
-      <TemplateSelector />
-    </TemplateProvider>
-  );
+ return (
+ <TemplateProvider>
+ <TemplateSelector />
+ </TemplateProvider>
+ );
 }
 
 export function TemplateSelector(): JSX.Element {
-  const { stringValue } = useTemplateSelector();
-  return <h1>final: {stringValue}</h1>;
+ const { stringValue } = useTemplateSelector();
+ return <h1>final: {stringValue}</h1>;
 }
 
 describe('<ReduxWrapper />', () => {
-  test('should render redux with the default parameters', () => {
-    render(
-      <ReduxWrapper>
-        <TemplateSelectorProvider />
-      </ReduxWrapper>,
-    );
-    expect(screen.getByText('final: empty')).toBeTruthy();
-  });
-  test('should receive the includeBaseComponentState default value of context', () => {
-    const ComponentWithBaseState = () => {
-      const { store } = useContext(ReactReduxContext);
-      expect(store.getState()).toStrictEqual(baseComponentReduxState);
-      return <div>componentWithBaseState</div>;
-    };
-    render(
-      <ReduxWrapper includeBaseComponentState>
-        <ComponentWithBaseState />
-      </ReduxWrapper>,
-    );
-  });
+ test('should render redux with the default parameters', () => {
+ render(
+ <ReduxWrapper>
+ <TemplateSelectorProvider />
+ </ReduxWrapper>,
+ );
+ expect(screen.getByText('final: empty')).toBeTruthy();
+ });
+ test('should receive the includeBaseComponentState default value of context', () => {
+ const ComponentWithBaseState = () => {
+ const { store } = useContext(ReactReduxContext);
+ expect(store.getState()).toStrictEqual(baseComponentReduxState);
+ return <div>componentWithBaseState</div>;
+ };
+ render(
+ <ReduxWrapper includeBaseComponentState>
+ <ComponentWithBaseState />
+ </ReduxWrapper>,
+ );
+ });
 });
 ```
 
@@ -447,35 +460,35 @@ import IntlProviderWrapper from './IntlProviderWrapper';
 import ReduxWrapper from './ReduxWrapper';
 
 export function customRender<
-  ContextType,
-  Q extends Queries = typeof queries,
-  Container extends Element | DocumentFragment = HTMLElement
+ ContextType,
+ Q extends Queries = typeof queries,
+ Container extends Element | DocumentFragment = HTMLElement
 >(
-  ui: JSX.Element,
-  customOptions?: {
-    context?: { Context: React.Context<ContextType>; providerProps: ContextType };
-    theme?: Record<string, unknown>;
-    mockDate?: string;
-    intl?: {
-      defaultLocale?: ResolvedIntlConfig['defaultLocale'];
-      locale: ResolvedIntlConfig['locale'];
-      messages?: ResolvedIntlConfig['messages'];
-    };
-  },
-  options: Omit<RenderOptions<Q, Container>, 'queries'> = {},
+ ui: JSX.Element,
+ customOptions?: {
+ context?: { Context: React.Context<ContextType>; providerProps: ContextType };
+ theme?: Record<string, unknown>;
+ mockDate?: string;
+ intl?: {
+ defaultLocale?: ResolvedIntlConfig['defaultLocale'];
+ locale: ResolvedIntlConfig['locale'];
+ messages?: ResolvedIntlConfig['messages'];
+ };
+ },
+ options: Omit<RenderOptions<Q, Container>, 'queries'> = {},
 ): RenderResult<Q, Container> {
-  return render(
-    <ContextWrapper context={customOptions?.context}>
-      <ThemeWrapper customTheme={customOptions?.theme}>
-        <MockDateWrapper mockDate={customOptions?.mockDate}>
-          <IntlProviderWrapper intl={customOptions?.intl}>
-            <ReduxWrapper>{ui}</ReduxWrapper>
-          </IntlProviderWrapper>
-        </MockDateWrapper>
-      </ThemeWrapper>
-    </ContextWrapper>,
-    options,
-  );
+ return render(
+ <ContextWrapper context={customOptions?.context}>
+ <ThemeWrapper customTheme={customOptions?.theme}>
+ <MockDateWrapper mockDate={customOptions?.mockDate}>
+ <IntlProviderWrapper intl={customOptions?.intl}>
+ <ReduxWrapper>{ui}</ReduxWrapper>
+ </IntlProviderWrapper>
+ </MockDateWrapper>
+ </ThemeWrapper>
+ </ContextWrapper>,
+ options,
+ );
 }
 export default customRender;
 ```
@@ -494,31 +507,31 @@ import { ComponentWithNewDate } from './MockDateWrapper.test';
 import { TemplateSelectorProvider } from './ReduxWrapper.test';
 
 describe('customRender', () => {
-  test('should render without options', () => {
-    customRender(<h1>empty</h1>);
-    expect(screen.getByText('empty')).toBeTruthy();
-  });
-  test('should render with Context', () => {
-    customRender<ICustomContext>(<ComponentUsignCustomContext />, {
-      context: { Context: CustomContext, providerProps: { value: 'context' } },
-    });
-    expect(screen.getByText('context')).toBeTruthy();
-  });
-  test('should render with theme', () => {
-    customRender(<MyComponentWithTheme data-testid="styled-component" />);
-    expect(screen.getByTestId('styled-component')).toHaveStyleRule(
-      'background-color',
-      defaultTheme.whiteBG,
-    );
-  });
-  test('should render with specific date time', () => {
-    customRender(<ComponentWithNewDate />);
-    expect(screen.getByTestId('date')).toHaveTextContent('Sun Dec 19 2021 00:00:00 GMT+0000');
-  });
-  test('should render with redux', () => {
-    customRender(<TemplateSelectorProvider />);
-    expect(screen.getByText('final: empty')).toBeTruthy();
-  });
+ test('should render without options', () => {
+ customRender(<h1>empty</h1>);
+ expect(screen.getByText('empty')).toBeTruthy();
+ });
+ test('should render with Context', () => {
+ customRender<ICustomContext>(<ComponentUsignCustomContext />, {
+ context: { Context: CustomContext, providerProps: { value: 'context' } },
+ });
+ expect(screen.getByText('context')).toBeTruthy();
+ });
+ test('should render with theme', () => {
+ customRender(<MyComponentWithTheme data-testid="styled-component" />);
+ expect(screen.getByTestId('styled-component')).toHaveStyleRule(
+ 'background-color',
+ defaultTheme.whiteBG,
+ );
+ });
+ test('should render with specific date time', () => {
+ customRender(<ComponentWithNewDate />);
+ expect(screen.getByTestId('date')).toHaveTextContent('Sun Dec 19 2021 00:00:00 GMT+0000');
+ });
+ test('should render with redux', () => {
+ customRender(<TemplateSelectorProvider />);
+ expect(screen.getByText('final: empty')).toBeTruthy();
+ });
 });
 ```
 
@@ -530,11 +543,6 @@ Note the type-safe Context usage: `customRender<ICustomContext>` ensures TypeScr
 
 ## Related Notes
 
-- [[enterprise-ui-development|Enterprise UI Development — Testing, Standards, and Ego Control]]
-- [[form-validation-nextjs|Form Validation in Next.js]]
 - [[react-forwardRef|Forwarding Ref]]
-- [[simple-custom-hook-called-usefetch|Simple Custom Hook Called useFetch]]
-- [[xteam-state-machine|State Machine XState]]
 - [[testing-concepts-notes|Testing Concepts Notes]]
-- [[testing-enterprise-ui|Enterprise UI Testing & Quality Ramp-Up]]
 - [[testing-library-vs-enzyme|Testing Library vs Enzyme]]

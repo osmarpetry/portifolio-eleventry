@@ -8,39 +8,42 @@ description: "Understanding Set vs Map behaviour, hashing, caching patterns, and
 layout: post.njk
 ---
 
-
 ## TL;DR
+
 - Notes captured on 2025-02-09 during Deveficiente algorithms study.
 - Set = unique values with O(1) add/remove; Map = key-value store with O(1) lookups.
 - Hashing is reference-based for objects; custom equality needs manual hashing/serialization.
 - Useful for caching and deduplication; V8 resolves collisions with internal linked lists/trees.
 - C# exposes `GetHashCode`; in JS you must implement equivalent behaviour explicitly.
 
-## 🔢 Sets
+## Sets
+
 - Store unique values; duplicates are ignored.
 - Backed by hash tables in engines like V8.
 - Typical operations (`add`, `delete`, `has`) run in O(1) on average.
 
 ```js
 const set = new Set();
-set.add('value1');
-set.add('value2');
-console.log(set.has('value1')); // true
+set.add("value1");
+set.add("value2");
+console.log(set.has("value1")); // true
 console.log(set.size); // 2
 ```
 
-## 🔑 Maps
+## Maps
+
 - Store key-value pairs; keys can be any data type.
 - Also implemented with hashing for O(1) lookups.
 
 ```js
 const map = new Map();
 const key = { id: 1 };
-map.set(key, 'object');
+map.set(key, "object");
 console.log(map.get(key)); // 'object'
 ```
 
-## 🧠 Hashing behaviour
+## Hashing behaviour
+
 - Objects/arrays are compared by reference. Two objects with identical structure are not equal unless they share the same reference.
 - For custom hash keys (similar to C# `GetHashCode`), stringify values or build hashing utilities.
 
@@ -49,11 +52,12 @@ function hashObject(obj) {
   return JSON.stringify(obj);
 }
 const cache = new Map();
-const obj = { id: 1, name: 'test' };
-cache.set(hashObject(obj), 'cached');
+const obj = { id: 1, name: "test" };
+cache.set(hashObject(obj), "cached");
 ```
 
-## 🗃 Cache patterns
+## Cache patterns
+
 ```js
 const cache = new Map();
 
@@ -67,23 +71,22 @@ function getData(key) {
 }
 ```
 
-## 🧬 Internal details (V8)
+## Internal details (V8)
+
 - Hash collisions handled via linked lists or adaptive structures (e.g., small arrays, balanced trees).
 - Sparse arrays may convert to hash tables internally for memory efficiency.
 
-## 🔁 Set vs Map recap
+## Set vs Map recap
+
 - **Set**: unique values.
 - **Map**: key-value pairs, versatile for caching, memoization.
 
-## 🔗 References
+## References
+
 - MDN: [Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set), [Map](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map).
 - V8 blog on hash tables and inline caching.
 
 ## Related Notes
 
-- [[algorithms-course-intro|Design & Analysis of Algorithms — Course Overview]]
-- [[big-o-notation|Big O Notation]]
 - [[javascript-closures-and-curries|Closures and Curries]]
-- [[essential-algorithms|Essential Algorithms in Programming]]
-- [[execution-contexts-hoisting-scopes-and-closures|Execution Contexts, Hoisting, Scopes, and Closures]]
 - [[react-forwardRef|Forwarding Ref]]
