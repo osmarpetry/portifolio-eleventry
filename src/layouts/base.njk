@@ -963,28 +963,22 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link
   rel="alternate" type="application/atom+xml" href="/feed.xml" title="{{ site.title }} feed">
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3STVN66PY5"></script>
+  <!-- Google Analytics (deferred to idle time) -->
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
+    function gtag() { dataLayer.push(arguments); }
+    function loadGA() {
+      gtag('js', new Date());
+      gtag('config', 'G-3STVN66PY5');
+      var s = document.createElement('script');
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-3STVN66PY5';
+      s.async = true;
+      document.head.appendChild(s);
     }
-    gtag('js', new Date());
-    gtag('config', 'G-3STVN66PY5');
-  </script>
-  <!-- Sentry Error Tracking -->
-  <script src="https://browser.sentry-cdn.com/10.5.0/bundle.min.js" crossorigin="anonymous"></script>
-  <script>
-    if (typeof Sentry !== 'undefined') {
-      Sentry.init({
-        dsn: 'https://6fd370e37c8640968f1239d4cc47ce6c@o431471.ingest.sentry.io/4504650712285184',
-        environment: '{{ site.url }}' === 'https://osmarpetry.dev'
-          ? 'production'
-          : 'development',
-        tracesSampleRate: 1.0,
-        release: 'personal-blog@1.1.0'
-      });
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadGA);
+    } else {
+      setTimeout(loadGA, 2000);
     }
   </script>
   <!-- JSON-LD Person -->

@@ -15,8 +15,6 @@ tags:
 layout: post.njk
 ---
 
-# PixieShop Authentication Playbook: OIDC SSO Across Four Identity Providers
-
 > **Scenario.** PixieShop is a B2B SaaS that sells enchanted toys to retail partners. Every partner logs in through their own corporate identity provider — some use Okta, others use Microsoft Entra ID. We never see a password. FusionAuth sits in the middle as our OIDC identity broker, and Auth.js v5 handles the Next.js session on the frontend. This playbook is the single place where we document how the whole chain works, from RSA key creation to federated logout.
 
 ---
