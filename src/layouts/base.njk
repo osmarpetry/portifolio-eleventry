@@ -963,11 +963,12 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link
   rel="alternate" type="application/atom+xml" href="/feed.xml" title="{{ site.title }} feed">
-  <!-- Google Analytics (deferred to idle time) -->
+  <!-- Google Analytics (loaded on first user interaction) -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     function loadGA() {
+      loadGA = function(){};
       gtag('js', new Date());
       gtag('config', 'G-3STVN66PY5');
       var s = document.createElement('script');
@@ -975,11 +976,9 @@
       s.async = true;
       document.head.appendChild(s);
     }
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(loadGA);
-    } else {
-      setTimeout(loadGA, 2000);
-    }
+    ['scroll','click','keydown','touchstart'].forEach(function(e){
+      addEventListener(e, loadGA, {once:true, passive:true});
+    });
   </script>
   <!-- JSON-LD Person -->
   <script type="application/ld+json">
