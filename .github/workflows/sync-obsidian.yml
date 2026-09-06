@@ -11,10 +11,10 @@ jobs:
     environment: production
     steps:
       - name: Checkout website repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Checkout obsidian vault
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           repository: osmarpetry/obsidian-2025
           token: ${{ secrets.CROSS_REPO_PAT }}
@@ -69,7 +69,7 @@ jobs:
         run: rm -rf _obsidian
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 18
           cache: npm
@@ -83,7 +83,7 @@ jobs:
         run: npm run build
 
       - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v2.1
+        uses: nwtgck/actions-netlify@7a92f00dde8c92a5a9e8385ec2919775f7647352 # v2.1.0
         with:
           publish-dir: '_site'
           production-branch: main
