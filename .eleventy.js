@@ -62,6 +62,7 @@ export default async function (eleventyConfig) {
       "markdown",
       "md",
       "gherkin",
+      "sql",
     ],
   });
 
