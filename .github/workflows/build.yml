@@ -57,11 +57,11 @@ jobs:
           lhci autorun --upload.target=temporary-public-storage
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   dependabot:
-    needs: [Build]
-    if: github.event.pull_request.user.login == 'dependabot[bot]'
-    permissions:
-      contents: write
-      pull-requests: write
-    uses: osmarpetry/.github/.github/workflows/dependabot-automerge.yml@main
+      needs: [Build]
+      if: github.actor == 'dependabot[bot]'
+      permissions:
+        contents: write
+        pull-requests: write
+        workflows: write
+      uses: osmarpetry/.github/.github/workflows/dependabot-automerge.yml@main
