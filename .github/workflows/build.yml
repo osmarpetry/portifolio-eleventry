@@ -64,4 +64,4 @@ jobs:
       contents: write
       pull-requests: write
       workflows: write
-    uses: osmarpetry/.github/.github/workflows/dependabot-automerge.yml@main
+    uses: osmarpetry/.github/workflows/dependabot-automerge.yml@main
