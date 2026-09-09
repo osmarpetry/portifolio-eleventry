@@ -58,10 +58,10 @@ jobs:
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   dependabot:
-      needs: [Build]
-      if: github.actor == 'dependabot[bot]'
-      permissions:
-        contents: write
-        pull-requests: write
-        workflows: write
-      uses: osmarpetry/.github/.github/workflows/dependabot-automerge.yml@main
+    needs: [Build]
+    if: github.actor == 'dependabot[bot]'
+    permissions:
+      contents: write
+      pull-requests: write
+      workflows: write
+    uses: osmarpetry/.github/.github/workflows/dependabot-automerge.yml@main
